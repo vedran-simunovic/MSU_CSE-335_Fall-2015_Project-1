@@ -53,6 +53,13 @@ CChildView::CChildView()
     {
         AfxMessageBox(L"Failed to open images/trashcan.png");
     }
+
+	// load power tool bar image
+	mPowerToolbar = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/toolbar-power.png"));
+	if (mPowerToolbar->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/toolbar-power.png");
+	}
 }
 
 /**
@@ -102,6 +109,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BUSINESSES_HAULCOLE, &CChildView::OnBusinessesHaulcole)
 	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
+	ON_COMMAND(ID_POWER_BUILD, &CChildView::OnPowerBuild)
+	ON_UPDATE_COMMAND_UI(ID_POWER_BUILD, &CChildView::OnUpdatePowerBuild)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -182,6 +191,16 @@ void CChildView::OnPaint()
 
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
+
+	if (mPowerActivate){
+		// Bottom minus image size minus margin is top of the image
+		mPowerToolbarTop = rect.Height() - mPowerToolbar->GetHeight();
+		mPowerToolbarLeft = rect.Width() - mPowerToolbar->GetWidth();
+
+		graphics.DrawImage(mPowerToolbar.get(), mPowerToolbarLeft, mPowerToolbarTop,
+			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
+	}
+
 
     /*
      * Actually Draw the city
@@ -641,4 +660,18 @@ void CChildView::OnBusinessesTrump()
 void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mTrumpCheck);
+}
+
+/** Menu handler deals with building power tile */
+void CChildView::OnPowerBuild()
+{
+	mPowerActivate = !mPowerActivate;
+}
+
+/** Menu handler deals with building power tile
+* \param pCmdUI This is pass to be able to change the checkmard on the screen
+*/
+void CChildView::OnUpdatePowerBuild(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mPowerActivate);
 }

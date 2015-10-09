@@ -80,6 +80,11 @@ private:
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
     int mTrashcanRight = 0;         ///< Right side of the trashcan in pixels
 
+	std::unique_ptr<Gdiplus::Bitmap> mPowerToolbar;	///< toolbar image for power
+	bool mPowerActivate = false;			///< if power toolbar checked
+	int mPowerToolbarTop = 0;           ///< Top line of the power toolbar in pixels
+	int mPowerToolbarLeft = 0;         ///< Leftside of the power toolbar in pixels
+
 public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
@@ -122,5 +127,7 @@ public:
 	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	
 	
+	afx_msg void OnPowerBuild();
+	afx_msg void OnUpdatePowerBuild(CCmdUI *pCmdUI);
 };
 

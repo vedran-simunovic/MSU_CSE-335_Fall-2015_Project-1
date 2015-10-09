@@ -142,16 +142,20 @@ BEGIN
         MENUITEM "Haul Cole",                   ID_BUSINESSES_HAULCOLE
         MENUITEM "Trump",                       ID_BUSINESSES_TRUMP
     END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About City...",              ID_APP_ABOUT
-    END
     POPUP "Border-Zoning-Select"
     BEGIN
         MENUITEM "None",                        ID_BORDER_NONE
         MENUITEM "Residential",                 ID_BORDER_RESIDENTIAL
         MENUITEM "Industrial",                  ID_BORDER_INDUSTRIAL
         MENUITEM "Agricultural",                ID_BORDER_AGRICULTURAL
+    END
+    POPUP "Power"
+    BEGIN
+        MENUITEM "Build",                       ID_POWER_BUILD
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About City...",              ID_APP_ABOUT
     END
 END
 
