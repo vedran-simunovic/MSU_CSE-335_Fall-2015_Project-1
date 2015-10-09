@@ -19,6 +19,8 @@
 #include "CoalCounter.h"
 #include "ResetCoal.h"
 #include "Trump.h"
+#include "TransRotate.h"
+#include "TileTransportation.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -111,6 +113,11 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
 	ON_COMMAND(ID_POWER_BUILD, &CChildView::OnPowerBuild)
 	ON_UPDATE_COMMAND_UI(ID_POWER_BUILD, &CChildView::OnUpdatePowerBuild)
+	ON_COMMAND(ID_TRANSPORTATION_CURVEDROAD, &CChildView::OnTransportationCurvedroad)
+	ON_COMMAND(ID_TRANSPORTATION_ROAD, &CChildView::OnTransportationRoad)
+	ON_COMMAND(ID_TRANSPORTATION_ELEVATEDROAD, &CChildView::OnTransportationElevatedroad)
+	ON_COMMAND(ID_TRANSPORTATION_INCLINEDROAD, &CChildView::OnTransportationInclinedroad)
+	ON_COMMAND(ID_TRANSPORTATION_PLAINROAD, &CChildView::OnTransportationPlainroad)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -263,10 +270,18 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
     auto tile = mCity.HitTest(point.x, point.y);
     if (tile != nullptr) 
     {
-        // We double-clicked on a tile
-        // Bring up the tile editing dialog box
-        tile->PropertiesDlg();
-        Invalidate();
+		/// If the double clicked tile is a transportation tile, we need to rotate it.
+		if (tile->GetZoning() == CTile::TRANSPORTATION)
+		{
+			CTransRotate visitor;
+
+			tile->Accept(&visitor);
+			// We double-clicked on a tile
+			// Bring up the tile editing dialog box
+			//tile->PropertiesDlg();
+			Invalidate();
+		}
+
     }
 
 }
@@ -674,4 +689,66 @@ void CChildView::OnPowerBuild()
 void CChildView::OnUpdatePowerBuild(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mPowerActivate);
+}
+
+
+void CChildView::OnTransportationCurvedroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetTransType(CTileTransportation::CURVED);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"road_ab.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+void CChildView::OnTransportationRoad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetTransType(CTileTransportation::FLAT);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"road_ac.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+void CChildView::OnTransportationElevatedroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetTransType(CTileTransportation::ELEVATED);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"roadbridge_ac.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+void CChildView::OnTransportationInclinedroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetTransType(CTileTransportation::INCLINED);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"roadrampa_ac.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+
+
+void CChildView::OnTransportationPlainroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetTransType(CTileTransportation::PLAIN);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"roadint_abc.png");
+	mCity.Add(tile);
+	Invalidate();
 }

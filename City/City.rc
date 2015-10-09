@@ -157,6 +157,15 @@ BEGIN
     BEGIN
         MENUITEM "&About City...",              ID_APP_ABOUT
     END
+    POPUP "Transportation"
+    BEGIN
+        MENUITEM "Car",                         ID_TRANSPORTATION_CAR
+        MENUITEM "Curved Road",                 ID_TRANSPORTATION_CURVEDROAD
+        MENUITEM "Flat Road",                   ID_TRANSPORTATION_ROAD
+        MENUITEM "Elevated Road",               ID_TRANSPORTATION_ELEVATEDROAD
+        MENUITEM "Inclined Road",               ID_TRANSPORTATION_INCLINEDROAD
+        MENUITEM "Plain Road",                  ID_TRANSPORTATION_PLAINROAD
+    END
 END
 
 

@@ -75,7 +75,10 @@
     <ClInclude Include="Trump.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transportation.h">
+    <ClInclude Include="TileTransportation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,7 +134,10 @@
     <ClCompile Include="Trump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Transportation.cpp">
+    <ClCompile Include="TileTransportation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransRotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

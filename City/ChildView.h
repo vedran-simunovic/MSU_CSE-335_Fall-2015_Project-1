@@ -129,5 +129,11 @@ public:
 	
 	afx_msg void OnPowerBuild();
 	afx_msg void OnUpdatePowerBuild(CCmdUI *pCmdUI);
+	afx_msg void OnTransportationCurvedroad();
+	afx_msg void OnTransportationRoad();
+	afx_msg void OnTransportationElevatedroad();
+	afx_msg void OnTransportationInclinedroad();
+	afx_msg void OnTransportationDeclinedroad();
+	afx_msg void OnTransportationPlainroad();
 };
 
