@@ -122,5 +122,6 @@ public:
 	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	
 	
+	afx_msg void OnPowerBuild();
 };
 

@@ -102,6 +102,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BUSINESSES_HAULCOLE, &CChildView::OnBusinessesHaulcole)
 	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
+	ON_COMMAND(ID_POWER_BUILD, &CChildView::OnPowerBuild)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -641,4 +642,10 @@ void CChildView::OnBusinessesTrump()
 void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mTrumpCheck);
+}
+
+
+void CChildView::OnPowerBuild()
+{
+	// TODO: Add your command handler code here
 }
