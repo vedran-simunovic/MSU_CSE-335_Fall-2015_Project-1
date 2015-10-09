@@ -114,6 +114,7 @@
     <ClInclude Include="TilePropertiesDlg.h" />
     <ClInclude Include="TileRoad.h" />
     <ClInclude Include="TileVisitor.h" />
+    <ClInclude Include="Transportation.h" />
     <ClInclude Include="Trump.h" />
     <ClInclude Include="XmlNode.h" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <ClCompile Include="TilePropertiesDlg.cpp" />
     <ClCompile Include="TileRoad.cpp" />
     <ClCompile Include="TileVisitor.cpp" />
+    <ClCompile Include="Transportation.cpp" />
     <ClCompile Include="Trump.cpp" />
     <ClCompile Include="XmlNode.cpp" />
   </ItemGroup>
