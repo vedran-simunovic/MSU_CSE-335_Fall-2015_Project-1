@@ -25,8 +25,10 @@ public:
     enum Zonings {NONE=0,   ///< No current zoning
         RESIDENTIAL=1,      ///< Residential zoning
         INDUSTRIAL=2,       ///< Industrial zoning
-        AGRICULTURAL=3,///< Agricultural zoning
-		TRANSPORTATION=4};    ///Transportational zoning
+        AGRICULTURAL=3,		///< Agricultural zoning
+		TRANSPORTATION=4,	///< Transportational zoning
+		POWER=5,			///< Power zoning
+	};    
 
     /** The directory were the images are stored */
     static const std::wstring ImagesDirectory;

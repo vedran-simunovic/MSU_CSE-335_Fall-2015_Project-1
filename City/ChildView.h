@@ -13,6 +13,7 @@
 
 #include "City.h"
 #include "Tile.h"
+#include "TilePower.h"
 
 class CTile;
 
@@ -45,6 +46,7 @@ protected:
 private:
     void AddBuilding(const std::wstring &file);
     void AddLandscape(const std::wstring &file);
+	void CChildView::AddPower(CTilePower::PowerType);
 
     /// The city
     CCity mCity;
@@ -135,5 +137,6 @@ public:
 	afx_msg void OnTransportationInclinedroad();
 	afx_msg void OnTransportationDeclinedroad();
 	afx_msg void OnTransportationPlainroad();
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 

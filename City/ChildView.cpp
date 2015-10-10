@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include <sstream>
+#include <math.h>
 
 #include "DoubleBufferDC.h"
 #include "CityApp.h"
@@ -21,6 +22,7 @@
 #include "Trump.h"
 #include "TransRotate.h"
 #include "TileTransportation.h"
+#include "PowerRotate.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,6 +43,9 @@ const int InitialY = CCity::GridSpacing * 3;
 
 /// Margin of trashcan from side and bottom in pixels
 const int TrashcanMargin = 5;
+
+/// The number of pixels for one item on power tool bar
+const int PowerToolbarRegion = 64;
 
 /**
  * Constructor
@@ -118,6 +123,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_ELEVATEDROAD, &CChildView::OnTransportationElevatedroad)
 	ON_COMMAND(ID_TRANSPORTATION_INCLINEDROAD, &CChildView::OnTransportationInclinedroad)
 	ON_COMMAND(ID_TRANSPORTATION_PLAINROAD, &CChildView::OnTransportationPlainroad)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -267,6 +273,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 */
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
+
     auto tile = mCity.HitTest(point.x, point.y);
     if (tile != nullptr) 
     {
@@ -294,6 +301,52 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 */
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	// test if the point at the power tool bar when tool bar activate
+	if (mPowerActivate == true && (point.x>mPowerToolbarLeft && point.y > mPowerToolbarTop)){
+		double relPointPosX = point.x - mPowerToolbarLeft;
+		int clickRegion = int(floor(relPointPosX / PowerToolbarRegion));
+		
+		switch (clickRegion)
+		{
+			case 1:{
+				AddPower(CTilePower::LGRID);
+				break;
+			}
+				// 
+			case 2:{
+				AddPower(CTilePower::GRID);
+				break;
+			}
+
+			case 3:{
+				AddPower(CTilePower::TGRID);
+				break;
+			}
+
+			case 4:{
+				AddPower(CTilePower::XGRID);
+				break;
+			}
+
+			case 5:{
+				AddPower(CTilePower::SUBSTATION);
+				break;
+			}
+
+			case 6:{
+				AddPower(CTilePower::POWERPLANT);
+				break;
+			}
+
+			case 7:{
+				AddPower(CTilePower::SOLARSTATION);
+				break;
+			}
+
+		}
+	}
+
+
 	mGrabbedItem = mCity.HitTest(point.x, point.y);
 	if (mGrabbedItem != nullptr)
 	{
@@ -653,7 +706,7 @@ void CChildView::OnBusinessesHaulcole()
 {
 	CCoalCounter visitor;
 	mCity.Accept(&visitor);
-	int totalProduction = visitor.GetTotalProduction();
+	double totalProduction = visitor.GetTotalProduction();
 
 	wstringstream str;
 	str << L"The total production is " << totalProduction << L" tons";
@@ -692,6 +745,9 @@ void CChildView::OnUpdatePowerBuild(CCmdUI *pCmdUI)
 }
 
 
+/**
+ * 
+ */
 void CChildView::OnTransportationCurvedroad()
 {
 	auto tile = make_shared<CTileTransportation>(&mCity);
@@ -704,6 +760,9 @@ void CChildView::OnTransportationCurvedroad()
 }
 
 
+/**
+ * 
+ */
 void CChildView::OnTransportationRoad()
 {
 	auto tile = make_shared<CTileTransportation>(&mCity);
@@ -716,6 +775,9 @@ void CChildView::OnTransportationRoad()
 }
 
 
+/**
+ * 
+ */
 void CChildView::OnTransportationElevatedroad()
 {
 	auto tile = make_shared<CTileTransportation>(&mCity);
@@ -728,6 +790,9 @@ void CChildView::OnTransportationElevatedroad()
 }
 
 
+/**
+ * 
+ */
 void CChildView::OnTransportationInclinedroad()
 {
 	auto tile = make_shared<CTileTransportation>(&mCity);
@@ -742,6 +807,9 @@ void CChildView::OnTransportationInclinedroad()
 
 
 
+/**
+ * 
+ */
 void CChildView::OnTransportationPlainroad()
 {
 	auto tile = make_shared<CTileTransportation>(&mCity);
@@ -749,6 +817,45 @@ void CChildView::OnTransportationPlainroad()
 	tile->SetTransType(CTileTransportation::PLAIN);
 	tile->SetLocation(InitialX, InitialY);
 	tile->SetImage(L"roadint_abc.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+/**
+ * When we at build mode of power, right click the picture will rotate picture
+ * \param nFlags 
+ * \param point 
+ */
+void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	mGrabbedItem = mCity.HitTest(point.x, point.y);
+	if (mGrabbedItem != nullptr)
+	{
+		if (mPowerActivate)
+		{
+			// Instantiate the visitor
+			CPowerRotate visitor;
+
+			// Send to JUST this one time
+			mGrabbedItem->Accept(&visitor);
+
+			// Clear this since we don't want to then drag
+			mGrabbedItem = false;
+		}
+	}
+}
+
+/**
+* \brief Add a CTilePower tile to the drawing.
+* \param type type of power tile
+*/
+void CChildView::AddPower(CTilePower::PowerType type)
+{
+	auto tile = make_shared<CTilePower>(&mCity, type);
+	tile->SetLocation(InitialX, InitialY);
 	mCity.Add(tile);
 	Invalidate();
 }
