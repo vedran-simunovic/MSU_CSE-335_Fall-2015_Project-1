@@ -47,6 +47,8 @@ public:
 	double mStartX = 0;
 	double mStartY = 0;
 
+	double mScale = 1;
+
 	bool mStartScroll = false;
 
 	// Generated message map functions
