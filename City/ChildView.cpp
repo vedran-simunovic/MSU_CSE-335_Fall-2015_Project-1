@@ -228,6 +228,29 @@ void CChildView::OnPaint()
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
 
+
+
+
+	
+
+	int mScrollToolbarTop = 0;
+	int mScrollToolbarLeft = 0;
+    /*
+     * Actually Draw the city
+     */
+	graphics.SetPageUnit(UnitPixel);
+	graphics.SetPageScale(4);
+	mCity.OnDraw(&graphics, mScrollOffsetX, mScrollOffsetY);
+
+	// Draw scrolling menu
+	graphics.SetPageScale(1);
+
+	mScrollTop = ScrollMarginTop;
+	mScrollLeft = rect.Width() - mScroll->GetWidth() - ScrollMarginRight;
+
+	graphics.DrawImage(mScroll.get(), mScrollLeft, mScrollTop,
+		mScroll->GetWidth(), mScroll->GetHeight());
+
 	if (mPowerActivate){
 		// Bottom minus image size minus margin is top of the image
 		mPowerToolbarTop = rect.Height() - mPowerToolbar->GetHeight();
@@ -236,26 +259,6 @@ void CChildView::OnPaint()
 		graphics.DrawImage(mPowerToolbar.get(), mPowerToolbarLeft, mPowerToolbarTop,
 			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
 	}
-
-	// Draw scrolling menu
-
-	
-	mScrollTop = ScrollMarginTop;
-	mScrollLeft = rect.Width() - mScroll->GetWidth() - ScrollMarginRight;
-
-	graphics.DrawImage(mScroll.get(), mScrollLeft, mScrollTop,
-	mScroll->GetWidth(), mScroll->GetHeight());
-	
-	
-
-	int mScrollToolbarTop = 0;
-	int mScrollToolbarLeft = 0;
-    /*
-     * Actually Draw the city
-     */
-	mCity.OnDraw(&graphics, mScrollOffsetX, mScrollOffsetY);
-
-	
 
 	Pen pen(Color::Green, 2);
 
