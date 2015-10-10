@@ -33,7 +33,7 @@ public:
     void MoveToFront(std::shared_ptr<CTile> item);
     void DeleteItem(std::shared_ptr<CTile> item);
 
-    void OnDraw(Gdiplus::Graphics *graphics);
+    void OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
     void Save(const std::wstring &filename);
     void Load(const std::wstring &filename);

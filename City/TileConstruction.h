@@ -116,7 +116,7 @@ public:
 	// This is for drawing the border around the big spartan stadium icon
 	/** \brief Draw this item
 	* \param graphics The graphics context to draw on */
-	virtual void Draw(Gdiplus::Graphics *graphics) override;
+	virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY) override;
 
 	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen) override;
 

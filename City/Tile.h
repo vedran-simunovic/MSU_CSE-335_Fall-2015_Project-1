@@ -67,7 +67,7 @@ public:
 
     /** \brief Draw this item
     * \param graphics The graphics context to draw on */
-    virtual void Draw(Gdiplus::Graphics *graphics);
+    virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
     virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen);
 
@@ -145,5 +145,7 @@ private:
 
     /// Any zoning for this property
     Zonings mZoning = NONE;
+
+	
 };
 

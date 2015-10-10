@@ -45,6 +45,12 @@ const int InitialY = CCity::GridSpacing * 3;
 /// Margin of trashcan from side and bottom in pixels
 const int TrashcanMargin = 5;
 
+/// Margin of trashcan from side and bottom in pixels
+const int ScrollMarginTop = 0;
+
+/// Margin of trashcan from side and bottom in pixels
+const int ScrollMarginRight = 0;
+
 /// The number of pixels for one item on power tool bar
 const int PowerToolbarRegion = 64;
 
@@ -67,7 +73,17 @@ CChildView::CChildView()
 	if (mPowerToolbar->GetLastStatus() != Ok)
 	{
 		AfxMessageBox(L"Failed to open images/toolbar-power.png");
-}
+	}
+
+	
+
+	mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+	if (mTrashcan->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/nav1.png");
+	}
+	// Load scrolling menu
+	
 }
 
 /**
@@ -221,12 +237,23 @@ void CChildView::OnPaint()
 			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
 	}
 
+	// Draw scrolling menu
 
+	
+	mScrollTop = ScrollMarginTop;
+	mScrollLeft = rect.Width() - mScroll->GetWidth() - ScrollMarginRight;
+
+	graphics.DrawImage(mScroll.get(), mScrollLeft, mScrollTop,
+	mScroll->GetWidth(), mScroll->GetHeight());
+	
+	
+
+	int mScrollToolbarTop = 0;
+	int mScrollToolbarLeft = 0;
     /*
      * Actually Draw the city
      */
-    mCity.OnDraw(&graphics);
-
+	mCity.OnDraw(&graphics, mScrollingOffsetX, mScrollingOffsetY);
 
 	Pen pen(Color::Green, 2);
 
@@ -281,7 +308,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 
-    auto tile = mCity.HitTest(point.x, point.y);
+	auto tile = mCity.HitTest(point.x + mScrollingOffsetX, point.y + mScrollingOffsetY);
     if (tile != nullptr) 
     {
 		/// If the double clicked tile is a transportation tile, we need to rotate it.
@@ -363,7 +390,43 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 
-	mGrabbedItem = mCity.HitTest(point.x, point.y);
+
+	if (point.x > mScrollLeft && point.y < mScroll->GetHeight())
+	{
+		if (mScrollActivate == false)
+		{
+			mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
+			mScrollActivate = true;
+		}
+		else
+		{
+			mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+			mScrollActivate = false;
+		}
+	}
+
+
+	mStartScroll = true;
+
+
+	if (mScrollActivate)
+	{
+		if (mStartScroll == true)
+		{
+			mStartX = point.x;
+			mStartY = point.y;
+			mStartScroll = false;
+		}
+
+	}
+
+		
+
+
+
+
+
+	mGrabbedItem = mCity.HitTest(point.x + mScrollingOffsetX, point.y + mScrollingOffsetY);
 	if (mGrabbedItem != nullptr)
 	{
 		if (!mTrumpCheck)
@@ -394,6 +457,11 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
     OnMouseMove(nFlags, point);
+	mStartScroll = true;
+
+	mScrollingOffsetX = point.x - mStartX;
+	mScrollingOffsetY = point.y - mStartY;
+
 }
 
 
@@ -434,7 +502,11 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 
         // Force the screen to redraw
         Invalidate();
-    }
+	}
+	else
+	{
+		
+	}
 }
 
 /**
@@ -886,7 +958,7 @@ void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 
-	mGrabbedItem = mCity.HitTest(point.x, point.y);
+	mGrabbedItem = mCity.HitTest(point.x + mScrollingOffsetX, point.y + mScrollingOffsetY);
 	if (mGrabbedItem != nullptr)
 	{
 		if (mPowerActivate)

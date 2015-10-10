@@ -36,11 +36,11 @@ CCity::~CCity()
 /** \brief Draw the city
 * \param graphics The GDI+ graphics context to draw on
 */
-void CCity::OnDraw(Gdiplus::Graphics *graphics)
+void CCity::OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY)
 {
     for (auto item : mTiles)
     {
-        item->Draw(graphics);
+        item->Draw(graphics, offsetX, offsetY);
     }
 }
 

@@ -38,6 +38,14 @@ public:
 public:
 	virtual ~CChildView();
 
+	double mScrollingOffsetX = 0;
+	double mScrollingOffsetY = 0;
+
+	double mStartX = 0;
+	double mStartY = 0;
+
+	bool mStartScroll = false;
+
 	// Generated message map functions
 protected:
 	afx_msg void OnPaint();
@@ -90,6 +98,13 @@ private:
 	bool mPowerActivate = false;			///< if power toolbar checked
 	int mPowerToolbarTop = 0;           ///< Top line of the power toolbar in pixels
 	int mPowerToolbarLeft = 0;         ///< Leftside of the power toolbar in pixels
+
+	std::unique_ptr<Gdiplus::Bitmap> mScroll;	///< toolbar image for scrolling
+	bool mScrollActivate = false;			///< if scrolling toolbar checked
+	int mScrollTop = 0;				///< Top line of the scrolling toolbar in pixels
+	int mScrollLeft= 0;			///< Leftside of the scrolling toolbar in pixels
+
+
 
 public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);

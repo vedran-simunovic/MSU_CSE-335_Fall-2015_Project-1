@@ -78,7 +78,7 @@ void CTile::SetImage(const std::wstring &file)
 * \brief Draw our tile
 * \param graphics The graphics context to draw on
 */
-void CTile::Draw(Gdiplus::Graphics *graphics)
+void CTile::Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY)
 {
     if (mItemImage != nullptr)
     {
@@ -86,9 +86,10 @@ void CTile::Draw(Gdiplus::Graphics *graphics)
         int hit = mItemImage->GetHeight();
 
         graphics->DrawImage(mItemImage.get(),
-            mX - OffsetLeft, mY + OffsetDown - hit,
+			mX - OffsetLeft + offsetX, mY + OffsetDown - hit + offsetY,
             wid, hit);
     }
+	
 
 }
 
