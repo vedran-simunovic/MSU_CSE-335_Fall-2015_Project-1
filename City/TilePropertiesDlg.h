@@ -1,7 +1,7 @@
 /**
  * \file TilePropertiesDlg.h
  *
- * \author Charles B. Owen
+ * \author Helena Narowski
  *
  * \brief The tile properties dialog box
  */

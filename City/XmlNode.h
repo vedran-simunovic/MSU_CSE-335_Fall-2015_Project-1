@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \author Charles B. Owen
+ * \author Helena Narowski
  *
  * \brief Class that implements a wrapper for msxml nodes. 
  */

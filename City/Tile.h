@@ -1,7 +1,7 @@
 /**
  * \file Tile.h
  *
- * \author Charles B. Owen
+ * \author Helena Narowski
  *
  * \brief Base class for any tile in our city
  */

@@ -49,7 +49,11 @@ public:
 	* \param Transportation we are visiting */
 	virtual void VisitTrans(CTileTransportation *trans) {}
 
+	/** Visit a CTilePower object
+	* \param Power we are visiting */
+	virtual void VisitPower(CTilePower *power) {}
+
 	/** Visit a CTileTransportation object
 	* \param Transportation we are visiting */
-	virtual void VisitPower(CTilePower *power) {}
+	virtual void VisitTiles(CTile *power) {}
 };

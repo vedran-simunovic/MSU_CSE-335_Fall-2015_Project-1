@@ -1,7 +1,7 @@
 /**
  * \file Tile.cpp
  *
- * \author Charles B. Owen
+ * \author Helena Narowski
  */
 
 #include "stdafx.h"

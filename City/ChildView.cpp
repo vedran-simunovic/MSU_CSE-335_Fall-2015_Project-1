@@ -1,7 +1,7 @@
 /**
  * \file ChildView.cpp
  *
- * \author Charles B. Owen
+ * \author Helena Narowski
  */
 
 #include "stdafx.h"
@@ -151,6 +151,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BORDER_POWER, &CChildView::OnBorderPower)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_TRANSPORTATION, &CChildView::OnUpdateBorderTransportation)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_POWER, &CChildView::OnUpdateBorderPower)
+	ON_COMMAND(ID_TILESINFO_TILESINCITY, &CChildView::OnTilesinfoTilesincity)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -991,4 +992,23 @@ void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
 void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::POWER);
+}
+
+
+void CChildView::OnTilesinfoTilesincity()
+{
+	/// Creating a visitor
+	CBuildingCounter visitor;
+
+	/// Accepting the visitor
+	mCity.Accept(&visitor);
+
+	/// Using the visitor to get information
+	int cnt = visitor.GetNumBuildings();
+
+	wstringstream str;
+
+	/// Displaying that information
+	str << L"There are " << cnt << L" buildings.";
+	AfxMessageBox(str.str().c_str());
 }

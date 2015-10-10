@@ -1,7 +1,7 @@
 /**
  * \file CityApp.cpp
  *
- * \author Charles Owen
+ * \author Nan Du
  */
 
 #include "stdafx.h"

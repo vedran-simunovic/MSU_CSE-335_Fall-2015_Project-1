@@ -1,11 +1,12 @@
 /**
  * \file CityApp.h
  *
- * \author Charles Owen
+ * \author Nan Du
  *
  * 
  */
-//cout sdflkjsdklfjklsdjf
+
+
 #pragma once
 
 #ifndef __AFXWIN_H__

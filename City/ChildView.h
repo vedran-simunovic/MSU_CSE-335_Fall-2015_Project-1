@@ -1,7 +1,7 @@
 /**
 * \file ChildView.h
 *
-* \author Charles B. Owen
+* \author Helena Narowski
 *
 * \brief Class that implements the child window our program draws in.
 *
@@ -157,5 +157,6 @@ public:
 	afx_msg void OnBorderPower();
 	afx_msg void OnUpdateBorderTransportation(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderPower(CCmdUI *pCmdUI);
+	afx_msg void OnTilesinfoTilesincity();
 };
 

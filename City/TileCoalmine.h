@@ -1,7 +1,7 @@
 /**
 * \file TileCoalmine.h
 *
-* \author Charles B. Owen
+* \author Helena Narowski
 *
 * \brief Class that implements a Landscape tile
 */
