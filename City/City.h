@@ -47,6 +47,8 @@ public:
 
 	void Accept(CTileVisitor *visitor);
 
+	int CountTiles();
+
 
 	/** Iterator that iterates over the city tiles */
 	class Iter
