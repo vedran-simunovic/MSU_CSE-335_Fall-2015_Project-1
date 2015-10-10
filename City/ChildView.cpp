@@ -244,8 +244,8 @@ void CChildView::OnPaint()
      * Actually Draw the city
      */
 	graphics.SetPageUnit(UnitPixel);
-	graphics.SetPageScale(4);
-	mCity.OnDraw(&graphics, mScrollOffsetX, mScrollOffsetY);
+	graphics.SetPageScale(mScale);
+	mCity.OnDraw(&graphics, mScrollOffsetX/mScale, mScrollOffsetY/mScale);
 
 	// Draw scrolling menu
 	graphics.SetPageScale(1);
@@ -399,7 +399,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 
 
 
-	if (point.x > mScrollLeft && point.y < mScroll->GetHeight())
+	if (point.x > mScrollLeft + 44 && point.y < mScroll->GetHeight())
 	{
 		if (mScrollActivate == false)
 		{
@@ -413,6 +413,17 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
+	if (point.x < mScrollLeft + 44 && point.x > mScrollLeft && point.y < mScroll->GetHeight() / 2)
+	{
+		if (mScale <= 4)
+			mScale = mScale*2;
+	}
+
+	if (point.x < mScrollLeft + 44 && point.x > mScrollLeft && point.y > mScroll->GetHeight() / 2 && point.y < mScroll->GetHeight())
+	{
+		if (mScale >= 0.25)
+			mScale = mScale / 2;
+	}
 
 	if (mScrollActivate)
 	{
@@ -425,7 +436,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	}
 	else {
-		mGrabbedItem = mCity.HitTest(point.x, point.y, mScrollOffsetX, mScrollOffsetY);
+		mGrabbedItem = mCity.HitTest(point.x / mScale, point.y / mScale, mScrollOffsetX / mScale, mScrollOffsetY / mScale);
 		if (mGrabbedItem != nullptr)
 		{
 			if (!mTrumpCheck)
@@ -497,7 +508,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			// move it while the left button is down.
 			if (nFlags & MK_LBUTTON)
 			{
-				mGrabbedItem->SetLocation(point.x - mScrollOffsetX, point.y - mScrollOffsetY);
+				mGrabbedItem->SetLocation((point.x - mScrollOffsetX) / mScale, (point.y - mScrollOffsetY) / mScale);
 			}
 			else
 			{
