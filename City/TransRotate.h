@@ -12,7 +12,7 @@
 
 
 /** This implements the rotation of a transportation tile
- * concrete visitor
+ * concrete visitorss
  */
 class CTransRotate:
 	public CTileVisitor
