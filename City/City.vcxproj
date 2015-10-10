@@ -103,6 +103,7 @@
     <ClInclude Include="CoalCounter.h" />
     <ClInclude Include="DoubleBufferDC.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="PowerRotate.h" />
     <ClInclude Include="ResetCoal.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -112,9 +113,12 @@
     <ClInclude Include="TileCoalmine.h" />
     <ClInclude Include="TileConstruction.h" />
     <ClInclude Include="TileLandscape.h" />
+    <ClInclude Include="TilePower.h" />
     <ClInclude Include="TilePropertiesDlg.h" />
     <ClInclude Include="TileRoad.h" />
     <ClInclude Include="TileVisitor.h" />
+    <ClInclude Include="TileTransportation.h" />
+    <ClInclude Include="TransRotate.h" />
     <ClInclude Include="Trump.h" />
     <ClInclude Include="XmlNode.h" />
   </ItemGroup>
@@ -125,6 +129,7 @@
     <ClCompile Include="CityApp.cpp" />
     <ClCompile Include="CoalCounter.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="PowerRotate.cpp" />
     <ClCompile Include="ResetCoal.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -135,9 +140,12 @@
     <ClCompile Include="TileCoalmine.cpp" />
     <ClCompile Include="TileConstruction.cpp" />
     <ClCompile Include="TileLandscape.cpp" />
+    <ClCompile Include="TilePower.cpp" />
     <ClCompile Include="TilePropertiesDlg.cpp" />
     <ClCompile Include="TileRoad.cpp" />
     <ClCompile Include="TileVisitor.cpp" />
+    <ClCompile Include="TileTransportation.cpp" />
+    <ClCompile Include="TransRotate.cpp" />
     <ClCompile Include="Trump.cpp" />
     <ClCompile Include="XmlNode.cpp" />
   </ItemGroup>

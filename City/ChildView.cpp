@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include <sstream>
+#include <math.h>
 
 #include "DoubleBufferDC.h"
 #include "CityApp.h"
@@ -20,6 +21,9 @@
 #include "CoalCounter.h"
 #include "ResetCoal.h"
 #include "Trump.h"
+#include "TransRotate.h"
+#include "TileTransportation.h"
+#include "PowerRotate.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,6 +45,9 @@ const int InitialY = CCity::GridSpacing * 3;
 /// Margin of trashcan from side and bottom in pixels
 const int TrashcanMargin = 5;
 
+/// The number of pixels for one item on power tool bar
+const int PowerToolbarRegion = 64;
+
 /**
  * Constructor
  */
@@ -54,6 +61,13 @@ CChildView::CChildView()
     {
         AfxMessageBox(L"Failed to open images/trashcan.png");
     }
+
+	// load power tool bar image
+	mPowerToolbar = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/toolbar-power.png"));
+	if (mPowerToolbar->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/toolbar-power.png");
+}
 }
 
 /**
@@ -103,6 +117,14 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BUSINESSES_HAULCOLE, &CChildView::OnBusinessesHaulcole)
 	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
+	ON_COMMAND(ID_POWER_BUILD, &CChildView::OnPowerBuild)
+	ON_UPDATE_COMMAND_UI(ID_POWER_BUILD, &CChildView::OnUpdatePowerBuild)
+	ON_COMMAND(ID_TRANSPORTATION_CURVEDROAD, &CChildView::OnTransportationCurvedroad)
+	ON_COMMAND(ID_TRANSPORTATION_ROAD, &CChildView::OnTransportationRoad)
+	ON_COMMAND(ID_TRANSPORTATION_ELEVATEDROAD, &CChildView::OnTransportationElevatedroad)
+	ON_COMMAND(ID_TRANSPORTATION_INCLINEDROAD, &CChildView::OnTransportationInclinedroad)
+	ON_COMMAND(ID_TRANSPORTATION_PLAINROAD, &CChildView::OnTransportationPlainroad)
+	ON_WM_RBUTTONDOWN()
 	
 	ON_COMMAND(ID_CONSTRUCTION_POTENTIALGRASSSITE, &CChildView::OnConstructionPotentialgrasssite)
 	ON_COMMAND(ID_BORDER_CONSTRUCTIONAL, &CChildView::OnBorderConstructional)
@@ -188,6 +210,16 @@ void CChildView::OnPaint()
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
 
+	if (mPowerActivate){
+		// Bottom minus image size minus margin is top of the image
+		mPowerToolbarTop = rect.Height() - mPowerToolbar->GetHeight();
+		mPowerToolbarLeft = rect.Width() - mPowerToolbar->GetWidth();
+
+		graphics.DrawImage(mPowerToolbar.get(), mPowerToolbarLeft, mPowerToolbarTop,
+			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
+	}
+
+
     /*
      * Actually Draw the city
      */
@@ -246,10 +278,17 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 */
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
+
     auto tile = mCity.HitTest(point.x, point.y);
     if (tile != nullptr) 
-	{
-		if(tile->GetZoning() == CTile::CONSTRUCTIONAL)
+    {
+		/// If the double clicked tile is a transportation tile, we need to rotate it.
+		if (tile->GetZoning() == CTile::TRANSPORTATION)
+		{
+			CTransRotate visitor;
+
+			tile->Accept(&visitor);
+		}else if(tile->GetZoning() == CTile::CONSTRUCTIONAL)
 		{
 			// Starts off the clearing process if the tile in constructional
 			tile->SetClearFlag();
@@ -257,12 +296,14 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		}
 		else
 		{
-			// We double-clicked on a tile
-			// Bring up the tile editing dialog box
-			tile->PropertiesDlg();
-			Invalidate();
+        // We double-clicked on a tile
+        // Bring up the tile editing dialog box
+			//tile->PropertiesDlg();
+        Invalidate();
 		}
     }
+
+}
 
 }
 
@@ -274,6 +315,52 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 */
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	// test if the point at the power tool bar when tool bar activate
+	if (mPowerActivate == true && (point.x>mPowerToolbarLeft && point.y > mPowerToolbarTop)){
+		double relPointPosX = point.x - mPowerToolbarLeft;
+		int clickRegion = int(floor(relPointPosX / PowerToolbarRegion));
+		
+		switch (clickRegion)
+		{
+			case 1:{
+				AddPower(CTilePower::LGRID);
+				break;
+			}
+				// 
+			case 2:{
+				AddPower(CTilePower::GRID);
+				break;
+			}
+
+			case 3:{
+				AddPower(CTilePower::TGRID);
+				break;
+			}
+
+			case 4:{
+				AddPower(CTilePower::XGRID);
+				break;
+			}
+
+			case 5:{
+				AddPower(CTilePower::SUBSTATION);
+				break;
+			}
+
+			case 6:{
+				AddPower(CTilePower::POWERPLANT);
+				break;
+			}
+
+			case 7:{
+				AddPower(CTilePower::SOLARSTATION);
+				break;
+			}
+
+		}
+	}
+
+
 	mGrabbedItem = mCity.HitTest(point.x, point.y);
 	if (mGrabbedItem != nullptr)
 	{
@@ -694,4 +781,132 @@ void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mTrumpCheck);
 }
 
+/** Menu handler deals with building power tile */
+void CChildView::OnPowerBuild()
+{
+	mPowerActivate = !mPowerActivate;
+}
 
+/** Menu handler deals with building power tile
+* \param pCmdUI This is pass to be able to change the checkmard on the screen
+*/
+void CChildView::OnUpdatePowerBuild(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mPowerActivate);
+}
+
+
+/**
+ * 
+ */
+void CChildView::OnTransportationCurvedroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetTransType(CTileTransportation::CURVED);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"road_ab.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+/**
+ * 
+ */
+void CChildView::OnTransportationRoad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetTransType(CTileTransportation::FLAT);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"road_ac.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+/**
+ * 
+ */
+void CChildView::OnTransportationElevatedroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetTransType(CTileTransportation::ELEVATED);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"roadbridge_ac.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+/**
+ * 
+ */
+void CChildView::OnTransportationInclinedroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetTransType(CTileTransportation::INCLINED);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"roadrampa_ac.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+
+
+/**
+ * 
+ */
+void CChildView::OnTransportationPlainroad()
+{
+	auto tile = make_shared<CTileTransportation>(&mCity);
+	tile->SetZoning(CTile::TRANSPORTATION);
+	tile->SetTransType(CTileTransportation::PLAIN);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetImage(L"roadint_abc.png");
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+/**
+ * When we at build mode of power, right click the picture will rotate picture
+ * \param nFlags 
+ * \param point 
+ */
+void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	mGrabbedItem = mCity.HitTest(point.x, point.y);
+	if (mGrabbedItem != nullptr)
+	{
+		if (mPowerActivate)
+		{
+			// Instantiate the visitor
+			CPowerRotate visitor;
+
+			// Send to JUST this one time
+			mGrabbedItem->Accept(&visitor);
+
+			// Clear this since we don't want to then drag
+			mGrabbedItem = false;
+		}
+	}
+}
+
+/**
+* \brief Add a CTilePower tile to the drawing.
+* \param type type of power tile
+*/
+void CChildView::AddPower(CTilePower::PowerType type)
+{
+	auto tile = make_shared<CTilePower>(&mCity, type);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
+}

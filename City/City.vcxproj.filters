@@ -78,6 +78,18 @@
     <ClInclude Include="TileConstruction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TileTransportation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransRotate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TilePower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerRotate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -129,6 +141,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Trump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileTransportation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransRotate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TilePower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerRotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileConstruction.cpp">

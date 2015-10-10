@@ -15,6 +15,8 @@ class CTileCoalmine;
 class CTileLandscape;
 class CTileRoad;
 class CTileConstruction;
+class CTileTransportation;
+class CTilePower;
 
 /** Tile visitor base class */
 class CTileVisitor
@@ -42,4 +44,12 @@ public:
 	/** Visit a CTileConstruction object
 	* \param construction Construction we are visiting */
 	virtual void VisitConstruction(CTileConstruction *construction) {}
+
+	/** Visit a CTileTransportation object
+	* \param Transportation we are visiting */
+	virtual void VisitTrans(CTileTransportation *trans) {}
+
+	/** Visit a CTileTransportation object
+	* \param Transportation we are visiting */
+	virtual void VisitPower(CTilePower *power) {}
 };

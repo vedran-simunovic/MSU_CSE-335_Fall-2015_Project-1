@@ -142,10 +142,6 @@ BEGIN
         MENUITEM "Haul Cole",                   ID_BUSINESSES_HAULCOLE
         MENUITEM "Trump",                       ID_BUSINESSES_TRUMP
     END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About City...",              ID_APP_ABOUT
-    END
     POPUP "Border-Zoning-Select"
     BEGIN
         MENUITEM "None",                        ID_BORDER_NONE
@@ -157,6 +153,23 @@ BEGIN
     POPUP "Construction"
     BEGIN
         MENUITEM "Potential Grass Site",        ID_CONSTRUCTION_POTENTIALGRASSSITE
+    END
+    POPUP "Power"
+    BEGIN
+        MENUITEM "Build",                       ID_POWER_BUILD
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About City...",              ID_APP_ABOUT
+    END
+    POPUP "Transportation"
+    BEGIN
+        MENUITEM "Car",                         ID_TRANSPORTATION_CAR
+        MENUITEM "Curved Road",                 ID_TRANSPORTATION_CURVEDROAD
+        MENUITEM "Flat Road",                   ID_TRANSPORTATION_ROAD
+        MENUITEM "Elevated Road",               ID_TRANSPORTATION_ELEVATEDROAD
+        MENUITEM "Inclined Road",               ID_TRANSPORTATION_INCLINEDROAD
+        MENUITEM "Plain Road",                  ID_TRANSPORTATION_PLAINROAD
     END
 END
 

@@ -13,6 +13,7 @@
 
 #include "City.h"
 #include "Tile.h"
+#include "TilePower.h"
 
 class CTile;
 
@@ -45,6 +46,7 @@ protected:
 private:
     void AddBuilding(const std::wstring &file);
     void AddLandscape(const std::wstring &file);
+	void CChildView::AddPower(CTilePower::PowerType);
 
     /// The city
     CCity mCity;
@@ -83,6 +85,11 @@ private:
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
     int mTrashcanRight = 0;         ///< Right side of the trashcan in pixels
+
+	std::unique_ptr<Gdiplus::Bitmap> mPowerToolbar;	///< toolbar image for power
+	bool mPowerActivate = false;			///< if power toolbar checked
+	int mPowerToolbarTop = 0;           ///< Top line of the power toolbar in pixels
+	int mPowerToolbarLeft = 0;         ///< Leftside of the power toolbar in pixels
 
 public:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
@@ -126,6 +133,15 @@ public:
 	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	
 	
+	afx_msg void OnPowerBuild();
+	afx_msg void OnUpdatePowerBuild(CCmdUI *pCmdUI);
+	afx_msg void OnTransportationCurvedroad();
+	afx_msg void OnTransportationRoad();
+	afx_msg void OnTransportationElevatedroad();
+	afx_msg void OnTransportationInclinedroad();
+	afx_msg void OnTransportationDeclinedroad();
+	afx_msg void OnTransportationPlainroad();
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	
 	afx_msg void OnConstructionPotentialgrasssite();
 	afx_msg void OnBorderConstructional();

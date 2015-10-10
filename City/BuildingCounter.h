@@ -8,6 +8,7 @@
 
 #pragma once
 #include "TileVisitor.h"
+
 /**
  * This implements the building counter
  * concrete visitor.

@@ -22,12 +22,15 @@ class CTile
 {
 public:
     /// The possible tile zonings
-	enum Zonings {
-		NONE = 0,   ///< No current zoning
-		RESIDENTIAL = 1,      ///< Residential zoning
-		INDUSTRIAL = 2,       ///< Industrial zoning
-		AGRICULTURAL = 3,     ///< Agricultural zoning
-		CONSTRUCTIONAL = 4};  ///< Constructional zoning
+    enum Zonings {NONE=0,   ///< No current zoning
+        RESIDENTIAL=1,      ///< Residential zoning
+        INDUSTRIAL=2,       ///< Industrial zoning
+        AGRICULTURAL=3,		///< Agricultural zoning
+		TRANSPORTATION=4,	///< Transportational zoning
+		POWER=5,			///< Power zoning
+		CONSTRUCTIONAL = 6,
+	};    ///< Constructional zoning
+	
 
     /** The directory were the images are stored */
     static const std::wstring ImagesDirectory;
