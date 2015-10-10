@@ -113,10 +113,10 @@ void CTile::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen)
 * \param y Y position to test
 * \return true if hit.
 */
-bool CTile::HitTest(int x, int y)
+bool CTile::HitTest(int x, int y, double offsetX, double offsetY)
 {
     // Simple manhattan distance 
-    return (abs(x - mX) + abs(y - mY) * 2) <= InsideTolerance;
+    return (abs(x - mX - offsetX) + abs(y - mY - offsetY) * 2) <= InsideTolerance;
 }
 
 

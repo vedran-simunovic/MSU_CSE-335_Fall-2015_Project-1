@@ -253,7 +253,9 @@ void CChildView::OnPaint()
     /*
      * Actually Draw the city
      */
-	mCity.OnDraw(&graphics,mScrollOffsetX, mScrollOffsetY);
+	mCity.OnDraw(&graphics, mScrollOffsetX, mScrollOffsetY);
+
+	
 
 	Pen pen(Color::Green, 2);
 
@@ -308,7 +310,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 
-	auto tile = mCity.HitTest(point.x + mScrollOffsetX, point.y + mScrollOffsetY);
+	auto tile = mCity.HitTest(point.x, point.y, mScrollOffsetX, mScrollOffsetY);
     if (tile != nullptr) 
     {
 		/// If the double clicked tile is a transportation tile, we need to rotate it.
@@ -417,7 +419,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	}
 	else {
-		mGrabbedItem = mCity.HitTest(point.x + mScrollOffsetX, point.y + mScrollOffsetY);
+		mGrabbedItem = mCity.HitTest(point.x, point.y, mScrollOffsetX, mScrollOffsetY);
 		if (mGrabbedItem != nullptr)
 		{
 			if (!mTrumpCheck)
@@ -489,7 +491,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			// move it while the left button is down.
 			if (nFlags & MK_LBUTTON)
 			{
-				mGrabbedItem->SetLocation(point.x, point.y);
+				mGrabbedItem->SetLocation(point.x - mScrollOffsetX, point.y - mScrollOffsetY);
 			}
 			else
 			{
@@ -969,7 +971,7 @@ void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 
-	mGrabbedItem = mCity.HitTest(point.x + mOriginOffsetX, point.y + mOriginOffsetY);
+	mGrabbedItem = mCity.HitTest(point.x, point.y, mOriginOffsetX, mOriginOffsetY);
 	if (mGrabbedItem != nullptr)
 	{
 		if (mPowerActivate)

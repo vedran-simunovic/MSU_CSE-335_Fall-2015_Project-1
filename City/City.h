@@ -29,7 +29,7 @@ public:
     static const int GridSpacing = 32;
 
     void Add(std::shared_ptr<CTile> item);
-    std::shared_ptr<CTile> HitTest(int x, int y);
+	std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offsetY);
     void MoveToFront(std::shared_ptr<CTile> item);
     void DeleteItem(std::shared_ptr<CTile> item);
 
