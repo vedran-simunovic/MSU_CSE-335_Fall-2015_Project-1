@@ -10,6 +10,7 @@
 using namespace std;
 using namespace Gdiplus;
 
+
 /// Image when the coalmine production is empty
 const wstring EmptyImage = L"coalmine-empty.png";
 
@@ -67,8 +68,24 @@ std::shared_ptr<xmlnode::CXmlNode> CTileCoalmine::XmlSave(const std::shared_ptr<
     auto itemNode = CTile::XmlSave(node);
 
     itemNode->SetAttribute(L"type", L"coalmine");
+	itemNode->SetAttribute(L"production_level", (double)GetProduction());
+	itemNode->SetAttribute(L"trump_level", (int)GetTrump());
+	itemNode->SetAttribute(L"file", GetFile());
 
     return itemNode;
+}
+
+/**
+* brief Load the attributes for an item node.
+* \param node The Xml node we are loading the item from
+*/
+void CTileCoalmine::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	CTile::XmlLoad(node);
+	SetProduction(node->GetAttributeDoubleValue(L"production_level", 0));
+	SetTrump((CTileCoalmine::Trumping)node->GetAttributeIntValue(L"trump_level", 0));
+	
+	SetImage(node->GetAttributeValue(L"file", L""));
 }
 
 
@@ -79,6 +96,10 @@ std::shared_ptr<xmlnode::CXmlNode> CTileCoalmine::XmlSave(const std::shared_ptr<
 void CTileCoalmine::Update(double elapsed)
 {
 	CTile::Update(elapsed);
+
+	// Error check
+	if (GetDuration() < 0)
+		SetDuration(0);
 
 	SetDuration(GetDuration() + elapsed);
 
@@ -127,3 +148,6 @@ void CTileCoalmine::Update(double elapsed)
 		SetDuration(0);
 	}
 }
+
+
+

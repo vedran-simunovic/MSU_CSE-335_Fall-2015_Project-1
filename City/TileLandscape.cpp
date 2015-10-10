@@ -15,6 +15,7 @@ using namespace Gdiplus;
 */
 CTileLandscape::CTileLandscape(CCity *city) : CTile(city)
 {
+
 }
 
 /**

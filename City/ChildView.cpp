@@ -15,6 +15,7 @@
 #include "TileBuilding.h"
 #include "TileRoad.h"
 #include "TileCoalmine.h"
+#include "TileConstruction.h"
 #include "BuildingCounter.h"
 #include "CoalCounter.h"
 #include "ResetCoal.h"
@@ -102,6 +103,10 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BUSINESSES_HAULCOLE, &CChildView::OnBusinessesHaulcole)
 	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
+	
+	ON_COMMAND(ID_CONSTRUCTION_POTENTIALGRASSSITE, &CChildView::OnConstructionPotentialgrasssite)
+	ON_COMMAND(ID_BORDER_CONSTRUCTIONAL, &CChildView::OnBorderConstructional)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_CONSTRUCTIONAL, &CChildView::OnUpdateBorderConstructional)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -204,7 +209,7 @@ void CChildView::OnPaint()
 
 	// draw box only over the tile elements selected.
 
-	if (mNoneCheck || mAgriculturalCheck || mIndustrialCheck || mResidentialCheck)
+	if (mNoneCheck || mAgriculturalCheck || mIndustrialCheck || mResidentialCheck || mConstructionalCheck)
 	{
 		for (auto tile : mCity.GetZoning(mZoning))		
 		{
@@ -243,11 +248,20 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
     auto tile = mCity.HitTest(point.x, point.y);
     if (tile != nullptr) 
-    {
-        // We double-clicked on a tile
-        // Bring up the tile editing dialog box
-        tile->PropertiesDlg();
-        Invalidate();
+	{
+		if(tile->GetZoning() == CTile::CONSTRUCTIONAL)
+		{
+			// Starts off the clearing process if the tile in constructional
+			tile->SetClearFlag();
+			Invalidate();
+		}
+		else
+		{
+			// We double-clicked on a tile
+			// Bring up the tile editing dialog box
+			tile->PropertiesDlg();
+			Invalidate();
+		}
     }
 
 }
@@ -371,7 +385,7 @@ void CChildView::OnFileSaveas()
 */
 void CChildView::OnFileOpen()
 {
-    CFileDialog dlg(true,  // true = Open dialog box
+    CFileDialog dlg(true,  // true = Open dialog box::addbuilding
         L".city",           // Default file extension
         nullptr,            // Default file name (none)
         0,    // Flags
@@ -419,6 +433,34 @@ void CChildView::AddLandscape(const std::wstring &file)
  * I'm not going to document these menu handlers, since what they 
  * so is obvious. I'm using a Doxygen feature to ignore the functions
  */
+
+void CChildView::OnLandscapingRoad()
+{
+	auto tile = make_shared<CTileRoad>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+void CChildView::OnBusinessesCoalmine()
+{
+	auto tile = make_shared<CTileCoalmine>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+void CChildView::OnConstructionPotentialgrasssite()
+{
+	auto tile = make_shared<CTileConstruction>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
+
+}
+
 
 
 void CChildView::OnBuildingsFarmhouse()
@@ -505,24 +547,10 @@ void CChildView::OnLandscapingBigtrees()
 }
 
 
-void CChildView::OnLandscapingRoad()
-{
-    auto tile = make_shared<CTileRoad>(&mCity);
-    tile->SetLocation(InitialX, InitialY);
-    mCity.Add(tile);
-    Invalidate();
-}
-
-
-void CChildView::OnBusinessesCoalmine()
-{
-    auto tile = make_shared<CTileCoalmine>(&mCity);
-    tile->SetLocation(InitialX, InitialY);
-    mCity.Add(tile);
-    Invalidate();
-}
 
 /** \endcond */
+
+
 
 /** Menu handler that sets the border draw to none */
 void CChildView::OnBorderNone()
@@ -533,6 +561,7 @@ void CChildView::OnBorderNone()
 	mResidentialCheck = false;
 	mIndustrialCheck = false;
 	mAgriculturalCheck = false;
+	mConstructionalCheck = false;
 }
 
 /** Menu handler that sets the border draw to residential*/
@@ -544,6 +573,7 @@ void CChildView::OnBorderResidential()
 	//mResidentialCheck = true;
 	mIndustrialCheck = false;
 	mAgriculturalCheck = false;
+	mConstructionalCheck = false;
 }
 
 /** Menu handler that sets the border draw to industrial */
@@ -555,6 +585,7 @@ void CChildView::OnBorderIndustrial()
 	mIndustrialCheck = !mIndustrialCheck;
 	//mIndustrialCheck = true;
 	mAgriculturalCheck = false;
+	mConstructionalCheck = false;
 }
 
 /** Menu handler that sets the border draw to agricultural */
@@ -565,8 +596,23 @@ void CChildView::OnBorderAgricultural()
 	mResidentialCheck = false;
 	mIndustrialCheck = false;
 	mAgriculturalCheck = !mAgriculturalCheck;
+	mConstructionalCheck = false;
 	//mAgriculturalCheck = true;
 }
+
+void CChildView::OnBorderConstructional()
+{
+	mZoning = CTile::CONSTRUCTIONAL;
+	mNoneCheck = false;
+	mResidentialCheck = false;
+	mIndustrialCheck = false;
+	mAgriculturalCheck = false;
+	mConstructionalCheck = !mConstructionalCheck;
+	//mAgriculturalCheck = true;
+}
+
+
+
 
 /** Menu handler that sets the border draw to none 
 * \param pCmdUI This is pass to be able to change the checkmard on the screen
@@ -601,6 +647,11 @@ void CChildView::OnUpdateBorderAgricultural(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mAgriculturalCheck);
 }
 
+void CChildView::OnUpdateBorderConstructional(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mConstructionalCheck);
+}
+
 
 /** Menu handler that counts the number of builds */
 void CChildView::OnBuildingsCount()
@@ -619,7 +670,7 @@ void CChildView::OnBusinessesHaulcole()
 {
 	CCoalCounter visitor;
 	mCity.Accept(&visitor);
-	int totalProduction = visitor.GetTotalProduction();
+	double totalProduction = visitor.GetTotalProduction();
 
 	wstringstream str;
 	str << L"The total production is " << totalProduction << L" tons";
@@ -642,3 +693,5 @@ void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mTrumpCheck);
 }
+
+

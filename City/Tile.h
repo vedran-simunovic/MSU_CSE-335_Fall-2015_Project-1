@@ -22,10 +22,12 @@ class CTile
 {
 public:
     /// The possible tile zonings
-    enum Zonings {NONE=0,   ///< No current zoning
-        RESIDENTIAL=1,      ///< Residential zoning
-        INDUSTRIAL=2,       ///< Industrial zoning
-        AGRICULTURAL=3};    ///< Agricultural zoning
+	enum Zonings {
+		NONE = 0,   ///< No current zoning
+		RESIDENTIAL = 1,      ///< Residential zoning
+		INDUSTRIAL = 2,       ///< Industrial zoning
+		AGRICULTURAL = 3,     ///< Agricultural zoning
+		CONSTRUCTIONAL = 4};  ///< Constructional zoning
 
     /** The directory were the images are stored */
     static const std::wstring ImagesDirectory;
@@ -58,7 +60,7 @@ public:
     /** \brief Set the item location
     * \param x X location
     * \param y Y location */
-    void SetLocation(int x, int y) { mX = x; mY = y; }
+    virtual void SetLocation(int x, int y) { mX = x; mY = y; }
 
     /** \brief Draw this item
     * \param graphics The graphics context to draw on */
@@ -118,6 +120,8 @@ public:
 	/** Accept a visitor
 	* \param visitor The visitor we accept */
 	virtual void Accept(CTileVisitor *visitor) = 0;
+
+	virtual void SetClearFlag();
 
 protected:
     CTile(CCity *city);

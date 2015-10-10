@@ -14,6 +14,7 @@ class CTileBuilding;
 class CTileCoalmine;
 class CTileLandscape;
 class CTileRoad;
+class CTileConstruction;
 
 /** Tile visitor base class */
 class CTileVisitor
@@ -37,4 +38,8 @@ public:
 	/** Visit a CTileRoad object
 	* \param road Road we are visiting */
 	virtual void VisitRoad(CTileRoad *road) {}
+
+	/** Visit a CTileConstruction object
+	* \param construction Construction we are visiting */
+	virtual void VisitConstruction(CTileConstruction *construction) {}
 };

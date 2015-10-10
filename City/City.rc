@@ -152,6 +152,11 @@ BEGIN
         MENUITEM "Residential",                 ID_BORDER_RESIDENTIAL
         MENUITEM "Industrial",                  ID_BORDER_INDUSTRIAL
         MENUITEM "Agricultural",                ID_BORDER_AGRICULTURAL
+        MENUITEM "Constructional",              ID_BORDER_CONSTRUCTIONAL
+    END
+    POPUP "Construction"
+    BEGIN
+        MENUITEM "Potential Grass Site",        ID_CONSTRUCTION_POTENTIALGRASSSITE
     END
 END
 

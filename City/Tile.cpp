@@ -197,3 +197,7 @@ void CTile::PropertiesDlg()
     }
 }
 
+/** Used to call the clear flag in the CTileConstruction child class*/
+void CTile::SetClearFlag()
+{
+}

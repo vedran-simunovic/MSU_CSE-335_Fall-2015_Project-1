@@ -41,6 +41,7 @@ public:
 	};    ///< Trumping tracker
 
     virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
+	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
 
 	/** Accept a visitor
 	* \param visitor The visitor we accept */
@@ -79,6 +80,8 @@ public:
 	/** Gets the trump level
 	* \return mTrumpScale The current trump scale of the coal mine*/
 	int GetTrumpScale() { return mTrumpScale; }
+
+	
 
 private:
 	/// Duration that the coal has been in its current production mode

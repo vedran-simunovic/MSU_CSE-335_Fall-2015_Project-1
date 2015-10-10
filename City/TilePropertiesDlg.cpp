@@ -42,6 +42,7 @@ void CTilePropertiesDlg::DoDataExchange(CDataExchange* pDX)
         m_zoningCtrl.AddString(L"Residential");
         m_zoningCtrl.AddString(L"Industrial");
         m_zoningCtrl.AddString(L"Agricultural");
+		m_zoningCtrl.AddString(L"Constructional");
 
         m_zoningCtrl.SetCurSel((int)m_zoning);
     }

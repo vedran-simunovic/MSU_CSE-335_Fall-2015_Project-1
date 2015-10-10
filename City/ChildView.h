@@ -64,6 +64,10 @@ private:
 	/// Checkmark for agricultural option
 	bool mAgriculturalCheck = false;
 
+
+	/// Checkmark for the potential grass construction site icon
+	bool mConstructionalCheck = false;
+
 	/// Checkmark for the trump option
 	bool mTrumpCheck = false;
 
@@ -122,5 +126,9 @@ public:
 	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	
 	
+	
+	afx_msg void OnConstructionPotentialgrasssite();
+	afx_msg void OnBorderConstructional();
+	afx_msg void OnUpdateBorderConstructional(CCmdUI *pCmdUI);
 };
 
