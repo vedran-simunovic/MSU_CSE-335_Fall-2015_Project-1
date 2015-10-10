@@ -56,12 +56,22 @@ public:
 	/** return power type*/
 	PowerType GetPowerType() { return mPowerType; }
 
+	void SetPowerType(CTilePower::PowerType type) { mPowerType = type; }
+
+	bool GetConnected() { return mConnected; }
+
+	PowerDirection GetPowerDirection() { return mPowerDirection; }
+
+	void SetConnection(bool connect) { mConnected = connect; }
+
+	void SetPowerDirection(CTilePower::PowerDirection direction) { mPowerDirection = direction; }
+
 	void RotateImage();
 
 private:
 
 	PowerType mPowerType = NONE;	///< type of tile
-
+	std::wstring mFile;
 	bool mConnected = false;			///< whethe this tile connect to the power plant
 
 	PowerDirection mPowerDirection = EAST;	///< dirction of tile

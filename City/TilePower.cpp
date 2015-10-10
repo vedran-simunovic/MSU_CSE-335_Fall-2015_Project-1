@@ -60,30 +60,37 @@ CTilePower::CTilePower(CCity *city, PowerType type) : CTile(city)
 	{
 	case(GRID) : {
 		SetImage(GridImage1);
+		mFile = GridImage1;
 		break;
 	}
 	case(LGRID) : {
 		SetImage(LGridImage1);
+		mFile = LGridImage1;
 		break;
 	}
 	case(TGRID) : {
 		SetImage(TGridImage1);
+		mFile = TGridImage1;
 		break;
 	}
 	case(XGRID) : {
 		SetImage(XGridImage);
+		mFile = XGridImage;
 		break;
 	}
 	case(SUBSTATION) : {
 		SetImage(SubstationImage);
+		mFile = SubstationImage;
 		break;
 	}
 	case(POWERPLANT) : {
 		SetImage(PowerPlantEmptyImage);
+		mFile = PowerPlantEmptyImage;
 		break;
 	}
 	case(SOLARSTATION) : {
 		SetImage(SolarStationImage);
+		mFile = SolarStationImage;
 		break;
 	}
 	}
@@ -103,6 +110,9 @@ std::shared_ptr<xmlnode::CXmlNode> CTilePower::XmlSave(const std::shared_ptr<xml
 	auto itemNode = CTile::XmlSave(node);
 
 	itemNode->SetAttribute(L"type", L"power");
+	itemNode->SetAttribute(L"power_tile_type", (int)GetPowerType());
+	itemNode->SetAttribute(L"connected", (int)GetConnected());
+	itemNode->SetAttribute(L"power_direction", (int)GetPowerDirection());
 	itemNode->SetAttribute(L"file", GetFile());
 
 	return itemNode;
@@ -116,6 +126,10 @@ std::shared_ptr<xmlnode::CXmlNode> CTilePower::XmlSave(const std::shared_ptr<xml
 void CTilePower::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 {
 	CTile::XmlLoad(node);
+
+	SetPowerType((CTilePower::PowerType)node->GetAttributeIntValue(L"power_tile_type", 0));
+	SetConnection((bool)node->GetAttributeIntValue(L"connected", 0));
+	SetPowerDirection((CTilePower::PowerDirection)node->GetAttributeIntValue(L"power_direction", 0));
 	SetImage(node->GetAttributeValue(L"file", L""));
 }
 
