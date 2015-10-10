@@ -110,7 +110,6 @@ void CTransRotate::RotatePlainTile(CTileTransportation *trans)
 
 void CTransRotate::RotateElevatedTile(CTileTransportation *trans)
 {
-	/// Also will have to implement the elevated with grass, and elevated with a middle cement thing.
 	int rotation = trans->GetRotationPos();
 
 	switch (rotation)
