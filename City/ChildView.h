@@ -38,8 +38,11 @@ public:
 public:
 	virtual ~CChildView();
 
-	double mScrollingOffsetX = 0;
-	double mScrollingOffsetY = 0;
+	double mOriginOffsetX = 0;
+	double mOriginOffsetY = 0;
+
+	double mScrollOffsetX = 0;
+	double mScrollOffsetY = 0;
 
 	double mStartX = 0;
 	double mStartY = 0;
