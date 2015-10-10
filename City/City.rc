@@ -148,11 +148,11 @@ BEGIN
         MENUITEM "Residential",                 ID_BORDER_RESIDENTIAL
         MENUITEM "Industrial",                  ID_BORDER_INDUSTRIAL
         MENUITEM "Agricultural",                ID_BORDER_AGRICULTURAL
-        MENUITEM "Constructional",              ID_BORDER_CONSTRUCTIONAL
+        MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
     END
     POPUP "Construction"
     BEGIN
-        MENUITEM "Potential Grass Site",        ID_CONSTRUCTION_POTENTIALGRASSSITE
+        MENUITEM "Grass Site",                  ID_CONSTRUCTION_GRASSSITE
     END
     POPUP "Power"
     BEGIN
@@ -165,8 +165,8 @@ BEGIN
     POPUP "Transportation"
     BEGIN
         MENUITEM "Car",                         ID_TRANSPORTATION_CAR
-        MENUITEM "Curved Road",                 ID_TRANSPORTATION_CURVEDROAD
-        MENUITEM "Flat Road",                   ID_TRANSPORTATION_ROAD
+        MENUITEM "Curved Road",                 ID_CONSTRUCTION_POTENTIALGRASSSITE
+        MENUITEM "Flat Road",                   ID_BORDER_CONSTRUCTIONAL
         MENUITEM "Elevated Road",               ID_TRANSPORTATION_ELEVATEDROAD
         MENUITEM "Inclined Road",               ID_TRANSPORTATION_INCLINEDROAD
         MENUITEM "Plain Road",                  ID_TRANSPORTATION_PLAINROAD

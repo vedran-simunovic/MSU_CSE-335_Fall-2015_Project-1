@@ -126,9 +126,11 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_PLAINROAD, &CChildView::OnTransportationPlainroad)
 	ON_WM_RBUTTONDOWN()
 	
-	ON_COMMAND(ID_CONSTRUCTION_POTENTIALGRASSSITE, &CChildView::OnConstructionPotentialgrasssite)
-	ON_COMMAND(ID_BORDER_CONSTRUCTIONAL, &CChildView::OnBorderConstructional)
-	ON_UPDATE_COMMAND_UI(ID_BORDER_CONSTRUCTIONAL, &CChildView::OnUpdateBorderConstructional)
+	
+
+	ON_COMMAND(ID_CONSTRUCTION_GRASSSITE, &CChildView::OnConstructionGrasssite)
+	ON_COMMAND(ID_BORDER_CONSTRUCTION, &CChildView::OnBorderConstruction)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_CONSTRUCTION, &CChildView::OnUpdateBorderConstruction)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -305,7 +307,7 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 }
 
-}
+
 
 
 
@@ -539,14 +541,6 @@ void CChildView::OnBusinessesCoalmine()
 }
 
 
-void CChildView::OnConstructionPotentialgrasssite()
-{
-	auto tile = make_shared<CTileConstruction>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	mCity.Add(tile);
-	Invalidate();
-
-}
 
 
 
@@ -687,7 +681,8 @@ void CChildView::OnBorderAgricultural()
 	//mAgriculturalCheck = true;
 }
 
-void CChildView::OnBorderConstructional()
+
+void CChildView::OnBorderConstruction()
 {
 	mZoning = CTile::CONSTRUCTIONAL;
 	mNoneCheck = false;
@@ -697,6 +692,7 @@ void CChildView::OnBorderConstructional()
 	mConstructionalCheck = !mConstructionalCheck;
 	//mAgriculturalCheck = true;
 }
+
 
 
 
@@ -734,10 +730,18 @@ void CChildView::OnUpdateBorderAgricultural(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mAgriculturalCheck);
 }
 
+
 void CChildView::OnUpdateBorderConstructional(CCmdUI *pCmdUI)
+{
+	
+}
+
+
+void CChildView::OnUpdateBorderConstruction(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mConstructionalCheck);
 }
+
 
 
 /** Menu handler that counts the number of builds */
@@ -910,3 +914,14 @@ void CChildView::AddPower(CTilePower::PowerType type)
 	mCity.Add(tile);
 	Invalidate();
 }
+
+
+void CChildView::OnConstructionGrasssite()
+{
+	auto tile = make_shared<CTileConstruction>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
+}
+
+

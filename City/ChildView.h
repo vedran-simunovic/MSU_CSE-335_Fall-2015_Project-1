@@ -143,8 +143,11 @@ public:
 	afx_msg void OnTransportationPlainroad();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	
-	afx_msg void OnConstructionPotentialgrasssite();
+	
 	afx_msg void OnBorderConstructional();
 	afx_msg void OnUpdateBorderConstructional(CCmdUI *pCmdUI);
+	afx_msg void OnConstructionGrasssite();
+	afx_msg void OnBorderConstruction();
+	afx_msg void OnUpdateBorderConstruction(CCmdUI *pCmdUI);
 };
 
