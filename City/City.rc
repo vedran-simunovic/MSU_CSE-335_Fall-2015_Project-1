@@ -169,6 +169,12 @@ BEGIN
         MENUITEM "Inclined Road",               ID_TRANSPORTATION_INCLINEDROAD
         MENUITEM "Plain Road",                  ID_TRANSPORTATION_PLAINROAD
     END
+    POPUP "Tiles Info"
+    BEGIN
+        MENUITEM "Tiles in City",               ID_TILESINFO_TILESINCITY
+        MENUITEM "Partially Overlapping",       ID_TILESINFO_PARTIALLYOVERLAPPING
+        MENUITEM "Fully Overlapping",           ID_TILESINFO_FULLYOVERLAPPING
+    END
     POPUP "&Help"
     BEGIN
         MENUITEM "&About City...",              ID_APP_ABOUT
