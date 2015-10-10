@@ -308,7 +308,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 
-	auto tile = mCity.HitTest(point.x + mOriginOffsetX, point.y + mOriginOffsetY);
+	auto tile = mCity.HitTest(point.x + mScrollOffsetX, point.y + mScrollOffsetY);
     if (tile != nullptr) 
     {
 		/// If the double clicked tile is a transportation tile, we need to rotate it.
@@ -417,7 +417,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	}
 	else {
-		mGrabbedItem = mCity.HitTest(point.x + mOriginOffsetX, point.y + mOriginOffsetY);
+		mGrabbedItem = mCity.HitTest(point.x + mScrollOffsetX, point.y + mScrollOffsetY);
 		if (mGrabbedItem != nullptr)
 		{
 			if (!mTrumpCheck)
