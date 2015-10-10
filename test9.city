@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<city><tile x="640" y="96" zoning="4" type="construction" construction_state="0" oremine_state="1" clearing_state="6" file="clearing6.png"/><tile x="384" y="96" zoning="4" type="construction" construction_state="0" oremine_state="1" clearing_state="7" file="clearing7.png"/><tile x="160" y="96" zoning="4" type="construction" construction_state="0" oremine_state="1" clearing_state="0" file="grass1.png"/></city>
