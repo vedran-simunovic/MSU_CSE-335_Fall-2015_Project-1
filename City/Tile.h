@@ -67,7 +67,7 @@ public:
 
     /** \brief Draw this item
     * \param graphics The graphics context to draw on */
-    virtual void Draw(Gdiplus::Graphics *graphics);
+    virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
     virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen);
 
@@ -75,7 +75,7 @@ public:
     * \param x X location on the aquarium to test
     * \param y Y location on the aquarium to test
     * \return true if clicked on */
-    virtual bool HitTest(int x, int y);
+	bool HitTest(int x, int y, double offsetX, double offsetY);
 
     virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node);
     virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
@@ -145,5 +145,7 @@ private:
 
     /// Any zoning for this property
     Zonings mZoning = NONE;
+
+	
 };
 

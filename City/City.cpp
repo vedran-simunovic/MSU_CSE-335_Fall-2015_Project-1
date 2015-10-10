@@ -38,11 +38,11 @@ CCity::~CCity()
 /** \brief Draw the city
 * \param graphics The GDI+ graphics context to draw on
 */
-void CCity::OnDraw(Gdiplus::Graphics *graphics)
+void CCity::OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY)
 {
     for (auto item : mTiles)
     {
-        item->Draw(graphics);
+        item->Draw(graphics, offsetX, offsetY);
     }
 }
 
@@ -63,11 +63,11 @@ void CCity::Add(std::shared_ptr<CTile> tile)
 * \param y Y location
 * \returns Pointer to item we clicked on or nullptr if none.
 */
-std::shared_ptr<CTile> CCity::HitTest(int x, int y)
+std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offsetY)
 {
     for (auto i = mTiles.rbegin(); i != mTiles.rend(); i++)
     {
-        if ((*i)->HitTest(x, y))
+        if ((*i)->HitTest(x, y, offsetX, offsetY))
         {
             return *i;
         }

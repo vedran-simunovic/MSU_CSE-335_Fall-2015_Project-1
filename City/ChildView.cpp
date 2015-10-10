@@ -45,6 +45,12 @@ const int InitialY = CCity::GridSpacing * 3;
 /// Margin of trashcan from side and bottom in pixels
 const int TrashcanMargin = 5;
 
+/// Margin of trashcan from side and bottom in pixels
+const int ScrollMarginTop = 0;
+
+/// Margin of trashcan from side and bottom in pixels
+const int ScrollMarginRight = 0;
+
 /// The number of pixels for one item on power tool bar
 const int PowerToolbarRegion = 64;
 
@@ -67,7 +73,17 @@ CChildView::CChildView()
 	if (mPowerToolbar->GetLastStatus() != Ok)
 	{
 		AfxMessageBox(L"Failed to open images/toolbar-power.png");
-}
+	}
+
+	
+
+	mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+	if (mTrashcan->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/nav1.png");
+	}
+	// Load scrolling menu
+	
 }
 
 /**
@@ -216,6 +232,29 @@ void CChildView::OnPaint()
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
 
+
+
+
+	
+
+	int mScrollToolbarTop = 0;
+	int mScrollToolbarLeft = 0;
+    /*
+     * Actually Draw the city
+     */
+	graphics.SetPageUnit(UnitPixel);
+	graphics.SetPageScale(4);
+	mCity.OnDraw(&graphics, mScrollOffsetX, mScrollOffsetY);
+
+	// Draw scrolling menu
+	graphics.SetPageScale(1);
+
+	mScrollTop = ScrollMarginTop;
+	mScrollLeft = rect.Width() - mScroll->GetWidth() - ScrollMarginRight;
+
+	graphics.DrawImage(mScroll.get(), mScrollLeft, mScrollTop,
+		mScroll->GetWidth(), mScroll->GetHeight());
+
 	if (mPowerActivate){
 		// Bottom minus image size minus margin is top of the image
 		mPowerToolbarTop = rect.Height() - mPowerToolbar->GetHeight();
@@ -224,13 +263,6 @@ void CChildView::OnPaint()
 		graphics.DrawImage(mPowerToolbar.get(), mPowerToolbarLeft, mPowerToolbarTop,
 			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
 	}
-
-
-    /*
-     * Actually Draw the city
-     */
-    mCity.OnDraw(&graphics);
-
 
 	Pen pen(Color::Green, 2);
 
@@ -283,7 +315,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 
-    auto tile = mCity.HitTest(point.x, point.y);
+	auto tile = mCity.HitTest(point.x, point.y, mScrollOffsetX, mScrollOffsetY);
     if (tile != nullptr) 
     {
 		/// If the double clicked tile is a transportation tile, we need to rotate it.
@@ -365,28 +397,58 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 
-	mGrabbedItem = mCity.HitTest(point.x, point.y);
-	if (mGrabbedItem != nullptr)
+
+	if (point.x > mScrollLeft && point.y < mScroll->GetHeight())
 	{
-		if (!mTrumpCheck)
+		if (mScrollActivate == false)
 		{
-			// We grabbed something
-			// Move it to the front
-			mCity.MoveToFront(mGrabbedItem);
-			Invalidate();
+			mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
+			mScrollActivate = true;
 		}
 		else
 		{
-			// Instantiate the visitor
-			CTrump visitor;
-
-			// Send to JUST this one time
-			mGrabbedItem->Accept(&visitor);
-
-			// Clear this since we don't want to then drag
-			mGrabbedItem = false;
+			mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+			mScrollActivate = false;
 		}
 	}
+
+
+	if (mScrollActivate)
+	{
+		if (mStartScroll == false)
+		{
+			mStartX = point.x;
+			mStartY = point.y;
+			mStartScroll = true;
+		}
+
+	}
+	else {
+		mGrabbedItem = mCity.HitTest(point.x, point.y, mScrollOffsetX, mScrollOffsetY);
+		if (mGrabbedItem != nullptr)
+		{
+			if (!mTrumpCheck)
+			{
+				// We grabbed something
+				// Move it to the front
+				mCity.MoveToFront(mGrabbedItem);
+				Invalidate();
+			}
+			else
+			{
+				// Instantiate the visitor
+				CTrump visitor;
+
+				// Send to JUST this one time
+				mGrabbedItem->Accept(&visitor);
+
+				// Clear this since we don't want to then drag
+				mGrabbedItem = false;
+			}
+		}
+	}
+
+
 }
 
 /** \brief Called when the left mouse button is released
@@ -396,6 +458,8 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
     OnMouseMove(nFlags, point);
+
+
 }
 
 
@@ -406,37 +470,61 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 */
 void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
+	if (mScrollActivate) 
+	{
+		if (nFlags & MK_LBUTTON)
+		{
+			mScrollOffsetX = point.x - mStartX + mOriginOffsetX;
+			mScrollOffsetY = point.y - mStartY + mOriginOffsetY;
+			
+		}
+		else
+		{
+			mStartScroll = false;
+			mOriginOffsetX = mScrollOffsetX;
+			mOriginOffsetY = mScrollOffsetY;
+		}
+
+
+
+	}
+	else
+	{
+		if (mGrabbedItem != nullptr)
+		{
+			// If an item is being moved, we only continue to 
+			// move it while the left button is down.
+			if (nFlags & MK_LBUTTON)
+			{
+				mGrabbedItem->SetLocation(point.x - mScrollOffsetX, point.y - mScrollOffsetY);
+			}
+			else
+			{
+				// When the left button is released we release
+				// the item. If we release it on the trashcan,
+				// delete it.
+				if (point.x < mTrashcanRight && point.y > mTrashcanTop)
+				{
+					// We have clicked on the trash can
+					mCity.DeleteItem(mGrabbedItem);
+				}
+				else
+				{
+					mGrabbedItem->QuantizeLocation();
+				}
+
+				mCity.SortTiles();
+				mGrabbedItem = nullptr;
+			}
+		}
+
+	}
     // See if an item is currently being moved by the mouse
-    if (mGrabbedItem != nullptr)
-    {
-        // If an item is being moved, we only continue to 
-        // move it while the left button is down.
-        if (nFlags & MK_LBUTTON)
-        {
-            mGrabbedItem->SetLocation(point.x, point.y);
-        }
-        else
-        {
-            // When the left button is released we release
-            // the item. If we release it on the trashcan,
-            // delete it.
-            if (point.x < mTrashcanRight && point.y > mTrashcanTop)
-            {
-                // We have clicked on the trash can
-                mCity.DeleteItem(mGrabbedItem);
-            }
-            else
-            {
-                mGrabbedItem->QuantizeLocation();
-            }
+    
 
-            mCity.SortTiles();
-            mGrabbedItem = nullptr;
-        }
+    // Force the screen to redraw
+	Invalidate();
 
-        // Force the screen to redraw
-        Invalidate();
-    }
 }
 
 /**
@@ -842,7 +930,7 @@ void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 
-	mGrabbedItem = mCity.HitTest(point.x, point.y);
+	mGrabbedItem = mCity.HitTest(point.x, point.y, mOriginOffsetX, mOriginOffsetY);
 	if (mGrabbedItem != nullptr)
 	{
 		if (mPowerActivate)
