@@ -14,6 +14,7 @@
 #include "City.h"
 #include "Tile.h"
 #include "TilePower.h"
+#include "TileTransportation.h"
 
 class CTile;
 
@@ -59,29 +60,14 @@ protected:
 private:
     void AddBuilding(const std::wstring &file);
     void AddLandscape(const std::wstring &file);
-	void CChildView::AddPower(CTilePower::PowerType);
+	void AddPower(CTilePower::PowerType);
+	void AddTransportation(CTileTransportation::TransTileType type);
 
     /// The city
     CCity mCity;
 
 	/// The zoning
 	CTile::Zonings mZoning = CTile::NONE;
-
-	/// Checkmark for None option
-	bool mNoneCheck = false;
-
-	/// Checkmark for residential option
-	bool mResidentialCheck = false;
-
-	/// Checkmark for industrial option
-	bool mIndustrialCheck = false;
-
-	/// Checkmark for agricultural option
-	bool mAgriculturalCheck = false;
-
-
-	/// Checkmark for the potential grass construction site icon
-	bool mConstructionalCheck = false;
 
 	/// Checkmark for the trump option
 	bool mTrumpCheck = false;
@@ -169,5 +155,9 @@ public:
 	afx_msg void OnConstructionGrasssite();
 	afx_msg void OnBorderConstruction();
 	afx_msg void OnUpdateBorderConstruction(CCmdUI *pCmdUI);
+	afx_msg void OnBorderTransportation();
+	afx_msg void OnBorderPower();
+	afx_msg void OnUpdateBorderTransportation(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateBorderPower(CCmdUI *pCmdUI);
 };
 

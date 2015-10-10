@@ -147,6 +147,10 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_CONSTRUCTION_GRASSSITE, &CChildView::OnConstructionGrasssite)
 	ON_COMMAND(ID_BORDER_CONSTRUCTION, &CChildView::OnBorderConstruction)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_CONSTRUCTION, &CChildView::OnUpdateBorderConstruction)
+	ON_COMMAND(ID_BORDER_TRANSPORTATION, &CChildView::OnBorderTransportation)
+	ON_COMMAND(ID_BORDER_POWER, &CChildView::OnBorderPower)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_TRANSPORTATION, &CChildView::OnUpdateBorderTransportation)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_POWER, &CChildView::OnUpdateBorderPower)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -275,13 +279,11 @@ void CChildView::OnPaint()
 
 	// draw box only over the tile elements selected.
 
-	if (mNoneCheck || mAgriculturalCheck || mIndustrialCheck || mResidentialCheck || mConstructionalCheck)
+	for (auto tile : mCity.GetZoning(mZoning))		
 	{
-		for (auto tile : mCity.GetZoning(mZoning))		
-		{
-			tile->DrawBorder(&graphics, &pen);
-		}
+		tile->DrawBorder(&graphics, &pen);
 	}
+	
 	/*else
 	{
 		// if no checkmarks, then don't draw a green border
@@ -736,63 +738,42 @@ void CChildView::OnLandscapingBigtrees()
 void CChildView::OnBorderNone()
 {
 	mZoning = CTile::NONE;
-	mNoneCheck = !mNoneCheck;
-	//mNoneCheck = true;
-	mResidentialCheck = false;
-	mIndustrialCheck = false;
-	mAgriculturalCheck = false;
-	mConstructionalCheck = false;
 }
 
 /** Menu handler that sets the border draw to residential*/
 void CChildView::OnBorderResidential()
 {
 	mZoning = CTile::RESIDENTIAL;
-	mNoneCheck = false;
-	mResidentialCheck = !mResidentialCheck;
-	//mResidentialCheck = true;
-	mIndustrialCheck = false;
-	mAgriculturalCheck = false;
-	mConstructionalCheck = false;
 }
 
 /** Menu handler that sets the border draw to industrial */
 void CChildView::OnBorderIndustrial()
 {
 	mZoning = CTile::INDUSTRIAL;
-	mNoneCheck = false;
-	mResidentialCheck = false;
-	mIndustrialCheck = !mIndustrialCheck;
-	//mIndustrialCheck = true;
-	mAgriculturalCheck = false;
-	mConstructionalCheck = false;
 }
 
 /** Menu handler that sets the border draw to agricultural */
 void CChildView::OnBorderAgricultural()
 {
 	mZoning = CTile::AGRICULTURAL;
-	mNoneCheck = false;
-	mResidentialCheck = false;
-	mIndustrialCheck = false;
-	mAgriculturalCheck = !mAgriculturalCheck;
-	mConstructionalCheck = false;
-	//mAgriculturalCheck = true;
 }
 
 
 void CChildView::OnBorderConstruction()
 {
 	mZoning = CTile::CONSTRUCTIONAL;
-	mNoneCheck = false;
-	mResidentialCheck = false;
-	mIndustrialCheck = false;
-	mAgriculturalCheck = false;
-	mConstructionalCheck = !mConstructionalCheck;
-	//mAgriculturalCheck = true;
+}
+
+void CChildView::OnBorderTransportation()
+{
+	mZoning = CTile::TRANSPORTATION;
 }
 
 
+void CChildView::OnBorderPower()
+{
+	mZoning = CTile::POWER;
+}
 
 
 
@@ -801,7 +782,7 @@ void CChildView::OnBorderConstruction()
 */
 void CChildView::OnUpdateBorderNone(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(mNoneCheck);
+	pCmdUI->SetCheck(mZoning == CTile::NONE);
 }
 
 
@@ -810,7 +791,7 @@ void CChildView::OnUpdateBorderNone(CCmdUI *pCmdUI)
 */
 void CChildView::OnUpdateBorderResidential(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(mResidentialCheck);
+	pCmdUI->SetCheck(mZoning == CTile::RESIDENTIAL);
 }
 
 /** Menu handler that sets the border draw to industrial
@@ -818,7 +799,7 @@ void CChildView::OnUpdateBorderResidential(CCmdUI *pCmdUI)
 */
 void CChildView::OnUpdateBorderIndustrial(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(mIndustrialCheck);
+	pCmdUI->SetCheck(mZoning == CTile::INDUSTRIAL);
 }
 
 /** Menu handler that sets the border draw to agricultural 
@@ -826,7 +807,7 @@ void CChildView::OnUpdateBorderIndustrial(CCmdUI *pCmdUI)
 */
 void CChildView::OnUpdateBorderAgricultural(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(mAgriculturalCheck);
+	pCmdUI->SetCheck(mZoning == CTile::AGRICULTURAL);
 }
 
 
@@ -838,7 +819,7 @@ void CChildView::OnUpdateBorderConstructional(CCmdUI *pCmdUI)
 
 void CChildView::OnUpdateBorderConstruction(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(mConstructionalCheck);
+	pCmdUI->SetCheck(mZoning == CTile::CONSTRUCTIONAL);
 }
 
 
@@ -904,13 +885,8 @@ void CChildView::OnUpdatePowerBuild(CCmdUI *pCmdUI)
  */
 void CChildView::OnTransportationCurvedroad()
 {
-	auto tile = make_shared<CTileTransportation>(&mCity);
-	tile->SetTransType(CTileTransportation::CURVED);
-	tile->SetZoning(CTile::TRANSPORTATION);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetImage(L"road_ab.png");
-	mCity.Add(tile);
-	Invalidate();
+	AddTransportation(CTileTransportation::CURVED);
+
 }
 
 
@@ -919,13 +895,8 @@ void CChildView::OnTransportationCurvedroad()
  */
 void CChildView::OnTransportationRoad()
 {
-	auto tile = make_shared<CTileTransportation>(&mCity);
-	tile->SetTransType(CTileTransportation::FLAT);
-	tile->SetZoning(CTile::TRANSPORTATION);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetImage(L"road_ac.png");
-	mCity.Add(tile);
-	Invalidate();
+	AddTransportation(CTileTransportation::FLAT);
+
 }
 
 
@@ -934,13 +905,8 @@ void CChildView::OnTransportationRoad()
  */
 void CChildView::OnTransportationElevatedroad()
 {
-	auto tile = make_shared<CTileTransportation>(&mCity);
-	tile->SetTransType(CTileTransportation::ELEVATED);
-	tile->SetZoning(CTile::TRANSPORTATION);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetImage(L"roadbridge_ac.png");
-	mCity.Add(tile);
-	Invalidate();
+	AddTransportation(CTileTransportation::ELEVATED);
+
 }
 
 
@@ -949,13 +915,9 @@ void CChildView::OnTransportationElevatedroad()
  */
 void CChildView::OnTransportationInclinedroad()
 {
-	auto tile = make_shared<CTileTransportation>(&mCity);
-	tile->SetZoning(CTile::TRANSPORTATION);
-	tile->SetTransType(CTileTransportation::INCLINED);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetImage(L"roadrampa_ac.png");
-	mCity.Add(tile);
-	Invalidate();
+
+	AddTransportation(CTileTransportation::INCLINED);
+
 }
 
 
@@ -966,13 +928,7 @@ void CChildView::OnTransportationInclinedroad()
  */
 void CChildView::OnTransportationPlainroad()
 {
-	auto tile = make_shared<CTileTransportation>(&mCity);
-	tile->SetZoning(CTile::TRANSPORTATION);
-	tile->SetTransType(CTileTransportation::PLAIN);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetImage(L"roadint_abc.png");
-	mCity.Add(tile);
-	Invalidate();
+	AddTransportation(CTileTransportation::PLAIN);
 }
 
 
@@ -1010,6 +966,20 @@ void CChildView::AddPower(CTilePower::PowerType type)
 {
 	auto tile = make_shared<CTilePower>(&mCity, type);
 	tile->SetLocation(InitialX, InitialY);
+	tile->SetZoning(CTile::POWER);
+	mCity.Add(tile);
+	Invalidate();
+}
+
+/**
+* \brief Add a CTilePower tile to the drawing.
+* \param type type of power tile
+*/
+void CChildView::AddTransportation(CTileTransportation::TransTileType type)
+{
+	auto tile = make_shared<CTileTransportation>(&mCity, type);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetZoning(CTile::TRANSPORTATION);
 	mCity.Add(tile);
 	Invalidate();
 }
@@ -1023,4 +993,13 @@ void CChildView::OnConstructionGrasssite()
 	Invalidate();
 }
 
+void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::TRANSPORTATION);
+}
 
+
+void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::POWER);
+}
