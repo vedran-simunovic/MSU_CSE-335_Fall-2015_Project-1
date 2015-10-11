@@ -160,5 +160,7 @@ public:
 	afx_msg void OnUpdateBorderTransportation(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderPower(CCmdUI *pCmdUI);
 	afx_msg void OnTilesinfoTilesincity();
+	afx_msg void OnTilesinfoPartiallyoverlapping();
+	afx_msg void OnTilesinfoFullyoverlapping();
 };
 

@@ -450,3 +450,103 @@ int CCity::CountTiles()
 {
 	return mTiles.size();
 }
+
+int CCity::CountPartialOverlapping(double widT, double hitT)
+{
+	int totalOverlaps = 0;
+
+	double iX;
+	double iY;
+
+	double jX;
+	double jY;
+
+	double centerX;
+	double centerY;
+
+	bool increment = false;
+
+	for (auto tile : mTiles)
+	{
+		iX = tile->GetX();
+		iY = tile->GetY();
+
+		for (auto tile : mTiles)
+		{
+			centerX= tile->GetX();
+			centerY = tile->GetY();
+
+			jX = centerX - 64;
+			jY = centerY;
+			//Left Corner
+			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
+				increment = true;
+
+			jX = centerX + 64;
+			jY = centerY;
+			//Right Corner
+			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
+				increment = true;
+
+			jX = centerX;
+			jY = centerY + 32;
+			//Top Corner
+			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
+				increment = true;
+
+			jX = centerX;
+			jY = centerY - 32;
+			//Bottom Corner
+			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
+				increment = true;
+			
+			if (increment == true)
+				totalOverlaps++;
+
+			increment = false;
+		}
+	}
+	//return (totalOverlaps - mTiles.size()) / 2;
+	return totalOverlaps;
+	//x > trashcanTopLeftCornerX && x < trashcanTopLeftCornerX + widT
+	//	&& y > trashcanTopLeftCornerY && y < trashcanTopLeftCornerY + hitT;
+
+	// Take total overlaps
+	// subtract the number of tiles from that number, i.e. getSize
+	// divide that number by 2, to get the total overlaps and or
+}
+
+int CCity::CountFullyOverlapping(double widthOfScreen, double heightOfScreen)
+{
+	int totalOverlaps = 0;
+
+	double centerXi;
+	double centerYi;
+
+	double centerXj;
+	double centerYj;
+
+	bool increment = false;
+
+	for (auto tile : mTiles)
+	{
+		centerXi = tile->GetX();
+		centerYi = tile->GetY();
+
+		for (auto tile : mTiles)
+		{
+			centerXj = tile->GetX();
+			centerYj = tile->GetY();
+
+			if (centerXi == centerXj && centerYi == centerYj)
+				increment = true;
+
+			if (increment == true)
+				totalOverlaps++;
+
+			increment = false;
+		}
+	}
+	return (totalOverlaps - mTiles.size()) / 2;
+	//return totalOverlaps;
+}

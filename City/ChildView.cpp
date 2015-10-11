@@ -78,7 +78,7 @@ CChildView::CChildView()
 	
 
 	mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
-	if (mTrashcan->GetLastStatus() != Ok)
+	if (mScroll->GetLastStatus() != Ok)
 	{
 		AfxMessageBox(L"Failed to open images/nav1.png");
 	}
@@ -152,6 +152,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_TRANSPORTATION, &CChildView::OnUpdateBorderTransportation)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_POWER, &CChildView::OnUpdateBorderPower)
 	ON_COMMAND(ID_TILESINFO_TILESINCITY, &CChildView::OnTilesinfoTilesincity)
+	ON_COMMAND(ID_TILESINFO_PARTIALLYOVERLAPPING, &CChildView::OnTilesinfoPartiallyoverlapping)
+	ON_COMMAND(ID_TILESINFO_FULLYOVERLAPPING, &CChildView::OnTilesinfoFullyoverlapping)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -1015,5 +1017,41 @@ void CChildView::OnTilesinfoTilesincity()
 
 	/// Displaying that information
 	str << L"There are " << cnt << L" buildings.";
+	AfxMessageBox(str.str().c_str());
+}
+
+// Partial test
+void CChildView::OnTilesinfoPartiallyoverlapping()
+{
+
+
+	int i;
+	CRect rect;
+	GetClientRect(&rect);
+	i = mCity.CountPartialOverlapping(rect.Width(), rect.Height());
+
+
+
+	wstringstream str;
+
+	/// Displaying that information
+	str << L"There are " << i << L" partially overlapping tiles.";
+	AfxMessageBox(str.str().c_str());
+}
+
+// Full test
+void CChildView::OnTilesinfoFullyoverlapping()
+{
+	int i;
+	CRect rect;
+	GetClientRect(&rect);
+	i = mCity.CountFullyOverlapping(rect.Width(), rect.Height());
+
+
+
+	wstringstream str;
+
+	/// Displaying that information
+	str << L"There are " << i << L" fully overlapping tiles.";
 	AfxMessageBox(str.str().c_str());
 }
