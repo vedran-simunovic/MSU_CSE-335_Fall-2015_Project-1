@@ -442,3 +442,11 @@ void CCity::Accept(CTileVisitor *visitor)
 		tile->Accept(visitor);
 	}
 }
+
+/** Count the number of tiles
+* \param visitor The visitor for the collection
+*/
+int CCity::CountTiles()
+{
+	return mTiles.size();
+}

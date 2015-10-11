@@ -1006,14 +1006,8 @@ void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
 
 void CChildView::OnTilesinfoTilesincity()
 {
-	/// Creating a visitor
-	CBuildingCounter visitor;
-
-	/// Accepting the visitor
-	mCity.Accept(&visitor);
-
-	/// Using the visitor to get information
-	int cnt = visitor.GetNumBuildings();
+	
+	int cnt = mCity.CountTiles();
 
 	wstringstream str;
 
