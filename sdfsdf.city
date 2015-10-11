@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<city><tile x="160" y="96" zoning="0" type="coalmine" production_level="4" trump_level="0" file="coalmine-full.png"/><tile x="448" y="128" zoning="0" type="coalmine" production_level="0" trump_level="2" file="burnt_land.png"/><tile x="192" y="160" zoning="0" type="coalmine" production_level="1" trump_level="0" file="coalmine-low.png"/><tile x="352" y="224" zoning="0" type="coalmine" production_level="2.5" trump_level="1" file="coalmine-med.png"/></city>
