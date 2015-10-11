@@ -25,6 +25,8 @@
 #include "TileTransportation.h"
 #include "PowerRotate.h"
 #include "TileCar.h"
+#include "TileStadium.h"
+#include "TileOremine.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -951,8 +953,6 @@ void CChildView::OnTransportationPlainroad()
  */
 void CChildView::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
-
 	mGrabbedItem = mCity.HitTest(point.x, point.y, mOriginOffsetX, mOriginOffsetY);
 	if (mGrabbedItem != nullptr)
 	{
@@ -999,9 +999,29 @@ void CChildView::AddTransportation(CTileTransportation::TransTileType type)
 
 void CChildView::OnConstructionGrasssite()
 {
-	auto tile = make_shared<CTileConstruction>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	mCity.Add(tile);
+	// Take the floating point "mDuration" and move the decimal over
+	// This will move the decimal over by 8 places
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+
+	// Test if that number is even or odd. This is the randomness
+	if (time.QuadPart % 2 == 0)
+	{
+		auto tile = make_shared<CTileStadium>(&mCity);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::CONSTRUCTIONAL);
+		mCity.Add(tile);
+	}
+	else
+	{	
+		auto tile = make_shared<CTileOremine>(&mCity);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::CONSTRUCTIONAL);
+		mCity.Add(tile);
+	}
+	
+	//auto tile = make_shared<CTileConstruction>(&mCity);
+	
 	Invalidate();
 }
 
@@ -1018,8 +1038,7 @@ void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
 
 
 void CChildView::OnTilesinfoTilesincity()
-{
-	
+{	
 	int cnt = mCity.CountTiles();
 
 	wstringstream str;
@@ -1039,15 +1058,10 @@ void CChildView::OnTransportationCar()
 // Partial test
 void CChildView::OnTilesinfoPartiallyoverlapping()
 {
-
-
 	int i;
 	CRect rect;
 	GetClientRect(&rect);
 	i = mCity.CountPartialOverlapping(rect.Width(), rect.Height());
-
-
-
 	wstringstream str;
 
 	/// Displaying that information
@@ -1062,9 +1076,6 @@ void CChildView::OnTilesinfoFullyoverlapping()
 	CRect rect;
 	GetClientRect(&rect);
 	i = mCity.CountFullyOverlapping(rect.Width(), rect.Height());
-
-
-
 	wstringstream str;
 
 	/// Displaying that information

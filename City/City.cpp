@@ -223,6 +223,7 @@ void CCity::XmlTile(const std::shared_ptr<CXmlNode> &node)
     }
 	else if (type == L"construction")
 	{
+
 		tile = make_shared<CTileConstruction>(this);
 	}
 	else if (type == L"transportation")

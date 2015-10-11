@@ -1,10 +1,75 @@
+/**
+ * \file TileOremine.h
+ *
+ * \author Vedran Simunovic
+ *
+ * Oremine class to draw oremine
+ */
+
 #pragma once
 #include "TileConstruction.h"
+/**
+ * This class draws the stadium
+ */
 class CTileOremine :
 	public CTileConstruction
 {
 public:
-	CTileOremine();
+	CTileOremine(CCity *city);
+
+	/// \brief Default constructor (disabled)
+	CTileOremine() = delete;
+
+	/// \brief Copy constructor (disabled)
+	CTileOremine(const CTileOremine &) = delete;
+
 	~CTileOremine();
+
+	/// The possible oremine levels
+	enum OremineLevel {
+		OREMINE_1 = 1,   ///< Oremine step 1
+		OREMINE_2 = 2,   ///< Oremine step 2
+		OREMINE_3 = 3,   ///< Oremine step 3
+		OREMINE_4 = 4,   ///< Oremine step 4
+		OREMINE_5 = 5,   ///< Oremine step 5
+		OREMINE_6 = 6,   ///< Oremine step 6
+		OREMINE_7 = 7,   ///< Oremine step 7
+		OREMINE_8 = 8,   ///< Oremine step 8
+	};    ///< Oremine level tracker
+
+	void Update(double elapsed);
+
+	/** Sets the clearing flag to signify the start of construction */
+	virtual void SetClearFlag() override { mStartClearing = true; }
+
+	/** Gets the clearing flag to signify the start of construction
+	* \return mStartClearing The clearing flag of the construction */
+	bool GetClearFlag() { return mStartClearing; }
+
+	/** Sets the oremine level
+	* \param oremineLevel The ormine level to be newly set */
+	void SetOremineLevel(OremineLevel oremineLevel) { mOremineLevel = oremineLevel; }
+
+	/** Gets the oremine level
+	* \return mOremineLevel The oremine level of the oremine */
+	OremineLevel GetOremineLevel() { return mOremineLevel; }
+
+	/** Sets the construction flag to signify the start of construction */
+	virtual void SetStartFlag(bool start) { mStartConstruction = start; }
+
+private:
+	OremineLevel mOremineLevel = OREMINE_1; ///< The current clearing level
+
+	bool mStartClearing = false; ///< This is a flag for the tile so that it knows to start clearing
+
+	bool mStartConstruction = false; ///< This is a flag for the tile so that it knows to start clearing
+
+	double mDuration = 0; ///< Duration of time the animations have been changing.
+
+	std::wstring mFile; ///< File that the image will be saved from
+
+	/// This is a flag that helps the program know if it is supposed
+	/// to transition from 1 to 2, 2 -> 3 etc......or 3->2 , 2->1 etc.
+	bool mRising = true;
 };
 
