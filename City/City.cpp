@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include <algorithm>
+#include <cmath>
 
 #include "City.h"
 #include "Tile.h"
@@ -479,6 +480,40 @@ int CCity::CountPartialOverlapping(double widT, double hitT)
 			jX = centerX - 64;
 			jY = centerY;
 			//Left Corner
+			if ( abs(iX-jX) + 2*abs(iX-jY) <= 64 )
+				increment = true;
+
+			jX = centerX + 64;
+			jY = centerY;
+			//Right Corner
+			if (abs(iX - jX) + 2 * abs(iX - jY) <= 64)
+				increment = true;
+
+			jX = centerX;
+			jY = centerY + 32;
+			//Top Corner
+			if (abs(iX - jX) + 2 * abs(iX - jY) <= 64)
+				increment = true;
+
+			jX = centerX;
+			jY = centerY - 32;
+			//Bottom Corner
+			if (abs(iX - jX) + 2 * abs(iX - jY) <= 64)
+				increment = true;
+
+			//Vedran's equation for a square
+
+			//Nan's Equations for a diamond
+			/*
+			jX = centerX;
+			jY = centerY - 32;
+			//Bottom Corner
+			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
+				increment = true;
+			
+			jX = centerX - 64;
+			jY = centerY;
+			//Left Corner
 			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
 				increment = true;
 
@@ -499,7 +534,8 @@ int CCity::CountPartialOverlapping(double widT, double hitT)
 			//Bottom Corner
 			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
 				increment = true;
-			
+			*/
+
 			if (increment == true)
 				totalOverlaps++;
 
