@@ -477,28 +477,30 @@ int CCity::CountPartialOverlapping(double widT, double hitT)
 			centerX= tile->GetX();
 			centerY = tile->GetY();
 
+			//increment = false;
+
 			jX = centerX - 64;
 			jY = centerY;
 			//Left Corner
-			if ( abs(iX-jX) + 2*abs(iX-jY) <= 64 )
+			if ( abs(iX-jX) + 2*abs(iY-jY) <= 64 )
 				increment = true;
 
 			jX = centerX + 64;
 			jY = centerY;
 			//Right Corner
-			if (abs(iX - jX) + 2 * abs(iX - jY) <= 64)
+			if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
 				increment = true;
 
 			jX = centerX;
 			jY = centerY + 32;
 			//Top Corner
-			if (abs(iX - jX) + 2 * abs(iX - jY) <= 64)
+			if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
 				increment = true;
 
 			jX = centerX;
 			jY = centerY - 32;
 			//Bottom Corner
-			if (abs(iX - jX) + 2 * abs(iX - jY) <= 64)
+			if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
 				increment = true;
 
 			//Vedran's equation for a square
