@@ -824,19 +824,15 @@ void CChildView::OnUpdateBorderAgricultural(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mZoning == CTile::AGRICULTURAL);
 }
 
-
 void CChildView::OnUpdateBorderConstructional(CCmdUI *pCmdUI)
 {
 	
 }
 
-
 void CChildView::OnUpdateBorderConstruction(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::CONSTRUCTIONAL);
 }
-
-
 
 /** Menu handler that counts the number of builds */
 void CChildView::OnBuildingsCount()
@@ -913,7 +909,6 @@ void CChildView::OnTransportationRoad()
 
 }
 
-
 /**
  * 
  */
@@ -922,7 +917,6 @@ void CChildView::OnTransportationElevatedroad()
 	AddTransportation(CTileTransportation::ELEVATED);
 
 }
-
 
 /**
  * 
@@ -933,9 +927,6 @@ void CChildView::OnTransportationInclinedroad()
 	AddTransportation(CTileTransportation::INCLINED);
 
 }
-
-
-
 
 /**
  * 

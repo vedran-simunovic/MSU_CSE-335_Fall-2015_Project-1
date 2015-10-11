@@ -68,6 +68,7 @@ namespace xmlnode
         std::wstring GetAttributeValue(const std::wstring &name, const std::wstring &def);
         int GetAttributeIntValue(const std::wstring &name, int def);
         double GetAttributeDoubleValue(const std::wstring &name, double def);
+		bool GetAttributeBoolValue(const std::wstring &name, const std::wstring &def);
 
         void SetAttribute(const std::wstring &name, const std::wstring &val);
         void SetAttribute(const std::wstring &name, int val);

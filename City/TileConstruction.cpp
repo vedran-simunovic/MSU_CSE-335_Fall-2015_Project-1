@@ -187,3 +187,24 @@ void CTileConstruction::Update(double elapsed)
 	} // end clearing sequence
 }
 
+
+/** \brief Save this item to an XML node
+* \param node The node we are going to be a child of
+* \returns Allocated node
+*/
+std::shared_ptr<xmlnode::CXmlNode> CTileConstruction::XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	auto itemNode = CTile::XmlSave(node);
+	itemNode->SetAttribute(L"clearing_state", (int)GetClearingLevel());
+	return itemNode;
+}
+
+/**
+* brief Load the attributes for an item node.
+* \param node The Xml node we are loading the item from
+*/
+void CTileConstruction::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	CTile::XmlLoad(node);
+	SetClearingLevel((CTileConstruction::Clearing)node->GetAttributeIntValue(L"clearing_state", 0));
+}

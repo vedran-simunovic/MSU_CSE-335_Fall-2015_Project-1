@@ -210,8 +210,6 @@ double CXmlNode::GetDoubleValue() const
 }
 
 
-
-
 /**
  * \brief Get an attribute.
  *
@@ -297,6 +295,29 @@ double CXmlNode::GetAttributeDoubleValue(const std::wstring &name, double def)
     return attr->GetDoubleValue();
 }
 
+/**
+* \brief Get the value of an attribute.
+* \param name Name of the attribute
+* \param def Default value to return if attribute does not exist.
+* \returns Attribute value as a bool or the default if does not exist.
+* \throws std::invalid_argument if no conversion could be performed
+* \throws std::out_of_range if the converted value would
+* fall out of the range of the result type or if the underlying function
+*/
+bool CXmlNode::GetAttributeBoolValue(const std::wstring &name, const std::wstring &def)
+{
+	std::shared_ptr<CXmlNode> attr = GetAttribute(name);
+	if (attr == nullptr)
+	{
+		return false;
+	}
+
+	if (attr->GetValue() == L"true")
+		return true;
+	else
+		return false;
+		
+}
 
 /**
  * \brief Set an attribute on this node.

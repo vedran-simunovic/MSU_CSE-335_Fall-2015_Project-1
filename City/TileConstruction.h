@@ -56,6 +56,9 @@ public:
 	/** Sets the construction flag to signify the start of construction */
 	virtual void SetStartFlag(bool start) { mStartConstruction = start; }
 
+	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
+	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
+
 private:
 	
 	double mDuration = 0;///< Duration of time the animations have been changing.

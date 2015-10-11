@@ -191,4 +191,46 @@ void CTileOremine::Update(double elapsed)
 	} //end oremine state machine
 }
 
+/** \brief Save this item to an XML node
+* \param node The node we are going to be a child of
+* \returns Allocated node
+*/
+std::shared_ptr<xmlnode::CXmlNode> CTileOremine::XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	auto itemNode = CTileConstruction::XmlSave(node);
+	itemNode->SetAttribute(L"file", GetFile());
+	itemNode->SetAttribute(L"type", L"oremine");
+	itemNode->SetAttribute(L"oremine_state", (int)GetOremineLevel());
 
+	if (mStartClearing == true)
+		itemNode->SetAttribute(L"startClearing", L"true");
+	else
+		itemNode->SetAttribute(L"startClearing", L"false");
+
+	if (mStartConstruction == true)
+		itemNode->SetAttribute(L"startConstruction", L"true");
+	else
+		itemNode->SetAttribute(L"startConstruction", L"false");
+
+	if (mRising == true)
+		itemNode->SetAttribute(L"rising", L"true");
+	else
+		itemNode->SetAttribute(L"rising", L"false");
+
+	return itemNode;
+}
+
+
+/**
+* brief Load the attributes for an item node.
+* \param node The Xml node we are loading the item from
+*/
+void CTileOremine::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	CTileConstruction::XmlLoad(node);
+	mStartClearing = node->GetAttributeBoolValue(L"startClearing", L"");
+	mStartConstruction = node->GetAttributeBoolValue(L"startConstruction", L"");
+	mRising = node->GetAttributeBoolValue(L"rising", L"");
+	SetOremineLevel((CTileOremine::OremineLevel)node->GetAttributeIntValue(L"oremine_state", 0));
+	SetImage(node->GetAttributeValue(L"file", L""));
+}

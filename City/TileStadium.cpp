@@ -63,4 +63,38 @@ void CTileStadium::Update(double elapsed)
 	}
 }
 
+/** \brief Save this item to an XML node
+* \param node The node we are going to be a child of
+* \returns Allocated node
+*/
+std::shared_ptr<xmlnode::CXmlNode> CTileStadium::XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	auto itemNode = CTileConstruction::XmlSave(node);
+	itemNode->SetAttribute(L"file", GetFile());
+	itemNode->SetAttribute(L"type", L"stadium");
 
+	if (mStartClearing == true)
+		itemNode->SetAttribute(L"startClearing", L"true");
+	else
+		itemNode->SetAttribute(L"startClearing", L"false");
+
+	if (mStartConstruction == true)
+		itemNode->SetAttribute(L"startConstruction", L"true");
+	else
+		itemNode->SetAttribute(L"startConstruction", L"false");
+
+	return itemNode;
+}
+
+
+/**
+* brief Load the attributes for an item node.
+* \param node The Xml node we are loading the item from
+*/
+void CTileStadium::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
+{
+	CTileConstruction::XmlLoad(node);
+	mStartClearing = node->GetAttributeBoolValue(L"startClearing", L"");
+	mStartConstruction = node->GetAttributeBoolValue(L"startConstruction", L"");
+	SetImage(node->GetAttributeValue(L"file", L""));
+}

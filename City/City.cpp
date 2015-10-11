@@ -17,6 +17,8 @@
 #include "TileConstruction.h"
 #include "TileTransportation.h"
 #include "TilePower.h"
+#include "TileOremine.h"
+#include "TileStadium.h"
 
 using namespace std;
 using namespace xmlnode;
@@ -221,10 +223,13 @@ void CCity::XmlTile(const std::shared_ptr<CXmlNode> &node)
     {
         tile = make_shared<CTileCoalmine>(this);
     }
-	else if (type == L"construction")
+	else if (type == L"stadium")
 	{
-
-		tile = make_shared<CTileConstruction>(this);
+		tile = make_shared<CTileStadium>(this);
+	}
+	else if (type == L"oremine")
+	{
+		tile = make_shared<CTileOremine>(this);
 	}
 	else if (type == L"transportation")
 	{
@@ -237,8 +242,9 @@ void CCity::XmlTile(const std::shared_ptr<CXmlNode> &node)
 
     if (tile != nullptr)
     {
-        tile->XmlLoad(node);
-        Add(tile);
+			tile->XmlLoad(node);
+			Add(tile);
+		
     }
 }
 
