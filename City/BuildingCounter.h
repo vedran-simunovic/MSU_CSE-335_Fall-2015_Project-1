@@ -25,6 +25,9 @@ public:
 	* \returns Number of buildings */
 	int GetNumBuildings() const { return mNumBuildings; }
 
+	/** Visits the building to get info
+	* 
+	*/
 	void VisitBuilding(CTileBuilding *building);
 
 private:

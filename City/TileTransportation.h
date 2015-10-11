@@ -3,14 +3,15 @@
  *
  * \author Helena Narowski
  *
- * 
+ * \brief Class that implements a Transportation tile
  */
 
 #pragma once
 
 #include "Tile.h"
-/**
- * 
+
+/** A transportation tile
+ *  trans tiles
  */
 class CTileTransportation : public CTile
 {
@@ -18,12 +19,12 @@ public:
 
 	enum TransTileType
 	{
-		NONE = 0,
-		PLAIN = 1,
-		FLAT = 2,
-		CURVED = 3,
-		INCLINED = 4,
-		ELEVATED = 5
+		NONE = 0,///< No current zoning
+		PLAIN = 1, /// Plain tile
+		FLAT = 2, /// Flat tile
+		CURVED = 3, /// Curved tile
+		INCLINED = 4, /// Inclined tile
+		ELEVATED = 5 /// Elevated tile
 	};
 
 	/** \brief The tile zoning
@@ -56,9 +57,19 @@ public:
 	* \param visitor The visitor we accept */
 	virtual void Accept(CTileVisitor *visitor) override { visitor->VisitTrans(this); }
 
+	/** \brief Gets the rotation position 
+	* \returns rotation value */
 	int GetRotationPos() { return mRotationPos; }
+
+	/** \brief Set the tile rotation value
+	* \param integer position value */
 	void SetRotationPos(int pos) { mRotationPos = pos; }
+
+	/** \brief 
+	* \param zoning Zoning value */
 	void IncrementRotationPos();
+
+
 
 private:
 	/// The current adjacency integer or -1 if none

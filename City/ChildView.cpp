@@ -460,7 +460,6 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
-
 }
 
 /** \brief Called when the left mouse button is released
@@ -470,7 +469,6 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
     OnMouseMove(nFlags, point);
-
 
 }
 

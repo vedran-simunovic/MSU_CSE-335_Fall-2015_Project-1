@@ -9,6 +9,11 @@
 #pragma once
 #include "Tile.h"
 #include "City.h"
+
+
+/** A power tile
+ *  power tile
+ */
 class CTilePower :
 	public CTile
 {

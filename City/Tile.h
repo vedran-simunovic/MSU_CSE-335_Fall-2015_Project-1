@@ -28,8 +28,8 @@ public:
         AGRICULTURAL=3,		///< Agricultural zoning
 		TRANSPORTATION=4,	///< Transportational zoning
 		POWER=5,			///< Power zoning
-		CONSTRUCTIONAL = 6,
-	};    ///< Constructional zoning
+		CONSTRUCTIONAL = 6, ///< Constructional zoning
+	};   
 	
 
     /** The directory were the images are stored */

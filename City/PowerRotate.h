@@ -9,6 +9,11 @@
 #pragma once
 #include "TileVisitor.h"
 #include "TilePower.h"
+
+
+/** Concrete visitor to rotate power tile
+ * rotates the power file
+ */
 class CPowerRotate :
 	public CTileVisitor
 {
