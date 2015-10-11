@@ -341,8 +341,8 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		{
         // We double-clicked on a tile
         // Bring up the tile editing dialog box
-		//tile->PropertiesDlg();
-        Invalidate();
+		tile->PropertiesDlg();
+			Invalidate();
 		}
     }
 

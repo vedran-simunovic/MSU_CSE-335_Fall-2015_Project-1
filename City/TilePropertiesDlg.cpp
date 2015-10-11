@@ -42,6 +42,8 @@ void CTilePropertiesDlg::DoDataExchange(CDataExchange* pDX)
         m_zoningCtrl.AddString(L"Residential");
         m_zoningCtrl.AddString(L"Industrial");
         m_zoningCtrl.AddString(L"Agricultural");
+		m_zoningCtrl.AddString(L"Transportation");
+		m_zoningCtrl.AddString(L"Power");
 		m_zoningCtrl.AddString(L"Constructional");
 
         m_zoningCtrl.SetCurSel((int)m_zoning);
@@ -57,4 +59,4 @@ BEGIN_MESSAGE_MAP(CTilePropertiesDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CTilePropertiesDlg message handlers
+// CTilemessage handlers

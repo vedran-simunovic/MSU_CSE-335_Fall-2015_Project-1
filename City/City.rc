@@ -148,9 +148,9 @@ BEGIN
         MENUITEM "Residential",                 ID_BORDER_RESIDENTIAL
         MENUITEM "Industrial",                  ID_BORDER_INDUSTRIAL
         MENUITEM "Agricultural",                ID_BORDER_AGRICULTURAL
-        MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
         MENUITEM "Transportation",              ID_BORDER_TRANSPORTATION
         MENUITEM "Power",                       ID_BORDER_POWER
+        MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
     END
     POPUP "Construction"
     BEGIN

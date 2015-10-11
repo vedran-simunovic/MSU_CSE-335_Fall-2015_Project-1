@@ -96,5 +96,29 @@ void CTileStadium::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 	CTileConstruction::XmlLoad(node);
 	mStartClearing = node->GetAttributeBoolValue(L"startClearing", L"");
 	mStartConstruction = node->GetAttributeBoolValue(L"startConstruction", L"");
+	mX = node->GetAttributeIntValue(L"x", 0);
+	mY = node->GetAttributeIntValue(L"y", 0);
 	SetImage(node->GetAttributeValue(L"file", L""));
+}
+
+
+/** \brief Draw a border around the tile
+* \param graphics The graphics context to draw on
+* \param pen The pen to use to draw with
+*/
+void CTileStadium::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen)
+{
+		Point points[] = { { mX - OffsetLeftStadium + OffsetLeft, mY - OffsetDown }, { mX + OffsetLeft, mY -
+			OffsetDownStadium - OffsetDown }, { mX + OffsetLeftStadium + OffsetLeft, mY - OffsetDown }, { mX + OffsetLeft, mY +
+			OffsetDownStadium - OffsetDown }, { mX - OffsetLeftStadium + OffsetLeft, mY - OffsetDown } };
+
+		graphics->DrawLines(pen, points, 5);
+
+}
+
+void CTileStadium::SetLocation(int x, int y)
+{
+	CTileConstruction::SetLocation(x, y);
+	mX = x;
+	mY = y;
 }

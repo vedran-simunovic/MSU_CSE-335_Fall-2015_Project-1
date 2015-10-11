@@ -71,7 +71,7 @@ CTileConstruction::CTileConstruction(CCity *city) : CTile(city)
 	// Immediately set the zoning because we will not be able to change
 	// it later due to the feature that when we double click on a construction
 	// tile, it actually starts the construction process.
-	//SetZoning(CTile::CONSTRUCTIONAL); 
+	SetZoning(CTile::CONSTRUCTIONAL);
 
 }
 

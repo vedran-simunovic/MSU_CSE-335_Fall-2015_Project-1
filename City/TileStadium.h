@@ -36,6 +36,12 @@ public:
 	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
+	// This is for drawing the border around the big spartan stadium icon
+
+	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen) override;
+
+	virtual void SetLocation(int x, int y);
+	
 private:	
 	double mDuration = 0;			///< Duration of time the animations have been changing.
 	
@@ -45,8 +51,8 @@ private:
 	
 	std::wstring mFile;				///< File that the image will be saved from
 
-	int mX = 0;
+	int mX = 0;						///< X coordinate for drawing border for the stadium
 
-	int mY = 0;
+	int mY = 0;						///< Y coordinate for drawing border for the stadium
 };
 

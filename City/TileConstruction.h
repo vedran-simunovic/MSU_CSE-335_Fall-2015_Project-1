@@ -59,6 +59,15 @@ public:
 	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
+	// This is for drawing the border around the big spartan stadium icon
+	/** \brief Draw this item
+	* \param graphics The graphics context to draw on */
+	//virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
+
+	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen) { CTile::DrawBorder(graphics, pen); }
+
+	virtual void SetLocation(int x, int y) { CTile::SetLocation(x, y); }
+
 private:
 	
 	double mDuration = 0;///< Duration of time the animations have been changing.
