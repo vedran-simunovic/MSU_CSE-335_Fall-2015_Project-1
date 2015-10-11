@@ -467,76 +467,52 @@ int CCity::CountPartialOverlapping(double widT, double hitT)
 
 	bool increment = false;
 
+	int i = 0;
+	int j = 0;
+
 	for (auto tile : mTiles)
 	{
+		i++;
+
 		iX = tile->GetX();
 		iY = tile->GetY();
 
+		j = 0;
+
 		for (auto tile : mTiles)
 		{
-			centerX= tile->GetX();
-			centerY = tile->GetY();
-
-			//increment = false;
-
-			jX = centerX - 64;
-			jY = centerY;
-			//Left Corner
-			if ( abs(iX-jX) + 2*abs(iY-jY) <= 64 )
-				increment = true;
-
-			jX = centerX + 64;
-			jY = centerY;
-			//Right Corner
-			if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
-				increment = true;
-
-			jX = centerX;
-			jY = centerY + 32;
-			//Top Corner
-			if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
-				increment = true;
-
-			jX = centerX;
-			jY = centerY - 32;
-			//Bottom Corner
-			if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
-				increment = true;
-
-			//Vedran's equation for a square
-
-			//Nan's Equations for a diamond
-			/*
-			jX = centerX;
-			jY = centerY - 32;
-			//Bottom Corner
-			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
-				increment = true;
+			j++;
 			
-			jX = centerX - 64;
-			jY = centerY;
-			//Left Corner
-			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
-				increment = true;
+			if (j > i){
+				centerX = tile->GetX();
+				centerY = tile->GetY();
 
-			jX = centerX + 64;
-			jY = centerY;
-			//Right Corner
-			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
-				increment = true;
+				//increment = false;
 
-			jX = centerX;
-			jY = centerY + 32;
-			//Top Corner
-			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
-				increment = true;
+				jX = centerX - 64;
+				jY = centerY;
+				//Left Corner
+				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+					increment = true;
 
-			jX = centerX;
-			jY = centerY - 32;
-			//Bottom Corner
-			if (jY - 0.5*jX - iY + 32 + 0.5*jX < 0 && jY - 0.5*jX - iY - 32 + 0.5*jX < 0 && jY + 0.5*jX - 0.5*iX - iY - 32 < 0 && jY + 0.5*jX - 0.5*iX - iY + 32 < 0)
-				increment = true;
-			*/
+				jX = centerX + 64;
+				jY = centerY;
+				//Right Corner
+				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+					increment = true;
+
+				jX = centerX;
+				jY = centerY + 32;
+				//Top Corner
+				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+					increment = true;
+
+				jX = centerX;
+				jY = centerY - 32;
+				//Bottom Corner
+				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+					increment = true;
+			}
 
 			if (increment == true)
 				totalOverlaps++;
@@ -566,25 +542,38 @@ int CCity::CountFullyOverlapping(double widthOfScreen, double heightOfScreen)
 
 	bool increment = false;
 
+	int i = 0;
+	int j = 0;
+
 	for (auto tile : mTiles)
 	{
+		i++;
+
 		centerXi = tile->GetX();
 		centerYi = tile->GetY();
 
+		j = 0;
+
 		for (auto tile : mTiles)
 		{
-			centerXj = tile->GetX();
-			centerYj = tile->GetY();
+			j++;
 
-			if (centerXi == centerXj && centerYi == centerYj)
-				increment = true;
+			if (j > i){
 
-			if (increment == true)
-				totalOverlaps++;
+				centerXj = tile->GetX();
+				centerYj = tile->GetY();
+
+				if (centerXi == centerXj && centerYi == centerYj)
+					increment = true;
+
+				if (increment == true)
+					totalOverlaps++;
+			}
+
 
 			increment = false;
 		}
 	}
-	return (totalOverlaps - mTiles.size()) / 2;
+	return totalOverlaps;
 	//return totalOverlaps;
 }
