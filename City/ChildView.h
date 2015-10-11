@@ -62,6 +62,7 @@ private:
     void AddLandscape(const std::wstring &file);
 	void AddPower(CTilePower::PowerType);
 	void AddTransportation(CTileTransportation::TransTileType type);
+	void AddCar(const std::wstring &file);
 
     /// The city
     CCity mCity;
@@ -160,5 +161,6 @@ public:
 	afx_msg void OnUpdateBorderTransportation(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderPower(CCmdUI *pCmdUI);
 	afx_msg void OnTilesinfoTilesincity();
+	afx_msg void OnTransportationCar();
 };
 

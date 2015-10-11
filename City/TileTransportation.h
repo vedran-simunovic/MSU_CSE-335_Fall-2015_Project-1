@@ -24,7 +24,7 @@ public:
 		FLAT = 2, /// Flat tile
 		CURVED = 3, /// Curved tile
 		INCLINED = 4, /// Inclined tile
-		ELEVATED = 5 /// Elevated tile
+		ELEVATED = 5, /// Elevated tile
 	};
 
 	/** \brief The tile zoning
@@ -68,8 +68,6 @@ public:
 	/** \brief 
 	* \param zoning Zoning value */
 	void IncrementRotationPos();
-
-
 
 private:
 	/// The current adjacency integer or -1 if none
