@@ -93,6 +93,12 @@
     <ClInclude Include="TileCar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TileStadium.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileOremine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -162,6 +168,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileCar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileStadium.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileOremine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,7 +3,7 @@
 *
 * \author Vedran Simunovic
 *
-* \brief Class that implements a Landscape tile
+* \brief Class that implements a Construction tile
 */
 
 #pragma once

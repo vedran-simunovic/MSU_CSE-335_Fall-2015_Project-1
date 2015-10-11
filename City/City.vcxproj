@@ -114,9 +114,11 @@
     <ClInclude Include="TileCoalmine.h" />
     <ClInclude Include="TileConstruction.h" />
     <ClInclude Include="TileLandscape.h" />
+    <ClInclude Include="TileOremine.h" />
     <ClInclude Include="TilePower.h" />
     <ClInclude Include="TilePropertiesDlg.h" />
     <ClInclude Include="TileRoad.h" />
+    <ClInclude Include="TileStadium.h" />
     <ClInclude Include="TileVisitor.h" />
     <ClInclude Include="TileTransportation.h" />
     <ClInclude Include="TransRotate.h" />
@@ -142,9 +144,11 @@
     <ClCompile Include="TileCoalmine.cpp" />
     <ClCompile Include="TileConstruction.cpp" />
     <ClCompile Include="TileLandscape.cpp" />
+    <ClCompile Include="TileOremine.cpp" />
     <ClCompile Include="TilePower.cpp" />
     <ClCompile Include="TilePropertiesDlg.cpp" />
     <ClCompile Include="TileRoad.cpp" />
+    <ClCompile Include="TileStadium.cpp" />
     <ClCompile Include="TileVisitor.cpp" />
     <ClCompile Include="TileTransportation.cpp" />
     <ClCompile Include="TransRotate.cpp" />
