@@ -24,6 +24,7 @@
 #include "TransRotate.h"
 #include "TileTransportation.h"
 #include "PowerRotate.h"
+#include "TileCar.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -152,6 +153,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_TRANSPORTATION, &CChildView::OnUpdateBorderTransportation)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_POWER, &CChildView::OnUpdateBorderPower)
 	ON_COMMAND(ID_TILESINFO_TILESINCITY, &CChildView::OnTilesinfoTilesincity)
+	ON_COMMAND(ID_TRANSPORTATION_CAR, &CChildView::OnTransportationCar)
 	ON_COMMAND(ID_TILESINFO_PARTIALLYOVERLAPPING, &CChildView::OnTilesinfoPartiallyoverlapping)
 	ON_COMMAND(ID_TILESINFO_FULLYOVERLAPPING, &CChildView::OnTilesinfoFullyoverlapping)
 END_MESSAGE_MAP()
@@ -462,7 +464,6 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
-
 }
 
 /** \brief Called when the left mouse button is released
@@ -472,7 +473,6 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
     OnMouseMove(nFlags, point);
-
 
 }
 
@@ -604,6 +604,15 @@ void CChildView::AddBuilding(const std::wstring &file)
     tile->SetLocation(InitialX, InitialY);
     mCity.Add(tile);
     Invalidate();
+}
+
+void CChildView::AddCar(const std::wstring &file)
+{
+	auto tile = make_shared<CTileCar>(&mCity);
+	tile->SetImage(file);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
 }
 
 
@@ -1016,9 +1025,16 @@ void CChildView::OnTilesinfoTilesincity()
 	wstringstream str;
 
 	/// Displaying that information
-	str << L"There are " << cnt << L" buildings.";
+	str << L"There are " << cnt << L" tiles.";
 	AfxMessageBox(str.str().c_str());
 }
+
+
+void CChildView::OnTransportationCar()
+{
+	AddCar(L"car2.png");
+}
+
 
 // Partial test
 void CChildView::OnTilesinfoPartiallyoverlapping()
