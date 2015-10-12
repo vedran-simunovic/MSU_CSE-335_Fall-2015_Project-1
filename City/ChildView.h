@@ -121,6 +121,9 @@ public:
     afx_msg void OnLandscapingBigtrees();
     afx_msg void OnLandscapingRoad();
     afx_msg void OnBusinessesCoalmine();
+	
+	
+	afx_msg void OnTransportationDeclinedroad();
 	/** \endcond */
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnBorderNone();
@@ -143,7 +146,7 @@ public:
 	afx_msg void OnTransportationRoad();
 	afx_msg void OnTransportationElevatedroad();
 	afx_msg void OnTransportationInclinedroad();
-	afx_msg void OnTransportationDeclinedroad();
+	
 	afx_msg void OnTransportationPlainroad();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	
@@ -158,5 +161,6 @@ public:
 	afx_msg void OnTransportationCar();
 	afx_msg void OnTilesinfoPartiallyoverlapping();
 	afx_msg void OnTilesinfoFullyoverlapping();
+	
 };
 

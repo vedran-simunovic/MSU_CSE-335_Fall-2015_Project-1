@@ -596,6 +596,10 @@ void CChildView::AddBuilding(const std::wstring &file)
     Invalidate();
 }
 
+/**
+* \brief Add a Car tile to the drawing.
+* \param file The file for the building image
+*/
 void CChildView::AddCar(const std::wstring &file)
 {
 	auto tile = make_shared<CTileCar>(&mCity);

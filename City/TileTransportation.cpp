@@ -27,6 +27,7 @@ const wstring PlainImage1 = L"roadint_abc.png";
 
 /** Constructor
 * \param city The city this is a member of
+* \param type Type of transportation tile passed in
 */
 CTileTransportation::CTileTransportation(CCity *city, TransTileType type) : CTile(city)
 {

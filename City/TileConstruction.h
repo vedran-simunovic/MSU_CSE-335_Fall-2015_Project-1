@@ -53,7 +53,9 @@ public:
 	* \return mClearingLevel The clearing level of the construction */
 	Clearing GetClearingLevel() { return mClearingLevel; }
 
-	/** Sets the construction flag to signify the start of construction */
+	/** Sets the construction flag to 
+	* signify the start of construction 
+	* \param start The start of construction flag*/
 	virtual void SetStartFlag(bool start) { mStartConstruction = start; }
 
 	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
@@ -69,6 +71,9 @@ public:
 	*/
 	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale) { CTile::DrawBorder(graphics, pen, scrollOffsetX, scrollOffsetY, scale); }
 
+	/** \brief Set the item location
+	* \param x X location
+	* \param y Y location */
 	virtual void SetLocation(int x, int y) { CTile::SetLocation(x, y); }
 
 private:

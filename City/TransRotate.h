@@ -22,17 +22,14 @@ public:
 	virtual ~CTransRotate();
 
 	void VisitTrans(CTileTransportation *trans);
-
+	
 	void RotateFlatTile(CTileTransportation *trans);
-
+	
 	void RotateInclinedTile(CTileTransportation *trans);
-
-
+	
 	void RotateCurvedTile(CTileTransportation *trans);
 
-
 	void RotatePlainTile(CTileTransportation *trans);
-
 
 	void RotateElevatedTile(CTileTransportation *trans);
 

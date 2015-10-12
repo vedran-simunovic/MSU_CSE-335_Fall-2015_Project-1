@@ -1,5 +1,5 @@
 /**
- * \file Car.cpp
+ * \file TileCar.cpp
  *
  * \author Helena Narowski
  */
@@ -13,7 +13,8 @@ using namespace Gdiplus;
 
 
 /**
- * 
+ * Constructor
+ *\param city The city that's passed in
  */
 CTileCar::CTileCar(CCity *city) : CTile(city)
 {
@@ -21,7 +22,7 @@ CTileCar::CTileCar(CCity *city) : CTile(city)
 
 
 /**
- * 
+ * Destructor
  */
 CTileCar::~CTileCar()
 {

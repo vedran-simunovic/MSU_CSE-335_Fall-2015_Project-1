@@ -30,7 +30,9 @@ public:
 	/** Sets the clearing flag to signify the start of construction */
 	virtual void SetClearFlag() override { mStartClearing = true; }
 
-	/** Sets the construction flag to signify the start of construction */
+	/** Sets the construction flag to
+	* signify the start of construction
+	* \param start The start of construction flag*/
 	virtual void SetStartFlag(bool start) { mStartConstruction = start; }
 
 	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
@@ -40,6 +42,9 @@ public:
 
 	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale) override;
 
+	/** \brief Set the item location
+	* \param x X location
+	* \param y Y location */
 	virtual void SetLocation(int x, int y);
 	
 private:	

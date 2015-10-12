@@ -1,5 +1,5 @@
 /**
- * \file Car.h
+ * \file TileCar.h
  *
  * \author Helena Narowski
  *

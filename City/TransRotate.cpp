@@ -49,6 +49,8 @@ void CTransRotate::VisitTrans(CTileTransportation *trans)
 	// TODO: Rotate the tile 90  degrees or 120 degrees
 }
 
+/** Rotate flat tile
+* \param trans The tile we rotate */
 void CTransRotate::RotateFlatTile(CTileTransportation *trans)
 {
 	int rotation = trans->GetRotationPos();
@@ -65,6 +67,9 @@ void CTransRotate::RotateFlatTile(CTileTransportation *trans)
 
 }
 
+
+/** Rotate curved tile
+* \param trans The tile we rotate */
 void CTransRotate::RotateCurvedTile(CTileTransportation *trans)
 {
 	int rotation = trans->GetRotationPos();
@@ -86,6 +91,9 @@ void CTransRotate::RotateCurvedTile(CTileTransportation *trans)
 	}
 }
 
+
+/** Rotate plain tile
+* \param trans The tile we rotate */
 void CTransRotate::RotatePlainTile(CTileTransportation *trans)
 {
 	int rotation = trans->GetRotationPos();
@@ -108,6 +116,9 @@ void CTransRotate::RotatePlainTile(CTileTransportation *trans)
 	}
 }
 
+
+/** Rotate elevated tile
+* \param trans The tile we rotate */
 void CTransRotate::RotateElevatedTile(CTileTransportation *trans)
 {
 	int rotation = trans->GetRotationPos();
@@ -123,6 +134,9 @@ void CTransRotate::RotateElevatedTile(CTileTransportation *trans)
 	}
 }
 
+
+/** Rotate inclined tile
+* \param trans The tile we rotate */
 void CTransRotate::RotateInclinedTile(CTileTransportation *trans)
 {
 	int rotation = trans->GetRotationPos();
