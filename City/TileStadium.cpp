@@ -115,8 +115,8 @@ void CTileStadium::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, in
 	int mYOffset = scale*mY + scrollOffsetY;
 	int OffsetLeftScaled = scale*OffsetLeft;
 	int OffsetDownScaled = scale*OffsetDown;
-	int OffsetLeftStadiumScaled = scale*OffsetLeftStadium;
-	int OffsetDownStadiumScaled = scale*OffsetDownStadium;
+	int OffsetLeftStadiumScaled = OffsetLeftStadium;
+	int OffsetDownStadiumScaled = OffsetDownStadium;
 
 
 	Point points[] = { { mXOffset - OffsetLeftStadiumScaled + OffsetLeftScaled, mYOffset - OffsetDownScaled }, { mXOffset + OffsetLeftScaled, mYOffset -

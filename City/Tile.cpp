@@ -77,6 +77,8 @@ void CTile::SetImage(const std::wstring &file)
 /**
 * \brief Draw our tile
 * \param graphics The graphics context to draw on
+* \param offsetX offset for x location
+* \param offsetY offset for y location
 */
 void CTile::Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY)
 {
@@ -118,6 +120,8 @@ void CTile::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrol
 
 /** \brief Test to see if we hit this object with a mousemXOffset
 * \return true if hit.
+* \param offsetX offset for x location
+* \param offsetY offset for y location
 */
 bool CTile::HitTest(int x, int y, double offsetX, double offsetY)
 {

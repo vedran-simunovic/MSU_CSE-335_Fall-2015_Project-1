@@ -40,6 +40,8 @@ CCity::~CCity()
 
 /** \brief Draw the city
 * \param graphics The GDI+ graphics context to draw on
+* \param offsetX offset for x location
+* \param offsetY offset for y location
 */
 void CCity::OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY)
 {
@@ -60,12 +62,14 @@ void CCity::Add(std::shared_ptr<CTile> tile)
 
 
 
-/** \brief Test an x,y click location to see if it clicked
+/**\brief Test an x,y click location to see if it clicked
 * on some item in the city.
-* \param x X location
-* \param y Y location
-* \returns Pointer to item we clicked on or nullptr if none.
-*/
+ * \param x X location
+ * \param y y location
+ * \param offsetX offset for x location
+ * \param offsetY offset for y location
+ * \returns Pointer to item we clicked on or nullptr if none.
+ */
 std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offsetY)
 {
     for (auto i = mTiles.rbegin(); i != mTiles.rend(); i++)

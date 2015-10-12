@@ -83,19 +83,16 @@ private:
 	int mScrollTop = 0;				///< Top line of the scrolling toolbar in pixels
 	int mScrollLeft= 0;			///< Leftside of the scrolling toolbar in pixels
 
-	double mOriginOffsetX = 0;
-	double mOriginOffsetY = 0;
+	double mOriginOffsetX = 0;	///< offset for origin point in x
+	double mOriginOffsetY = 0;	///< offset for origin point in y
 
-	double mScrollOffsetX = 0;
-	double mScrollOffsetY = 0;
+	double mScrollOffsetX = 0;	///< offset for origin point in x, when scrolling.
+	double mScrollOffsetY = 0;	///< offset for origin point in x, when scrolling.
 
-	double mStartX = 0;
-	double mStartY = 0;
+	double mStartX = 0;		///< start point for scrolling in x
+	double mStartY = 0;		///< start point for scrolling in x
 
-	double mScale = 1;
-
-	bool mStartScroll = false;
-
+	double mScale = 1;		///< scale
 
 
 public:
@@ -150,9 +147,6 @@ public:
 	afx_msg void OnTransportationPlainroad();
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	
-	
-	afx_msg void OnBorderConstructional();
-	afx_msg void OnUpdateBorderConstructional(CCmdUI *pCmdUI);
 	afx_msg void OnConstructionGrasssite();
 	afx_msg void OnBorderConstruction();
 	afx_msg void OnUpdateBorderConstruction(CCmdUI *pCmdUI);

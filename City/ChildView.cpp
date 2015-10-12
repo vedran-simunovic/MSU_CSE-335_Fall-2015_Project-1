@@ -426,12 +426,8 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (mScrollActivate)
 	{
-		if (mStartScroll == false)
-		{
-			mStartX = point.x;
-			mStartY = point.y;
-			mStartScroll = true;
-		}
+		mStartX = point.x;
+		mStartY = point.y;
 
 	}
 	else {
@@ -489,7 +485,6 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		else
 		{
-			mStartScroll = false;
 			mOriginOffsetX = mScrollOffsetX;
 			mOriginOffsetY = mScrollOffsetY;
 		}
@@ -765,18 +760,19 @@ void CChildView::OnBorderAgricultural()
 	mZoning = CTile::AGRICULTURAL;
 }
 
-
+/** Menu handler that sets the border draw to construction */
 void CChildView::OnBorderConstruction()
 {
 	mZoning = CTile::CONSTRUCTIONAL;
 }
 
+/** Menu handler that sets the border draw to transportation */
 void CChildView::OnBorderTransportation()
 {
 	mZoning = CTile::TRANSPORTATION;
 }
 
-
+/** Menu handler that sets the border draw to power */
 void CChildView::OnBorderPower()
 {
 	mZoning = CTile::POWER;
@@ -817,11 +813,9 @@ void CChildView::OnUpdateBorderAgricultural(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mZoning == CTile::AGRICULTURAL);
 }
 
-void CChildView::OnUpdateBorderConstructional(CCmdUI *pCmdUI)
-{
-	
-}
-
+/** Menu handler that sets the border draw to construction
+* \param pCmdUI This is pass to be able to change the checkmard on the screen
+*/
 void CChildView::OnUpdateBorderConstruction(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::CONSTRUCTIONAL);
@@ -884,7 +878,7 @@ void CChildView::OnUpdatePowerBuild(CCmdUI *pCmdUI)
 
 
 /**
- * 
+ * build curve road
  */
 void CChildView::OnTransportationCurvedroad()
 {
@@ -894,7 +888,7 @@ void CChildView::OnTransportationCurvedroad()
 
 
 /**
- * 
+ * build road
  */
 void CChildView::OnTransportationRoad()
 {
@@ -903,7 +897,7 @@ void CChildView::OnTransportationRoad()
 }
 
 /**
- * 
+ * build elevated road
  */
 void CChildView::OnTransportationElevatedroad()
 {
@@ -912,7 +906,7 @@ void CChildView::OnTransportationElevatedroad()
 }
 
 /**
- * 
+ * build inclined road
  */
 void CChildView::OnTransportationInclinedroad()
 {
@@ -922,7 +916,7 @@ void CChildView::OnTransportationInclinedroad()
 }
 
 /**
- * 
+ * build plain road
  */
 void CChildView::OnTransportationPlainroad()
 {
@@ -981,6 +975,9 @@ void CChildView::AddTransportation(CTileTransportation::TransTileType type)
 }
 
 
+/**
+ * build grass site
+ */
 void CChildView::OnConstructionGrasssite()
 {
 	// Take the floating point "mDuration" and move the decimal over
@@ -1009,18 +1006,29 @@ void CChildView::OnConstructionGrasssite()
 	Invalidate();
 }
 
+
+/**
+ * check mark on menu
+ * \param pCmdUI 
+ */
 void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::TRANSPORTATION);
 }
 
-
+/**
+* check mark on menu
+* \param pCmdUI
+*/
 void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::POWER);
 }
 
 
+/**
+ * number of tiles in city
+ */
 void CChildView::OnTilesinfoTilesincity()
 {	
 	int cnt = mCity.CountTiles();
@@ -1033,13 +1041,18 @@ void CChildView::OnTilesinfoTilesincity()
 }
 
 
+/**
+ * 	build a car
+ */
 void CChildView::OnTransportationCar()
 {
 	AddCar(L"car2.png");
 }
 
 
-// Partial test
+/**
+* number of partially overlapping tiles
+*/
 void CChildView::OnTilesinfoPartiallyoverlapping()
 {
 	int i;
@@ -1053,7 +1066,10 @@ void CChildView::OnTilesinfoPartiallyoverlapping()
 	AfxMessageBox(str.str().c_str());
 }
 
-// Full test
+
+/**
+ * number of fully overlapping tiles
+ */
 void CChildView::OnTilesinfoFullyoverlapping()
 {
 	int i;

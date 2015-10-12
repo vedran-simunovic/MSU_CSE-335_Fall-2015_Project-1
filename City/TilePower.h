@@ -58,17 +58,39 @@ public:
 	* \param visitor The visitor we accept */
 	virtual void Accept(CTileVisitor *visitor) override { visitor->VisitPower(this); }
 
-	/** return power type*/
+	/** return power type
+	*\return type of power
+	*/
 	PowerType GetPowerType() { return mPowerType; }
 
+	/**
+	* set power type
+	* \param type type of tiles
+	*/
 	void SetPowerType(CTilePower::PowerType type) { mPowerType = type; }
 
+	/**
+	* check whether connect to plant
+	*\return whether connect or not
+	*/
 	bool GetConnected() { return mConnected; }
 
+	/**
+	* get the direction of tiles
+	*\return direction of power
+	*/
 	PowerDirection GetPowerDirection() { return mPowerDirection; }
 
+	/**
+	* set connection
+	* \param connect whether connect or not
+	*/
 	void SetConnection(bool connect) { mConnected = connect; }
 
+	/**
+	* set the direction of tiles
+	*\param direction direction of tiles
+	*/
 	void SetPowerDirection(CTilePower::PowerDirection direction) { mPowerDirection = direction; }
 
 	void RotateImage();
@@ -76,7 +98,7 @@ public:
 private:
 
 	PowerType mPowerType = NONE;	///< type of tile
-	std::wstring mFile;
+	std::wstring mFile;				///< file for saving
 	bool mConnected = false;			///< whethe this tile connect to the power plant
 
 	PowerDirection mPowerDirection = EAST;	///< dirction of tile

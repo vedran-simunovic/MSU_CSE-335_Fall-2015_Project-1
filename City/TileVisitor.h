@@ -47,15 +47,15 @@ public:
 	virtual void VisitConstruction(CTileConstruction *construction) {}
 
 	/** Visit a CTileTransportation object
-	* \param Transportation we are visiting */
+	* \param trans we are visiting */
 	virtual void VisitTrans(CTileTransportation *trans) {}
 
 	/** Visit a CTileTransportation object
-	* \param Transportation we are visiting */
+	* \param car we are visiting */
 	virtual void VisitCar(CTileCar *car) {}
 
 	/** Visit a CTilePower object
-	* \param Power we are visiting */
+	* \param power we are visiting */
 	virtual void VisitPower(CTilePower *power) {}
 
 };

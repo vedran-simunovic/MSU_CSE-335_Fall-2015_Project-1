@@ -31,6 +31,7 @@ const wstring PowerPlantEmptyImage = L"powercoal0.png";
 /// Image for solar station
 const wstring SolarStationImage = L"powerssolar.png";
 
+/// Image for grid in differnt direction
 static wstring gridimages[] = {
 	L"power_ac.png",     // 0
 	L"power_bd.png",      // 1
@@ -38,6 +39,7 @@ static wstring gridimages[] = {
 	L"power_bd.png"      // 3
 };
 
+/// Image for lgrid in differnt direction
 static wstring lgridimages[] = {
 	L"power_ab.png",     // 0
 	L"power_bc.png",      // 1
@@ -45,6 +47,7 @@ static wstring lgridimages[] = {
 	L"power_ad.png"      // 3
 };
 
+/// Image for tgrid in differnt direction
 static wstring tgridimages[] = {
 	L"power_abc.png",     // 0
 	L"power_bcd.png",      // 1
@@ -52,6 +55,12 @@ static wstring tgridimages[] = {
 	L"power_abd.png"      // 3
 };
 
+
+/**
+ * constructor for tile power
+ * \param city the city to hold this tile
+ * \param type type of power tile
+ */
 CTilePower::CTilePower(CCity *city, PowerType type) : CTile(city)
 {
 	mPowerType = type;
@@ -97,6 +106,9 @@ CTilePower::CTilePower(CCity *city, PowerType type) : CTile(city)
 }
 
 
+/**
+ * destructor
+ */
 CTilePower::~CTilePower()
 {
 }
@@ -136,7 +148,6 @@ void CTilePower::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 
 /**
  * Roateta image based on the type of power tile
- * \param type 
  */
 void CTilePower::RotateImage()
 {

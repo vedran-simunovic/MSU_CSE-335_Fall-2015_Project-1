@@ -61,9 +61,12 @@ public:
 
 	// This is for drawing the border around the big spartan stadium icon
 	/** \brief Draw this item
-	* \param graphics The graphics context to draw on */
-	//virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
-
+	* \param scrollOffsetX offset for x location
+	* \param scrollOffsetY offset for y location
+	* \param scale scale of draw
+	* \param graphics The graphics context to draw on 
+	* \param pen pen object
+	*/
 	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale) { CTile::DrawBorder(graphics, pen, scrollOffsetX, scrollOffsetY, scale); }
 
 	virtual void SetLocation(int x, int y) { CTile::SetLocation(x, y); }
