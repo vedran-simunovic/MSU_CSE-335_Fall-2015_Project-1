@@ -109,7 +109,6 @@ void CTile::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrol
 	int OffsetLeftScaled = scale*OffsetLeft;
 	int OffsetDownScaled = scale*OffsetDown;
 
-
 	Point points[] = { { mXOffset - OffsetLeftScaled, mYOffset }, { mXOffset, mYOffset - OffsetDownScaled }, { mXOffset + OffsetLeftScaled, mYOffset }, { mXOffset, mYOffset + OffsetDownScaled }, { mXOffset - OffsetLeftScaled, mYOffset } };
 	graphics->DrawLines(pen, points, 5);
 }
