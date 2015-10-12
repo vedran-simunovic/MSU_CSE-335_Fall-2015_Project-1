@@ -459,7 +459,12 @@ int CCity::CountTiles()
 	return mTiles.size();
 }
 
-int CCity::CountPartialOverlapping(double widT, double hitT)
+
+/**
+ * calculate how many tile are partially overlapping
+ * \returns number of the tils overlapping with others
+ */
+int CCity::CountPartialOverlapping()
 {
 	int totalOverlaps = 0;
 
@@ -490,7 +495,7 @@ int CCity::CountPartialOverlapping(double widT, double hitT)
 		{
 			j++;
 			
-			if (j > i){
+			if (j != i){
 				centerX = tile->GetX();
 				centerY = tile->GetY();
 
@@ -499,45 +504,46 @@ int CCity::CountPartialOverlapping(double widT, double hitT)
 				jX = centerX - 64;
 				jY = centerY;
 				//Left Corner
-				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+				if (abs(iX - jX) + 2 * abs(iY - jY) < 64)
 					increment = true;
 
 				jX = centerX + 64;
 				jY = centerY;
 				//Right Corner
-				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+				if (abs(iX - jX) + 2 * abs(iY - jY) < 64)
 					increment = true;
 
 				jX = centerX;
 				jY = centerY + 32;
 				//Top Corner
-				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+				if (abs(iX - jX) + 2 * abs(iY - jY) < 64)
 					increment = true;
 
 				jX = centerX;
 				jY = centerY - 32;
 				//Bottom Corner
-				if (abs(iX - jX) + 2 * abs(iY - jY) <= 64)
+				if (abs(iX - jX) + 2 * abs(iY - jY) < 64)
 					increment = true;
 			}
 
-			if (increment == true)
+			if (increment == true){
 				totalOverlaps++;
-
+				break;
+			}
 			increment = false;
 		}
 	}
-	//return (totalOverlaps - mTiles.size()) / 2;
-	return totalOverlaps;
-	//x > trashcanTopLeftCornerX && x < trashcanTopLeftCornerX + widT
-	//	&& y > trashcanTopLeftCornerY && y < trashcanTopLeftCornerY + hitT;
 
-	// Take total overlaps
-	// subtract the number of tiles from that number, i.e. getSize
-	// divide that number by 2, to get the total overlaps and or
+	return totalOverlaps;
+
 }
 
-int CCity::CountFullyOverlapping(double widthOfScreen, double heightOfScreen)
+
+/**
+ * calculate how many tile are fully overlapping
+ * \returns number of the tils fully overlapping with others
+ */
+int CCity::CountFullyOverlapping()
 {
 	int totalOverlaps = 0;
 
@@ -547,10 +553,8 @@ int CCity::CountFullyOverlapping(double widthOfScreen, double heightOfScreen)
 	double centerXj;
 	double centerYj;
 
-	bool increment = false;
-
-	int i = 0;
-	int j = 0;
+	int i = 0;	///counter for iterating over mTiles
+	int j = 0;	///counter for iterating over mTiles
 
 	for (auto tile : mTiles)
 	{
@@ -565,20 +569,16 @@ int CCity::CountFullyOverlapping(double widthOfScreen, double heightOfScreen)
 		{
 			j++;
 
-			if (j > i){
+			if (i != j){
 
 				centerXj = tile->GetX();
 				centerYj = tile->GetY();
 
-				if (centerXi == centerXj && centerYi == centerYj)
-					increment = true;
-
-				if (increment == true)
+				if (centerXi == centerXj && centerYi == centerYj){
 					totalOverlaps++;
+					break;
+				}
 			}
-
-
-			increment = false;
 		}
 	}
 	return totalOverlaps;

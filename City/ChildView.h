@@ -39,19 +39,6 @@ public:
 public:
 	virtual ~CChildView();
 
-	double mOriginOffsetX = 0;
-	double mOriginOffsetY = 0;
-
-	double mScrollOffsetX = 0;
-	double mScrollOffsetY = 0;
-
-	double mStartX = 0;
-	double mStartY = 0;
-
-	double mScale = 1;
-
-	bool mStartScroll = false;
-
 	// Generated message map functions
 protected:
 	afx_msg void OnPaint();
@@ -95,6 +82,19 @@ private:
 	bool mScrollActivate = false;			///< if scrolling toolbar checked
 	int mScrollTop = 0;				///< Top line of the scrolling toolbar in pixels
 	int mScrollLeft= 0;			///< Leftside of the scrolling toolbar in pixels
+
+	double mOriginOffsetX = 0;
+	double mOriginOffsetY = 0;
+
+	double mScrollOffsetX = 0;
+	double mScrollOffsetY = 0;
+
+	double mStartX = 0;
+	double mStartY = 0;
+
+	double mScale = 1;
+
+	bool mStartScroll = false;
 
 
 

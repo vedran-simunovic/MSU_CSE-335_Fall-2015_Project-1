@@ -49,8 +49,8 @@ public:
 
 	int CountTiles();
 
-	int CountPartialOverlapping(double widthOfScreen, double heightOfScreen);
-	int CountFullyOverlapping(double widthOfScreen, double heightOfScreen);
+	int CountPartialOverlapping();
+	int CountFullyOverlapping();
 
 
 	/** Iterator that iterates over the city tiles */

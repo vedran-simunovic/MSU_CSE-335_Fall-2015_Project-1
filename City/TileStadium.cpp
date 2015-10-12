@@ -101,18 +101,30 @@ void CTileStadium::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 	SetImage(node->GetAttributeValue(L"file", L""));
 }
 
-
-/** \brief Draw a border around the tile
-* \param graphics The graphics context to draw on
-* \param pen The pen to use to draw with
-*/
-void CTileStadium::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen)
+/**
+ *\brief Draw a border around the tile 
+ * \param graphics he graphics context to draw on
+ * \param pen The pen to use to draw with
+ * \param scrollOffsetX offset on X axis for scrollling
+ * \param scrollOffsetY offset on Y axis for scrollling
+ * \param scale scale of drawing
+ */
+void CTileStadium::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale)
 {
-		Point points[] = { { mX - OffsetLeftStadium + OffsetLeft, mY - OffsetDown }, { mX + OffsetLeft, mY -
-			OffsetDownStadium - OffsetDown }, { mX + OffsetLeftStadium + OffsetLeft, mY - OffsetDown }, { mX + OffsetLeft, mY +
-			OffsetDownStadium - OffsetDown }, { mX - OffsetLeftStadium + OffsetLeft, mY - OffsetDown } };
+	int mXOffset = scale*mX + scrollOffsetX;
+	int mYOffset = scale*mY + scrollOffsetY;
+	int OffsetLeftScaled = scale*OffsetLeft;
+	int OffsetDownScaled = scale*OffsetDown;
+	int OffsetLeftStadiumScaled = scale*OffsetLeftStadium;
+	int OffsetDownStadiumScaled = scale*OffsetDownStadium;
 
-		graphics->DrawLines(pen, points, 5);
+
+	Point points[] = { { mXOffset - OffsetLeftStadiumScaled + OffsetLeftScaled, mYOffset - OffsetDownScaled }, { mXOffset + OffsetLeftScaled, mYOffset -
+
+		OffsetDownStadiumScaled - OffsetDownScaled }, { mXOffset + OffsetLeftStadiumScaled + OffsetLeftScaled, mYOffset - OffsetDownScaled }, { mXOffset + OffsetLeftScaled, mYOffset +
+
+		OffsetDownStadiumScaled - OffsetDownScaled }, { mXOffset - OffsetLeftStadiumScaled + OffsetLeftScaled, mYOffset - OffsetDownScaled } };
+	graphics->DrawLines(pen, points, 5);
 
 }
 

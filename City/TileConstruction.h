@@ -64,7 +64,7 @@ public:
 	* \param graphics The graphics context to draw on */
 	//virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
-	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen) { CTile::DrawBorder(graphics, pen); }
+	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale) { CTile::DrawBorder(graphics, pen, scrollOffsetX, scrollOffsetY, scale); }
 
 	virtual void SetLocation(int x, int y) { CTile::SetLocation(x, y); }
 

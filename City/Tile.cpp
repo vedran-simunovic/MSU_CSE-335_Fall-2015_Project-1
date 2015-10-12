@@ -94,23 +94,30 @@ void CTile::Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY)
 }
 
 
-/** \brief Draw a border around the tile
- * \param graphics The graphics context to draw on
- * \param pen The pen to use to draw with
- */
-void CTile::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen)
+/**
+*\brief Draw a border around the tile
+* \param graphics he graphics context to draw on
+* \param pen The pen to use to draw with
+* \param scrollOffsetX offset on X axis for scrollling
+* \param scrollOffsetY offset on Y axis for scrollling
+* \param scale scale of drawing
+*/
+void CTile::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale)
 {
-    Point points[] = { { mX - OffsetLeft, mY }, { mX, mY - OffsetDown }, { mX + OffsetLeft, mY }, { mX, mY + OffsetDown }, { mX - OffsetLeft, mY } };
+	int mXOffset = scale*mX + scrollOffsetX;
+	int mYOffset = scale*mY + scrollOffsetY;
+	int OffsetLeftScaled = scale*OffsetLeft;
+	int OffsetDownScaled = scale*OffsetDown;
 
-    graphics->DrawLines(pen, points, 5);
+
+	Point points[] = { { mXOffset - OffsetLeftScaled, mYOffset }, { mXOffset, mYOffset - OffsetDownScaled }, { mXOffset + OffsetLeftScaled, mYOffset }, { mXOffset, mYOffset + OffsetDownScaled }, { mXOffset - OffsetLeftScaled, mYOffset } };
+	graphics->DrawLines(pen, points, 5);
 }
 
 
 
 
-/** \brief Test to see if we hit this object with a mouse.
-* \param x X position to test
-* \param y Y position to test
+/** \brief Test to see if we hit this object with a mousemXOffset
 * \return true if hit.
 */
 bool CTile::HitTest(int x, int y, double offsetX, double offsetY)

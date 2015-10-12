@@ -38,7 +38,7 @@ public:
 
 	// This is for drawing the border around the big spartan stadium icon
 
-	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen) override;
+	virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale) override;
 
 	virtual void SetLocation(int x, int y);
 	

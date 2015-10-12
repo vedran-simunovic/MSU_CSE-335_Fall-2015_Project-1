@@ -239,13 +239,6 @@ void CChildView::OnPaint()
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
 
-
-
-
-	
-
-	int mScrollToolbarTop = 0;
-	int mScrollToolbarLeft = 0;
     /*
      * Actually Draw the city
      */
@@ -288,7 +281,7 @@ void CChildView::OnPaint()
 
 	for (auto tile : mCity.GetZoning(mZoning))		
 	{
-		tile->DrawBorder(&graphics, &pen);
+		tile->DrawBorder(&graphics, &pen, mScrollOffsetX, mScrollOffsetY, mScale);
 	}
 	
 	/*else
@@ -1052,7 +1045,7 @@ void CChildView::OnTilesinfoPartiallyoverlapping()
 	int i;
 	CRect rect;
 	GetClientRect(&rect);
-	i = mCity.CountPartialOverlapping(rect.Width(), rect.Height());
+	i = mCity.CountPartialOverlapping();
 	wstringstream str;
 
 	/// Displaying that information
@@ -1066,7 +1059,7 @@ void CChildView::OnTilesinfoFullyoverlapping()
 	int i;
 	CRect rect;
 	GetClientRect(&rect);
-	i = mCity.CountFullyOverlapping(rect.Width(), rect.Height());
+	i = mCity.CountFullyOverlapping();
 	wstringstream str;
 
 	/// Displaying that information

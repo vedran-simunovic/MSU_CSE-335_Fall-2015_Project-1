@@ -69,7 +69,7 @@ public:
     * \param graphics The graphics context to draw on */
     virtual void Draw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
-    virtual void DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen);
+	void CTile::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, int scrollOffsetX, int scrollOffsetY, double scale);
 
     /** \brief Test this item to see if it has been clicked on
     * \param x X location on the aquarium to test
