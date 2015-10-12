@@ -77,7 +77,6 @@ public:
 	virtual void SetLocation(int x, int y) { CTile::SetLocation(x, y); }
 
 private:
-	
 	double mDuration = 0;///< Duration of time the animations have been changing.
 
 	Clearing mClearingLevel = CLEARING_0;///< The current clearing level

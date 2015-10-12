@@ -87,10 +87,10 @@ private:
 	double mOriginOffsetY = 0;	///< offset for origin point in y
 
 	double mScrollOffsetX = 0;	///< offset for origin point in x, when scrolling.
-	double mScrollOffsetY = 0;	///< offset for origin point in x, when scrolling.
+	double mScrollOffsetY = 0;	///< offset for origin point in y, when scrolling.
 
 	double mStartX = 0;		///< start point for scrolling in x
-	double mStartY = 0;		///< start point for scrolling in x
+	double mStartY = 0;		///< start point for scrolling in y
 
 	double mScale = 1;		///< scale
 
