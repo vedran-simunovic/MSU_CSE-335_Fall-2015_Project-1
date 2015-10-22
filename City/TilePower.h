@@ -102,5 +102,7 @@ private:
 	bool mConnected = false;			///< whethe this tile connect to the power plant
 
 	PowerDirection mPowerDirection = EAST;	///< dirction of tile
+
+	int mPowerProduction = 0;		///< power production of tile
 };
 

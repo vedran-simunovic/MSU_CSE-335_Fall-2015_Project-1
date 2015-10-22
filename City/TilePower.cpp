@@ -95,11 +95,15 @@ CTilePower::CTilePower(CCity *city, PowerType type) : CTile(city)
 	case(POWERPLANT) : {
 		SetImage(PowerPlantEmptyImage);
 		mFile = PowerPlantEmptyImage;
+		mPowerProduction = 20;
+		mConnected = true;
 		break;
 	}
 	case(SOLARSTATION) : {
 		SetImage(SolarStationImage);
 		mFile = SolarStationImage;
+		mPowerProduction = 10;
+		mConnected = true;
 		break;
 	}
 	}

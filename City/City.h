@@ -177,5 +177,11 @@ private:
 
     /// Adjacency lookup support
     std::map<std::pair<int, int>, std::shared_ptr<CTile> > mAdjacency;
+
+	/// the power product of all city
+	int mTotalPowerProduct = 0;
+
+	/// the power need of all city
+	int mTotalPowerNeed = 0;
 };
 
