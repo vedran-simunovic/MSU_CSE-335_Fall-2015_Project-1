@@ -54,7 +54,9 @@ public:
 	* \return mOremineLevel The oremine level of the oremine */
 	OremineLevel GetOremineLevel() { return mOremineLevel; }
 
-	/** Sets the construction flag to signify the start of construction */
+	/** Sets the construction flag to
+	* signify the start of construction
+	* \param start The start of construction flag*/
 	virtual void SetStartFlag(bool start) { mStartConstruction = start; }
 
 

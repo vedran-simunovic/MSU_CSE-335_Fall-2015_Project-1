@@ -17,6 +17,7 @@ class CTileTransportation : public CTile
 {
 public:
 
+	/// The possible transportation tile types
 	enum TransTileType
 	{
 		NONE = 0,///< No current zoning
@@ -25,14 +26,14 @@ public:
 		CURVED = 3, /// Curved tile
 		INCLINED = 4, /// Inclined tile
 		ELEVATED = 5, /// Elevated tile
-	};
+	};	 ///< Transportation levels
 
 	/** \brief The tile zoning
 	* \returns Zoning value */
 	CTileTransportation::TransTileType GetTransType() { return mTransType; }
 
 	/** \brief Set the tile zoningsss
-	* \param zoning Zoning value */
+	* \param transTile Zoning value */
 	void SetTransType(CTileTransportation::TransTileType transTile) { mTransType = transTile; }
 
 ///	CTileTransportation(CCity *city);
@@ -51,6 +52,8 @@ public:
 
 	void SetAdjacencies(bool ul, bool ur, bool ll, bool lr);
 
+	/** \brief Set the trans tile type
+	* \param type Trans type */
 	void SetTransTileType(TransTileType type) { mTransType = type; }
 
 	/** Accept a visitor
@@ -62,18 +65,21 @@ public:
 	int GetRotationPos() { return mRotationPos; }
 
 	/** \brief Set the tile rotation value
-	* \param integer position value */
+	* \param pos position value */
 	void SetRotationPos(int pos) { mRotationPos = pos; }
 
-	/** \brief 
-	* \param zoning Zoning value */
+	/** \brief Rotation position */
 	void IncrementRotationPos();
 
 private:
 	/// The current adjacency integer or -1 if none
 	int mCurrentAdj = -1;
+
+	/// The current rotation position integer or 0 if none
 	int mRotationPos = 0;
-	std::wstring mFile;
+
+	std::wstring mFile;	///< File that the image will be saved from
+
 	/// Any zoning for this property
 	TransTileType mTransType = NONE;
 

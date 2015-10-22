@@ -456,7 +456,7 @@ void CCity::Accept(CTileVisitor *visitor)
 }
 
 /** Count the number of tiles
-* \param visitor The visitor for the collection
+* \return Number of tiles
 */
 int CCity::CountTiles()
 {
