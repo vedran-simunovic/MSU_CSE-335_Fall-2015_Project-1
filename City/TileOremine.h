@@ -25,8 +25,8 @@ public:
 
 	~CTileOremine();
 
-	/// The possible oremine levels
-	enum OremineLevel {
+	/// The possible oremine animations
+	enum OremineAnimation {
 		OREMINE_1 = 1,   ///< Oremine step 1
 		OREMINE_2 = 2,   ///< Oremine step 2
 		OREMINE_3 = 3,   ///< Oremine step 3
@@ -35,7 +35,14 @@ public:
 		OREMINE_6 = 6,   ///< Oremine step 6
 		OREMINE_7 = 7,   ///< Oremine step 7
 		OREMINE_8 = 8,   ///< Oremine step 8
-	};    ///< Oremine level tracker
+	};    ///< Oremine animation tracker
+
+	/// The possible level ups for the oremine
+	enum OremineLevelUp {
+		LEVEL_1 = 1,   ///< Level 1, normal
+		LEVEL_2 = 2,   ///< Level 2, promoted level	
+	};    ///< Oremine level up
+
 
 	void Update(double elapsed);
 
@@ -48,11 +55,11 @@ public:
 
 	/** Sets the oremine level
 	* \param oremineLevel The ormine level to be newly set */
-	void SetOremineLevel(OremineLevel oremineLevel) { mOremineLevel = oremineLevel; }
+	void SetOremineLevel(OremineAnimation oremineLevel) { mOremineLevel = oremineLevel; }
 
 	/** Gets the oremine level
 	* \return mOremineLevel The oremine level of the oremine */
-	OremineLevel GetOremineLevel() { return mOremineLevel; }
+	OremineAnimation GetOremineLevel() { return mOremineLevel; }
 
 	/** Sets the construction flag to
 	* signify the start of construction
@@ -64,7 +71,7 @@ public:
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
 private:
-	OremineLevel mOremineLevel = OREMINE_1; ///< The current clearing level
+	OremineAnimation mOremineLevel = OREMINE_1; ///< The current clearing level
 
 	bool mStartClearing = false; ///< This is a flag for the tile so that it knows to start clearing
 
@@ -77,5 +84,10 @@ private:
 	/// This is a flag that helps the program know if it is supposed
 	/// to transition from 1 to 2, 2 -> 3 etc......or 3->2 , 2->1 etc.
 	bool mRising = true;
+
+	/// This is a flag that makes it so that the construction of 
+	/// an oremine can start only if the plain construction tile
+	/// is overlapping with a power tile.
+	bool mPowerOverlap = false;
 };
 

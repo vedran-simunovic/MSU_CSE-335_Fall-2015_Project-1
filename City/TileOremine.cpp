@@ -77,7 +77,7 @@ void CTileOremine::Update(double elapsed)
 	mDuration = mDuration + elapsed;
 
 	// Start oremine sequence
-	if (mStartConstruction == true)
+	if (mStartConstruction == true && mPowerOverlap == true)
 	{
 		if (mOremineLevel == OREMINE_1 && mDuration > OremineRate)
 		{
@@ -231,6 +231,6 @@ void CTileOremine::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 	mStartClearing = node->GetAttributeBoolValue(L"startClearing", L"");
 	mStartConstruction = node->GetAttributeBoolValue(L"startConstruction", L"");
 	mRising = node->GetAttributeBoolValue(L"rising", L"");
-	SetOremineLevel((CTileOremine::OremineLevel)node->GetAttributeIntValue(L"oremine_state", 0));
+	SetOremineLevel((CTileOremine::OremineAnimation)node->GetAttributeIntValue(L"oremine_state", 0));
 	SetImage(node->GetAttributeValue(L"file", L""));
 }
