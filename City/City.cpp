@@ -83,6 +83,18 @@ std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offse
     return  nullptr;
 }
 
+std::shared_ptr<CTile> CCity::FindCar()
+{
+	for (auto i = mTiles.rbegin(); i != mTiles.rend(); i++)
+	{
+		if ((*i)->GetZoning() == CTile::CAR)
+		{
+			return *i;
+		}
+	}
+	return  nullptr;
+}
+
 
 /** \brief Move an item to the front of the list of items.
 *

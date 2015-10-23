@@ -18,6 +18,7 @@ using namespace Gdiplus;
  */
 CTileCar::CTileCar(CCity *city) : CTile(city)
 {
+
 }
 
 

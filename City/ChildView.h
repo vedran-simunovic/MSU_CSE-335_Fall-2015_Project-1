@@ -57,6 +57,9 @@ private:
 	/// The zoning
 	CTile::Zonings mZoning = CTile::NONE;
 
+	/// Check for vehicle mode ( can move the car with arroe keys )
+	bool mVehicleMode = false;
+
 	/// Checkmark for the trump option
 	bool mTrumpCheck = false;
 
@@ -103,6 +106,8 @@ public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnFileOpen();
     afx_msg void OnFileSaveas();
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 
     /** \cond */
     afx_msg void OnBuildingsFarmhouse();
@@ -162,5 +167,7 @@ public:
 	afx_msg void OnTilesinfoPartiallyoverlapping();
 	afx_msg void OnTilesinfoFullyoverlapping();
 	
+	afx_msg void OnTransportationVehiclemode();
+	afx_msg void OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI);
 };
 

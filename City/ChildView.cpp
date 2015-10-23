@@ -144,6 +144,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_INCLINEDROAD, &CChildView::OnTransportationInclinedroad)
 	ON_COMMAND(ID_TRANSPORTATION_PLAINROAD, &CChildView::OnTransportationPlainroad)
 	ON_WM_RBUTTONDOWN()
+	ON_WM_KEYDOWN()
+	ON_WM_KEYUP()
 	
 	
 
@@ -158,6 +160,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_CAR, &CChildView::OnTransportationCar)
 	ON_COMMAND(ID_TILESINFO_PARTIALLYOVERLAPPING, &CChildView::OnTilesinfoPartiallyoverlapping)
 	ON_COMMAND(ID_TILESINFO_FULLYOVERLAPPING, &CChildView::OnTilesinfoFullyoverlapping)
+	ON_COMMAND(ID_TRANSPORTATION_VEHICLEMODE, &CChildView::OnTransportationVehiclemode)
+	ON_UPDATE_COMMAND_UI(ID_TRANSPORTATION_VEHICLEMODE, &CChildView::OnUpdateTransportationVehiclemode)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -467,7 +471,61 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 
 }
 
+/** \brief Called when any key is pressed
+* \param nChar is the key that was pressed
+* \param 
+*/
+void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	int cool = 0;
+	/// Check if vehicle mode is on
+	auto tileCar = mCity.FindCar();
+	if (mVehicleMode && tileCar != nullptr)
+	{
+		/// We need to find the car tile
+		/// Iterate through all tiles in the city, return the car tile
+		if (nChar == 37) /// Left
+		{
 
+			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
+			///tileCar->SetLocation(x + 50, y + 50);
+			if (adjacentTile != nullptr)
+			{
+				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			}
+		}
+		else if (nChar == 38) /// Up 
+		{
+			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
+			///tileCar->SetLocation(x + 50, y + 50);
+			if (adjacentTile != nullptr)
+			{
+				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			}
+		}
+		else if (nChar == 39) /// Right
+		{
+			cool = 3;
+		}
+		else if (nChar == 40)
+		{
+			cool = 4;
+		}/// Down
+
+		Invalidate();
+		/// Find car, move it to the CENTER of the adjacent tile.
+	}
+
+}
+
+/** \brief Called when any key is pressed
+* \param nChar is the key that was pressed
+* \param
+*/
+void CChildView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+
+}
 
 /** \brief Called when the mouse is moved
 * \param nFlags Flags associated with the mouse movement
@@ -494,7 +552,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		if (mGrabbedItem != nullptr)
+		if (mGrabbedItem != nullptr && mGrabbedItem->GetZoning() != CTile::CAR)
 		{
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
@@ -602,11 +660,24 @@ void CChildView::AddBuilding(const std::wstring &file)
 */
 void CChildView::AddCar(const std::wstring &file)
 {
-	auto tile = make_shared<CTileCar>(&mCity);
-	tile->SetImage(file);
-	tile->SetLocation(InitialX, InitialY);
-	mCity.Add(tile);
-	Invalidate();
+	int carCount = mCity.GetCarCount();
+	if (carCount == 0)
+	{
+		auto tile = make_shared<CTileCar>(&mCity);
+		carCount++;
+		tile->SetImage(file);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::CAR);
+		mCity.Add(tile);
+		mCity.MoveToFront(tile);
+		mCity.SetCarCount(carCount);
+		Invalidate();
+	}
+	else {
+		wstringstream str;
+		str << L"You can only have one car.";
+		AfxMessageBox(str.str().c_str());
+	}
 }
 
 
@@ -1085,4 +1156,16 @@ void CChildView::OnTilesinfoFullyoverlapping()
 	/// Displaying that information
 	str << L"There are " << i << L" fully overlapping tiles.";
 	AfxMessageBox(str.str().c_str());
+}
+
+
+void CChildView::OnTransportationVehiclemode()
+{
+	mVehicleMode = !mVehicleMode;
+}
+
+
+void CChildView::OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mVehicleMode);
 }

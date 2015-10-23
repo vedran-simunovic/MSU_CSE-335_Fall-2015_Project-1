@@ -33,6 +33,8 @@ public:
     void MoveToFront(std::shared_ptr<CTile> item);
     void DeleteItem(std::shared_ptr<CTile> item);
 
+	std::shared_ptr<CTile> FindCar();
+
     void OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
     void Save(const std::wstring &filename);
@@ -168,6 +170,12 @@ public:
 	*/
 	ZoningIterSupport GetZoning(CTile::Zonings zoning) { return ZoningIterSupport(this, zoning); }
 
+	/// Get the number of cars in the city
+	int GetCarCount() { return mCarCount; }
+
+	/// Set the number of cars in the city
+	void SetCarCount(int count){ mCarCount = count; }
+
 private:
     void XmlTile(const std::shared_ptr<xmlnode::CXmlNode> &node);
     void BuildAdjacencies();
@@ -183,5 +191,8 @@ private:
 
 	/// the power need of all city
 	int mTotalPowerNeed = 0;
+
+	/// number of cars in city
+	int mCarCount = 0;
 };
 

@@ -35,5 +35,6 @@ public:
 
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
 
+
 };
 

@@ -168,6 +168,8 @@ BEGIN
         MENUITEM "Elevated Road",               ID_TRANSPORTATION_ELEVATEDROAD
         MENUITEM "Inclined Road",               ID_TRANSPORTATION_INCLINEDROAD
         MENUITEM "Plain Road",                  ID_TRANSPORTATION_PLAINROAD
+        MENUITEM SEPARATOR
+        MENUITEM "Vehicle Mode",                ID_TRANSPORTATION_VEHICLEMODE
     END
     POPUP "Tiles Info"
     BEGIN
