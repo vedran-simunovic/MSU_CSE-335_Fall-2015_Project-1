@@ -138,15 +138,19 @@ BEGIN
     END
     POPUP "B&usinesses"
     BEGIN
+        POPUP "Bank"
+        BEGIN
+            MENUITEM "Create Bank",                 ID_BANK_CREATEBANK
+        END
         POPUP "&Coal mine"
         BEGIN
             MENUITEM "Buy Coal Mine",               ID_COALMINE_CREATECOALMINE
             MENUITEM "Haul Cole",                   ID_COALMINE_HAULCOLE
             MENUITEM "Trump",                       ID_COALMINE_TRUMP
         END
-        POPUP "Bank"
+        POPUP "Oremine"
         BEGIN
-            MENUITEM "Create Bank",                 ID_BANK_CREATEBANK
+            MENUITEM "Buy Oremine",                 ID_OREMINE_BUYOREMINE
         END
     END
     POPUP "Border-Zoning-Select"
@@ -158,6 +162,8 @@ BEGIN
         MENUITEM "Transportation",              ID_BORDER_TRANSPORTATION
         MENUITEM "Power",                       ID_BORDER_POWER
         MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
+        MENUITEM "Car",                         ID_BORDER_CAR
+        MENUITEM "Business",                    ID_BORDER_BUSINESS
     END
     POPUP "Construction"
     BEGIN

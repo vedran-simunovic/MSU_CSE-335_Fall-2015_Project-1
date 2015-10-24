@@ -30,7 +30,8 @@ public:
 		POWER=5,			///< Power zoning
 		CONSTRUCTIONAL=6,	///< Constructional zoning
 		CAR=7,				///< Car zoning
-	};   
+		BUSINESS=8,			///< Business zoning, make money & buy only with these tiles
+	};   /// The possible tile zonings in the program
 	
 
     /** The directory were the images are stored */

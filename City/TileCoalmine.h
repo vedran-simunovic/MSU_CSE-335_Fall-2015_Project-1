@@ -109,12 +109,12 @@ private:
 	/// necessary production time is decreased.
 	int mTrumpScale = NormalProduction;
 
-	CoalmineLevelUp mCoalminePromotionLevel = LEVEL_2; ///< The current prmotion level
+	CoalmineLevelUp mCoalminePromotionLevel = LEVEL_1; ///< The current prmotion level
 
 	/// This is a flag that makes it so that the construction of 
 	/// an oremine can start only if the plain construction tile
 	/// is overlapping with a power tile.
-	bool mPowerOverlap = true;
+	bool mPowerOverlap = false;
 
 };
 

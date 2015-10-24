@@ -75,14 +75,17 @@ private:
 	/// Total wallet money in US dollars $
 	double mTotalMoney = 10000;
 
-	/// Price of building a coalmine
+	/// Price of building of all other tiles
 	double mOtherTilesPrice = 0;
 
 	/// Price of building a coalmine
 	double mCoalminePrice = 5000;
 
-	/// Price of building a coalmine
+	/// Price of building a oremine
 	double mOreminePrice = 20000;
+
+	/// Price of promotion of business tile
+	double mPromotionPrice = 1000;
 
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
@@ -190,5 +193,10 @@ public:
 	afx_msg void OnUpdateCoalmineTrump(CCmdUI *pCmdUI);
 	afx_msg void OnCoalmineHaulcole();
 	afx_msg void OnBankCreatebank();
+	afx_msg void OnOremineBuyoremine();
+	afx_msg void OnBorderCar();
+	afx_msg void OnBorderBusiness();
+	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
 };
 

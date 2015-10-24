@@ -185,6 +185,11 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_COALMINE_TRUMP, &CChildView::OnUpdateCoalmineTrump)
 	ON_COMMAND(ID_COALMINE_HAULCOLE, &CChildView::OnCoalmineHaulcole)
 	ON_COMMAND(ID_BANK_CREATEBANK, &CChildView::OnBankCreatebank)
+	ON_COMMAND(ID_OREMINE_BUYOREMINE, &CChildView::OnOremineBuyoremine)
+	ON_COMMAND(ID_BORDER_CAR, &CChildView::OnBorderCar)
+	ON_COMMAND(ID_BORDER_BUSINESS, &CChildView::OnBorderBusiness)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_CAR, &CChildView::OnUpdateBorderCar)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESS, &CChildView::OnUpdateBorderBusiness)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -266,26 +271,6 @@ void CChildView::OnPaint()
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
 
-
-	/*
-	* Draw the wallet
-	*/
-	mWalletTop = WalletMargin;
-	mWalletRight = WalletMargin + mWallet->GetWidth();
-
-	graphics.DrawImage(mWallet.get(), WalletMargin, mWalletTop,
-		mWallet->GetWidth(), mWallet->GetHeight());
-
-	/*
-	* Draw the inventory
-	*/
-	mInventoryTop = mWallet->GetHeight() + InventoryMargin + InventoryMarginSpace;
-	mInventoryRight = InventoryMargin + mInventory->GetWidth();
-
-	graphics.DrawImage(mInventory.get(), InventoryMargin, mInventoryTop,
-		mInventory->GetWidth(), mInventory->GetHeight());
-
-
     /*
      * Actually Draw the city
      */
@@ -311,6 +296,24 @@ void CChildView::OnPaint()
 			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
 	}
 
+	/*
+	* Draw the wallet
+	*/
+	mWalletTop = WalletMargin;
+	mWalletRight = WalletMargin + mWallet->GetWidth();
+
+	graphics.DrawImage(mWallet.get(), WalletMargin, mWalletTop,
+		mWallet->GetWidth(), mWallet->GetHeight());
+
+	/*
+	* Draw the inventory
+	*/
+	mInventoryTop = mWallet->GetHeight() + InventoryMargin + InventoryMarginSpace;
+	mInventoryRight = InventoryMargin + mInventory->GetWidth();
+
+	graphics.DrawImage(mInventory.get(), InventoryMargin, mInventoryTop,
+		mInventory->GetWidth(), mInventory->GetHeight());
+
 	Pen pen(Color::Green, 2);
 
 	// draw box over all of the tiles
@@ -325,6 +328,7 @@ void CChildView::OnPaint()
 	
 
 	// draw box only over the tile elements selected.
+
 
 	for (auto tile : mCity.GetZoning(mZoning))		
 	{
@@ -374,6 +378,12 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		}else if(tile->GetZoning() == CTile::CONSTRUCTIONAL)
 		{
 			// Starts off the clearing process if the tile in constructional
+			tile->SetClearFlag();
+			Invalidate();
+		}
+		else if (tile->GetZoning() == CTile::BUSINESS)
+		{
+			// PROMOTE THE TILE
 			tile->SetClearFlag();
 			Invalidate();
 		}
@@ -513,10 +523,13 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (point.x < mInventory->GetWidth() + InventoryMargin && point.y < mWallet->GetHeight() + WalletMargin + mInventory->GetHeight() + InventoryMarginSpace && point.y > mWallet->GetHeight() + WalletMargin + InventoryMarginSpace)
 	{
 		wstringstream str;
-		str << L"Building Prices:\n" <<
+		str << L"~~~~~ Building Prices ~~~~~\n\n" <<
+			"\nBusiness Tiles:"
 			"\n   Coalmine Price: $" << mCoalminePrice <<
 			"\n   Oremine Price: $" << mOreminePrice <<
-			"\n   All Other Tiles: $" << mOtherTilesPrice;
+			"\n   Promote the business tile: $" << mPromotionPrice <<
+			endl << endl <<
+			"\nAll Other Tiles: $" << mOtherTilesPrice;
 		AfxMessageBox(str.str().c_str());
 	}
 
@@ -910,6 +923,18 @@ void CChildView::OnBorderPower()
 	mZoning = CTile::POWER;
 }
 
+/** Menu handler that sets the border draw to car */
+void CChildView::OnBorderCar()
+{
+	mZoning = CTile::CAR;
+}
+
+/** Menu handler that sets the border draw to business */
+void CChildView::OnBorderBusiness()
+{
+	mZoning = CTile::BUSINESS;
+}
+
 
 
 /** Menu handler that sets the border draw to none 
@@ -952,6 +977,36 @@ void CChildView::OnUpdateBorderConstruction(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::CONSTRUCTIONAL);
 }
+
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::TRANSPORTATION);
+}
+
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::POWER);
+}
+
+void CChildView::OnUpdateBorderCar(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::CAR);
+}
+
+
+void CChildView::OnUpdateBorderBusiness(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::BUSINESS);
+}
+
 
 /** Menu handler that counts the number of builds */
 void CChildView::OnBuildingsCount()
@@ -1112,23 +1167,7 @@ void CChildView::OnConstructionGrasssite()
 }
 
 
-/**
- * check mark on menu
- * \param pCmdUI 
- */
-void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(mZoning == CTile::TRANSPORTATION);
-}
 
-/**
-* check mark on menu
-* \param pCmdUI
-*/
-void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(mZoning == CTile::POWER);
-}
 
 
 /**
@@ -1201,14 +1240,7 @@ void CChildView::OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI)
 }
 
 
-void CChildView::OnCoalmineCreatecoalmine()
-{
-	auto tile = make_shared<CTileCoalmine>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	mCity.Add(tile);
-	mTotalMoney = mTotalMoney - mCoalminePrice;
-	Invalidate();
-}
+
 
 /** Menu handler deals with trumping feature */
 void CChildView::OnCoalmineTrump()
@@ -1244,6 +1276,33 @@ void CChildView::OnBankCreatebank()
 {
 	auto tile = make_shared<CTileBank>(&mCity);
 	tile->SetLocation(InitialX, InitialY);
+	tile->SetZoning(CTile::BUSINESS);
 	mCity.Add(tile);
 	Invalidate();
 }
+
+
+void CChildView::OnOremineBuyoremine()
+{
+	auto tile = make_shared<CTileOremine>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetZoning(CTile::BUSINESS);
+	mCity.Add(tile);
+	mTotalMoney = mTotalMoney - mOreminePrice;
+	Invalidate();
+}
+
+void CChildView::OnCoalmineCreatecoalmine()
+{
+	auto tile = make_shared<CTileCoalmine>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetZoning(CTile::BUSINESS);
+	mCity.Add(tile);
+	mTotalMoney = mTotalMoney - mCoalminePrice;
+	Invalidate();
+}
+
+
+
+
+
