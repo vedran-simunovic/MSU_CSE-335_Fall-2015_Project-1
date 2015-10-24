@@ -72,6 +72,12 @@ const int OffsetLeft = 64;
 /// How much we offset drawing the tile above the center
 const int OffsetDown = 32;
 
+/// Ore production
+const int OreProduction = 1;
+
+/// Maximum Ore production
+const int MaxOreProduction = 50;
+
 /**
  * Constructor
  * \param city Passes the city object
@@ -97,158 +103,321 @@ void CTileOremine::Update(double elapsed)
 	if (GetZoning() == CTile::BUSINESS)
 	{
 		mStartConstruction = true;
-		SetImage(Oremine1);
+
+		// Error check
+		if (mDuration < 0)
+			mDuration = 0;
+
+		mDuration = mDuration + elapsed;
+
+		// Start oremine sequence
+		if (mStartConstruction == true && mPowerOverlap == true)
+		{
+			if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
+			{
+				mFile = Oremine1;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine1);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted1);
+
+				SetOremineAnimationLevel(OREMINE_2);
+
+				mRising = true;
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_2 && mDuration > OremineRate)
+			{
+				mFile = Oremine2;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine2);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted2);
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_3);
+				else
+					SetOremineAnimationLevel(OREMINE_1);
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_3 && mDuration > OremineRate)
+			{
+				mFile = Oremine3;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine3);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted3);
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_4);
+				else
+					SetOremineAnimationLevel(OREMINE_2);
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_4 && mDuration > OremineRate)
+			{
+				mFile = Oremine4;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine4);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted4);
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_5);
+				else
+					SetOremineAnimationLevel(OREMINE_3);
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_5 && mDuration > OremineRate)
+			{
+				mFile = Oremine5;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine5);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted5);
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_6);
+				else
+					SetOremineAnimationLevel(OREMINE_4);
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_6 && mDuration > OremineRate)
+			{
+				mFile = Oremine6;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine6);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted6);
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_7);
+				else
+					SetOremineAnimationLevel(OREMINE_5);
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_7 && mDuration > OremineRate)
+			{
+				mFile = Oremine7;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine7);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted7);
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_8);
+				else
+					SetOremineAnimationLevel(OREMINE_6);
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_8 && mDuration > OremineRate)
+			{
+				mFile = Oremine8;
+
+				if (mOreminePromotionLevel == LEVEL_1)
+					SetImage(Oremine8);
+				else if (mOreminePromotionLevel == LEVEL_2)
+					SetImage(OreminePromoted8);
+
+				SetOremineAnimationLevel(OREMINE_7);
+
+				mRising = false;
+
+				mDuration = 0;
+
+				if (mProduction < MaxOreProduction)
+					mProduction = mProduction + OreProduction;
+			}
+		} //end oremine state machine
 	}
 	else
 	{
 		if (GetClearFlag() == true && mStartConstruction == false)
 			CTileConstruction::Update(elapsed);
+
+		// Error check
+		if (mDuration < 0)
+			mDuration = 0;
+
+		mDuration = mDuration + elapsed;
+
+		// Start oremine sequence
+		if (mStartConstruction == true && mPowerOverlap == true)
+		{
+			if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
+			{
+				mFile = Oremine1;
+
+				SetImage(Oremine1);
+
+
+				SetOremineAnimationLevel(OREMINE_2);
+
+				mRising = true;
+
+				mDuration = 0;
+			}
+
+			if (mOremineAnimationLevel == OREMINE_2 && mDuration > OremineRate)
+			{
+				mFile = Oremine2;
+
+				SetImage(Oremine2);
+				
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_3);
+				else
+					SetOremineAnimationLevel(OREMINE_1);
+
+				mDuration = 0;
+
+			}
+
+			if (mOremineAnimationLevel == OREMINE_3 && mDuration > OremineRate)
+			{
+				mFile = Oremine3;
+
+				
+				SetImage(Oremine3);
+				
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_4);
+				else
+					SetOremineAnimationLevel(OREMINE_2);
+
+				mDuration = 0;
+
+			}
+
+			if (mOremineAnimationLevel == OREMINE_4 && mDuration > OremineRate)
+			{
+				mFile = Oremine4;
+
+				SetImage(Oremine4);
+				
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_5);
+				else
+					SetOremineAnimationLevel(OREMINE_3);
+
+				mDuration = 0;
+
+			}
+
+			if (mOremineAnimationLevel == OREMINE_5 && mDuration > OremineRate)
+			{
+				mFile = Oremine5;
+
+				
+				SetImage(Oremine5);
+				
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_6);
+				else
+					SetOremineAnimationLevel(OREMINE_4);
+
+				mDuration = 0;
+
+			}
+
+			if (mOremineAnimationLevel == OREMINE_6 && mDuration > OremineRate)
+			{
+				mFile = Oremine6;
+
+				
+				SetImage(Oremine6);
+				
+				
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_7);
+				else
+					SetOremineAnimationLevel(OREMINE_5);
+
+				mDuration = 0;
+
+			}
+
+			if (mOremineAnimationLevel == OREMINE_7 && mDuration > OremineRate)
+			{
+				mFile = Oremine7;
+
+				
+				SetImage(Oremine7);
+			
+
+				if (mRising == true)
+					SetOremineAnimationLevel(OREMINE_8);
+				else
+					SetOremineAnimationLevel(OREMINE_6);
+
+				mDuration = 0;
+
+				
+			}
+
+			if (mOremineAnimationLevel == OREMINE_8 && mDuration > OremineRate)
+			{
+				mFile = Oremine8;
+
+				
+				SetImage(Oremine8);
+				
+				SetOremineAnimationLevel(OREMINE_7);
+
+				mRising = false;
+
+				mDuration = 0;
+			}
+		} //end oremine state machine
 	}
 	
 
-	// Error check
-	if (mDuration < 0)
-		mDuration = 0;
-
-	mDuration = mDuration + elapsed;
-
-	// Start oremine sequence
-	if (mStartConstruction == true && mPowerOverlap == true)
-	{
-		if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
-		{
-			mFile = Oremine1;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine1);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted1);
-
-			SetOremineLevel(OREMINE_2);
-
-			mRising = true;
-
-			mDuration = 0;
-		}
-		
-		if (mOremineAnimationLevel == OREMINE_2 && mDuration > OremineRate)
-		{
-			mFile = Oremine2;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine2);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted2);
-
-			if (mRising == true)
-				SetOremineLevel(OREMINE_3);
-			else
-				SetOremineLevel(OREMINE_1);
-
-			mDuration = 0;
-		}
-
-		if (mOremineAnimationLevel == OREMINE_3 && mDuration > OremineRate)
-		{
-			mFile = Oremine3;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine3);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted3);
-
-			if (mRising == true)
-				SetOremineLevel(OREMINE_4);
-			else
-				SetOremineLevel(OREMINE_2);
-
-			mDuration = 0;
-		}
-
-		if (mOremineAnimationLevel== OREMINE_4 && mDuration > OremineRate)
-		{
-			mFile = Oremine4;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine4);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted4);
-
-			if (mRising == true)
-				SetOremineLevel(OREMINE_5);
-			else
-				SetOremineLevel(OREMINE_3);
-
-			mDuration = 0;
-		}
-
-		if (mOremineAnimationLevel == OREMINE_5 && mDuration > OremineRate)
-		{
-			mFile = Oremine5;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine5);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted5);
-
-			if (mRising == true)
-				SetOremineLevel(OREMINE_6);
-			else
-				SetOremineLevel(OREMINE_4);
-
-			mDuration = 0;
-		}
-
-		if (mOremineAnimationLevel == OREMINE_6 && mDuration > OremineRate)
-		{
-			mFile = Oremine6;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine6);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted6);
 	
-			if (mRising == true)
-				SetOremineLevel(OREMINE_7);
-			else
-				SetOremineLevel(OREMINE_5);
-
-			mDuration = 0;
-		}
-
-		if (mOremineAnimationLevel == OREMINE_7 && mDuration > OremineRate)
-		{
-			mFile = Oremine7;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine7);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted7);
-			
-			if (mRising == true)
-				SetOremineLevel(OREMINE_8);
-			else
-				SetOremineLevel(OREMINE_6);
-
-			mDuration = 0;
-		}
-
-		if (mOremineAnimationLevel == OREMINE_8 && mDuration > OremineRate)
-		{
-			mFile = Oremine8;
-
-			if (mOreminePromotionLevel == LEVEL_1)
-				SetImage(Oremine8);
-			else if (mOreminePromotionLevel == LEVEL_2)
-				SetImage(OreminePromoted8);
-
-			SetOremineLevel(OREMINE_7);
-			
-			mRising = false;
-
-			mDuration = 0;
-		}
-	} //end oremine state machine
 }
 
 /** \brief Save this item to an XML node
@@ -260,7 +429,7 @@ std::shared_ptr<xmlnode::CXmlNode> CTileOremine::XmlSave(const std::shared_ptr<x
 	auto itemNode = CTileConstruction::XmlSave(node);
 	itemNode->SetAttribute(L"file", GetFile());
 	itemNode->SetAttribute(L"type", L"oremine");
-	itemNode->SetAttribute(L"oremine_state", (int)GetOremineLevel());
+	itemNode->SetAttribute(L"oremine_state", (int)GetOremineAnimationLevel());
 
 	if (mStartClearing == true)
 		itemNode->SetAttribute(L"startClearing", L"true");
@@ -291,7 +460,7 @@ void CTileOremine::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 	mStartClearing = node->GetAttributeBoolValue(L"startClearing", L"");
 	mStartConstruction = node->GetAttributeBoolValue(L"startConstruction", L"");
 	mRising = node->GetAttributeBoolValue(L"rising", L"");
-	SetOremineLevel((CTileOremine::OremineAnimation)node->GetAttributeIntValue(L"oremine_state", 0));
+	SetOremineAnimationLevel((CTileOremine::OremineAnimation)node->GetAttributeIntValue(L"oremine_state", 0));
 	SetImage(node->GetAttributeValue(L"file", L""));
 }
 

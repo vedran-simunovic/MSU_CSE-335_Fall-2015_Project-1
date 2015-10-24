@@ -19,7 +19,9 @@
 #include "TileConstruction.h"
 #include "BuildingCounter.h"
 #include "CoalCounter.h"
+#include "OreCounter.h"
 #include "ResetCoal.h"
+#include "ResetOre.h"
 #include "Trump.h"
 #include "TransRotate.h"
 #include "TileTransportation.h"
@@ -1359,7 +1361,19 @@ void CChildView::OnCoalmineCreatecoalmine()
 
 void CChildView::OnOremineHaulore()
 {
-	// TODO: Add your command handler code here
+	COreCounter visitor;
+	mCity.Accept(&visitor);
+	double totalProduction = visitor.GetTotalProduction();
+
+	wstringstream str;
+	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
+		totalProduction*mOrePrice << " because the price of 1 ton of coal is worth $" << mOrePrice;
+	AfxMessageBox(str.str().c_str());
+
+	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
+
+	CResetOre visitor2;
+	mCity.Accept(&visitor2);
 }
 
 
@@ -1378,3 +1392,19 @@ mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
 CResetCoal visitor2;
 mCity.Accept(&visitor2);
 */
+
+/*
+
+CCoalCounter visitor;
+mCity.Accept(&visitor);
+double totalProduction = visitor.GetTotalProduction();
+
+wstringstream str;
+str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+AfxMessageBox(str.str().c_str());
+
+mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+
+CResetCoal visitor2;
+mCity.Accept(&visitor2);*/

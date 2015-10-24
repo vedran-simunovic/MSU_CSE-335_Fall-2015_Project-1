@@ -82,13 +82,16 @@ private:
 	double mCoalminePrice = 5000;
 
 	/// Price of building a oremine
-	double mOreminePrice = 20000;
+	double mOreminePrice = 50000;
 
 	/// Price of promotion of business tile
 	double mPromotionPrice = 1000;
 
-	/// Money that 1 ton of coal provides in US dollars$
+	/// Money that 1 ton of coal provides in US dollars $
 	double mCoalPrice = 1000;
+
+	/// Money that 1 ton of coal provides in US dollars $
+	double mOrePrice = 500;
 
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels

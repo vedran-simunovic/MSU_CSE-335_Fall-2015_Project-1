@@ -97,6 +97,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BuildingCounter.h" />
+    <ClInclude Include="OreCounter.h" />
+    <ClInclude Include="ResetOre.h" />
     <ClInclude Include="TileBank.h" />
     <ClInclude Include="TileCar.h" />
     <ClInclude Include="ChildView.h" />
@@ -128,6 +130,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildingCounter.cpp" />
+    <ClCompile Include="OreCounter.cpp" />
+    <ClCompile Include="ResetOre.cpp" />
     <ClCompile Include="TileBank.cpp" />
     <ClCompile Include="TileCar.cpp" />
     <ClCompile Include="ChildView.cpp" />

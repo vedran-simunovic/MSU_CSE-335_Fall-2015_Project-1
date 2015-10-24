@@ -53,13 +53,17 @@ public:
 	* \return mStartClearing The clearing flag of the construction */
 	bool GetClearFlag() { return mStartClearing; }
 
+	/** Accept a visitor
+	* \param visitor The visitor we accept */
+	virtual void Accept(CTileVisitor *visitor) override { visitor->VisitOremine(this); }
+
 	/** Sets the oremine level
 	* \param oremineLevel The ormine level to be newly set */
-	void SetOremineLevel(OremineAnimation oremineLevel) { mOremineAnimationLevel = oremineLevel; }
+	void SetOremineAnimationLevel(OremineAnimation oremineLevel) { mOremineAnimationLevel = oremineLevel; }
 
 	/** Gets the oremine level
 	* \return mOremineLevel The oremine level of the oremine */
-	OremineAnimation GetOremineLevel() { return mOremineAnimationLevel; }
+	OremineAnimation GetOremineAnimationLevel() { return mOremineAnimationLevel; }
 
 	/** Sets the construction flag to
 	* signify the start of construction
@@ -71,6 +75,18 @@ public:
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
 	void virtual Promote();
+
+	/** Gets the production
+	* \return mProduction*mOreminePromotionLevel The amount of the ore */
+	int GetProduction() { return mProduction*mOreminePromotionLevel; }
+
+	/** Sets the production
+	* \param production The production to be newly set */
+	void SetProduction(double production) { mProduction = production; }
+
+	/** Gets the level up
+	* \return mCoalminePromotionLevel The promotion level of the coal mine */
+	OremineLevelUp GetPromotionLevel() { return  mOreminePromotionLevel; }
 
 private:
 	OremineAnimation mOremineAnimationLevel = OREMINE_1; ///< The current animation level
@@ -93,5 +109,8 @@ private:
 	/// an oremine can start only if the plain construction tile
 	/// is overlapping with a power tile.
 	bool mPowerOverlap = true;
+
+	/// The amount of ore produced by the ore mine
+	double mProduction = 0;
 };
 

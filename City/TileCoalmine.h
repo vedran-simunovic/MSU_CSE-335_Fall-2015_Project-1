@@ -68,7 +68,7 @@ public:
 	void SetProduction(double production) { mProduction = production; }
 
 	/** Gets the production
-	* \return mProduction The amount of the coal */
+	* \return mProduction*mCoalminePromotionLevel The amount of the coal */
 	double GetProduction() { return mProduction*mCoalminePromotionLevel; }
 
 	/** Sets the trump level

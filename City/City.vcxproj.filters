@@ -102,6 +102,12 @@
     <ClInclude Include="TileBank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OreCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResetOre.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -180,6 +186,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileBank.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OreCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResetOre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
