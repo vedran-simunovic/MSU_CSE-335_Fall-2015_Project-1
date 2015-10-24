@@ -19,6 +19,7 @@
 #include "TilePower.h"
 #include "TileOremine.h"
 #include "TileStadium.h"
+#include "TileBank.h"
 
 using namespace std;
 using namespace xmlnode;

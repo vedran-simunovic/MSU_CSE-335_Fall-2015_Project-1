@@ -72,9 +72,29 @@ private:
     /// Any item we are currently dragging
     std::shared_ptr<CTile> mGrabbedItem;
 
+	/// Total wallet money in US dollars $
+	double mTotalMoney = 10000;
+
+	/// Price of building a coalmine
+	double mOtherTilesPrice = 0;
+
+	/// Price of building a coalmine
+	double mCoalminePrice = 5000;
+
+	/// Price of building a coalmine
+	double mOreminePrice = 20000;
+
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
     int mTrashcanRight = 0;         ///< Right side of the trashcan in pixels
+
+	std::unique_ptr<Gdiplus::Bitmap> mWallet; ///< Wallet image to use
+	int mWalletTop = 0;           ///< Top line of the wallet in pixels
+	int mWalletRight = 0;         ///< Right side of the wallet in pixels
+
+	std::unique_ptr<Gdiplus::Bitmap> mInventory; ///< Wallet image to use
+	int mInventoryTop = 0;           ///< Top line of the wallet in pixels
+	int mInventoryRight = 0;         ///< Right side of the wallet in pixels
 
 	std::unique_ptr<Gdiplus::Bitmap> mPowerToolbar;	///< toolbar image for power
 	bool mPowerActivate = false;			///< if power toolbar checked
@@ -169,5 +189,6 @@ public:
 	afx_msg void OnCoalmineTrump();
 	afx_msg void OnUpdateCoalmineTrump(CCmdUI *pCmdUI);
 	afx_msg void OnCoalmineHaulcole();
+	afx_msg void OnBankCreatebank();
 };
 

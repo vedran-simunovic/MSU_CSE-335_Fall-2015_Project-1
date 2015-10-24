@@ -18,6 +18,7 @@ class CTileConstruction;
 class CTileTransportation;
 class CTilePower;
 class CTileCar;
+class CTileBank;
 
 /** Tile visitor base class */
 class CTileVisitor
@@ -57,5 +58,9 @@ public:
 	/** Visit a CTilePower object
 	* \param power we are visiting */
 	virtual void VisitPower(CTilePower *power) {}
+
+	/** Visit a CTileBank object
+	* \param bank we are visiting */
+	virtual void VisitBank(CTileBank *bank) {}
 
 };

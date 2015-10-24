@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BuildingCounter.h" />
+    <ClInclude Include="TileBank.h" />
     <ClInclude Include="TileCar.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="City.h" />
@@ -127,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildingCounter.cpp" />
+    <ClCompile Include="TileBank.cpp" />
     <ClCompile Include="TileCar.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="City.cpp" />

@@ -144,6 +144,10 @@ BEGIN
             MENUITEM "Haul Cole",                   ID_COALMINE_HAULCOLE
             MENUITEM "Trump",                       ID_COALMINE_TRUMP
         END
+        POPUP "Bank"
+        BEGIN
+            MENUITEM "Create Bank",                 ID_BANK_CREATEBANK
+        END
     END
     POPUP "Border-Zoning-Select"
     BEGIN

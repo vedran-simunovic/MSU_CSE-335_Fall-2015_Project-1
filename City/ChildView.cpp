@@ -27,6 +27,7 @@
 #include "TileCar.h"
 #include "TileStadium.h"
 #include "TileOremine.h"
+#include "TileBank.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -48,6 +49,15 @@ const int InitialY = CCity::GridSpacing * 3;
 /// Margin of trashcan from side and bottom in pixels
 const int TrashcanMargin = 5;
 
+/// Margin of wallet from side and bottom in pixels
+const int WalletMargin = 2;
+
+/// Margin of inventory from side and bottom in pixels
+const int InventoryMargin = 2;
+
+/// Margin of inventory space from the wallet
+const int InventoryMarginSpace = 20;
+
 /// Margin of trashcan from side and bottom in pixels
 const int ScrollMarginTop = 0;
 
@@ -64,7 +74,7 @@ CChildView::CChildView()
 {
     srand((unsigned int)time(nullptr));
 
-    // Load the trash can image
+	// Load the trash can image
     mTrashcan = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/trashcan.png"));
     if (mTrashcan->GetLastStatus() != Ok)
     {
@@ -79,14 +89,26 @@ CChildView::CChildView()
 	}
 
 	
-
+	// Load scrolling menu
 	mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
 	if (mScroll->GetLastStatus() != Ok)
 	{
 		AfxMessageBox(L"Failed to open images/nav1.png");
 	}
-	// Load scrolling menu
+
+	// Load the wallet image
+	mWallet = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/wallet.png"));
+	if (mWallet->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/wallet.png");
+	}
 	
+	// Load the inventory image
+	mInventory = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/inventory.png"));
+	if (mInventory->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/inventory.png");
+	}
 }
 
 /**
@@ -162,6 +184,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_COALMINE_TRUMP, &CChildView::OnCoalmineTrump)
 	ON_UPDATE_COMMAND_UI(ID_COALMINE_TRUMP, &CChildView::OnUpdateCoalmineTrump)
 	ON_COMMAND(ID_COALMINE_HAULCOLE, &CChildView::OnCoalmineHaulcole)
+	ON_COMMAND(ID_BANK_CREATEBANK, &CChildView::OnBankCreatebank)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -242,6 +265,26 @@ void CChildView::OnPaint()
 
     graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
+
+
+	/*
+	* Draw the wallet
+	*/
+	mWalletTop = WalletMargin;
+	mWalletRight = WalletMargin + mWallet->GetWidth();
+
+	graphics.DrawImage(mWallet.get(), WalletMargin, mWalletTop,
+		mWallet->GetWidth(), mWallet->GetHeight());
+
+	/*
+	* Draw the inventory
+	*/
+	mInventoryTop = mWallet->GetHeight() + InventoryMargin + InventoryMarginSpace;
+	mInventoryRight = InventoryMargin + mInventory->GetWidth();
+
+	graphics.DrawImage(mInventory.get(), InventoryMargin, mInventoryTop,
+		mInventory->GetWidth(), mInventory->GetHeight());
+
 
     /*
      * Actually Draw the city
@@ -356,46 +399,46 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// test if the point at the power tool bar when tool bar activate
-	if (mPowerActivate == true && (point.x>mPowerToolbarLeft && point.y > mPowerToolbarTop)){
+	if (mPowerActivate == true && (point.x > mPowerToolbarLeft && point.y > mPowerToolbarTop)){
 		double relPointPosX = point.x - mPowerToolbarLeft;
 		int clickRegion = int(floor(relPointPosX / PowerToolbarRegion));
-		
+
 		switch (clickRegion)
 		{
-			case 1:{
-				AddPower(CTilePower::LGRID);
-				break;
-			}
-				// 
-			case 2:{
-				AddPower(CTilePower::GRID);
-				break;
-			}
+		case 1:{
+			AddPower(CTilePower::LGRID);
+			break;
+		}
+			   // 
+		case 2:{
+			AddPower(CTilePower::GRID);
+			break;
+		}
 
-			case 3:{
-				AddPower(CTilePower::TGRID);
-				break;
-			}
+		case 3:{
+			AddPower(CTilePower::TGRID);
+			break;
+		}
 
-			case 4:{
-				AddPower(CTilePower::XGRID);
-				break;
-			}
+		case 4:{
+			AddPower(CTilePower::XGRID);
+			break;
+		}
 
-			case 5:{
-				AddPower(CTilePower::SUBSTATION);
-				break;
-			}
+		case 5:{
+			AddPower(CTilePower::SUBSTATION);
+			break;
+		}
 
-			case 6:{
-				AddPower(CTilePower::POWERPLANT);
-				break;
-			}
+		case 6:{
+			AddPower(CTilePower::POWERPLANT);
+			break;
+		}
 
-			case 7:{
-				AddPower(CTilePower::SOLARSTATION);
-				break;
-			}
+		case 7:{
+			AddPower(CTilePower::SOLARSTATION);
+			break;
+		}
 
 		}
 	}
@@ -419,7 +462,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (point.x < mScrollLeft + 44 && point.x > mScrollLeft && point.y < mScroll->GetHeight() / 2)
 	{
 		if (mScale <= 4)
-			mScale = mScale*2;
+			mScale = mScale * 2;
 	}
 
 	if (point.x < mScrollLeft + 44 && point.x > mScrollLeft && point.y > mScroll->GetHeight() / 2 && point.y < mScroll->GetHeight())
@@ -459,6 +502,26 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
+
+	if (point.x < mWallet->GetWidth() + WalletMargin && point.y < mWallet->GetHeight() + WalletMargin)
+	{
+		wstringstream str;
+		str << L"You have $" << mTotalMoney;
+		AfxMessageBox(str.str().c_str());
+	}
+
+	if (point.x < mInventory->GetWidth() + InventoryMargin && point.y < mWallet->GetHeight() + WalletMargin + mInventory->GetHeight() + InventoryMarginSpace && point.y > mWallet->GetHeight() + WalletMargin + InventoryMarginSpace)
+	{
+		wstringstream str;
+		str << L"Building Prices:\n" <<
+			"\n   Coalmine Price: $" << mCoalminePrice <<
+			"\n   Oremine Price: $" << mOreminePrice <<
+			"\n   All Other Tiles: $" << mOtherTilesPrice;
+		AfxMessageBox(str.str().c_str());
+	}
+
+
+		
 }
 
 /** \brief Called when the left mouse button is released
@@ -1143,6 +1206,7 @@ void CChildView::OnCoalmineCreatecoalmine()
 	auto tile = make_shared<CTileCoalmine>(&mCity);
 	tile->SetLocation(InitialX, InitialY);
 	mCity.Add(tile);
+	mTotalMoney = mTotalMoney - mCoalminePrice;
 	Invalidate();
 }
 
@@ -1173,4 +1237,13 @@ void CChildView::OnCoalmineHaulcole()
 
 	CResetCoal visitor2;
 	mCity.Accept(&visitor2);
+}
+
+
+void CChildView::OnBankCreatebank()
+{
+	auto tile = make_shared<CTileBank>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
 }
