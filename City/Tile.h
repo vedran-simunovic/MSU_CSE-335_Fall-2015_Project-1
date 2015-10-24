@@ -1,7 +1,7 @@
 /**
  * \file Tile.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * \brief Base class for any tile in our city
  */

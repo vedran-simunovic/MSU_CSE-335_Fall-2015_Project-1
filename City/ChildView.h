@@ -1,7 +1,7 @@
 /**
 * \file ChildView.h
 *
-* \author Helena Narowski
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * \brief Class that implements the child window our program draws in.
 *
@@ -124,8 +124,7 @@ public:
     afx_msg void OnLandscapingTree();
     afx_msg void OnLandscapingTrees();
     afx_msg void OnLandscapingBigtrees();
-    afx_msg void OnLandscapingRoad();
-    afx_msg void OnBusinessesCoalmine();
+	afx_msg void OnLandscapingRoad();
 	
 	
 	afx_msg void OnTransportationDeclinedroad();
@@ -140,9 +139,6 @@ public:
 	afx_msg void OnUpdateBorderIndustrial(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderAgricultural(CCmdUI *pCmdUI);
 	afx_msg void OnBuildingsCount();
-	afx_msg void OnBusinessesHaulcole();
-	afx_msg void OnBusinessesTrump();
-	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	
 	
 	afx_msg void OnPowerBuild();
@@ -169,5 +165,9 @@ public:
 	
 	afx_msg void OnTransportationVehiclemode();
 	afx_msg void OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI);
+	afx_msg void OnCoalmineCreatecoalmine();
+	afx_msg void OnCoalmineTrump();
+	afx_msg void OnUpdateCoalmineTrump(CCmdUI *pCmdUI);
+	afx_msg void OnCoalmineHaulcole();
 };
 

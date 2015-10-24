@@ -1,7 +1,7 @@
 /**
  * \file PowerRotate.h
  *
- * \author Nan Du
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * visitor for rotate image
  */

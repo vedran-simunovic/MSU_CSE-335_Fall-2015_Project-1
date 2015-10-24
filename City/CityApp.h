@@ -1,7 +1,7 @@
 /**
  * \file CityApp.h
  *
- * \author Nan Du
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * 
  */

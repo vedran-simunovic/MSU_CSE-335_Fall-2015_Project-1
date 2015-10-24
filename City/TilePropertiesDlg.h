@@ -1,7 +1,7 @@
 /**
  * \file TilePropertiesDlg.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * \brief The tile properties dialog box
  */

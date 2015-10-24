@@ -138,9 +138,12 @@ BEGIN
     END
     POPUP "B&usinesses"
     BEGIN
-        MENUITEM "&Coal mine",                  ID_BUSINESSES_COALMINE
-        MENUITEM "Haul Cole",                   ID_BUSINESSES_HAULCOLE
-        MENUITEM "Trump",                       ID_BUSINESSES_TRUMP
+        POPUP "&Coal mine"
+        BEGIN
+            MENUITEM "Buy Coal Mine",               ID_COALMINE_CREATECOALMINE
+            MENUITEM "Haul Cole",                   ID_COALMINE_HAULCOLE
+            MENUITEM "Trump",                       ID_COALMINE_TRUMP
+        END
     END
     POPUP "Border-Zoning-Select"
     BEGIN

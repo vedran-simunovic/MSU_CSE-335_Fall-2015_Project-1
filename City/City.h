@@ -1,7 +1,7 @@
 /**
  * \file City.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * \brief Class that implements a simple city with tiles we can manipulate
  */

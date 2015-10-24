@@ -1,7 +1,7 @@
 /**
  * \file BuildingCounter.h
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * Building counter concrete visitor
  */

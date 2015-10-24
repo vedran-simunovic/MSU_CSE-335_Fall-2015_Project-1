@@ -1,7 +1,7 @@
 /**
 * \file TileVisitor.h
 *
-* \author Vedran Simunovic
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * Tile visitor base class.
 */

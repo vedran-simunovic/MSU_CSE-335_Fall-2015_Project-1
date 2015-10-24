@@ -1,7 +1,7 @@
 /**
  * \file TileOremine.h
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * Oremine class to draw oremine
  */

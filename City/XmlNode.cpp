@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  * \brief Class that implements a wrapper for msxml nodes
  *
  * \version 1.01 07-16-2014

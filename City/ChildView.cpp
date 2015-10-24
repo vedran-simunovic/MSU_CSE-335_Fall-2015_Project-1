@@ -122,7 +122,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
     ON_COMMAND(ID_LANDSCAPING_TREES, &CChildView::OnLandscapingTrees)
     ON_COMMAND(ID_LANDSCAPING_BIGTREES, &CChildView::OnLandscapingBigtrees)
     ON_COMMAND(ID_LANDSCAPING_ROAD, &CChildView::OnLandscapingRoad)
-    ON_COMMAND(ID_BUSINESSES_COALMINE, &CChildView::OnBusinessesCoalmine)
     ON_WM_LBUTTONDBLCLK()
 	ON_COMMAND(ID_BORDER_NONE, &CChildView::OnBorderNone)
 	ON_COMMAND(ID_BORDER_RESIDENTIAL, &CChildView::OnBorderResidential)
@@ -133,9 +132,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_INDUSTRIAL, &CChildView::OnUpdateBorderIndustrial)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_AGRICULTURAL, &CChildView::OnUpdateBorderAgricultural)
 	ON_COMMAND(ID_BUILDINGS_COUNT, &CChildView::OnBuildingsCount)
-	ON_COMMAND(ID_BUSINESSES_HAULCOLE, &CChildView::OnBusinessesHaulcole)
-	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
-	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
 	ON_COMMAND(ID_POWER_BUILD, &CChildView::OnPowerBuild)
 	ON_UPDATE_COMMAND_UI(ID_POWER_BUILD, &CChildView::OnUpdatePowerBuild)
 	ON_COMMAND(ID_TRANSPORTATION_CURVEDROAD, &CChildView::OnTransportationCurvedroad)
@@ -162,6 +158,10 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TILESINFO_FULLYOVERLAPPING, &CChildView::OnTilesinfoFullyoverlapping)
 	ON_COMMAND(ID_TRANSPORTATION_VEHICLEMODE, &CChildView::OnTransportationVehiclemode)
 	ON_UPDATE_COMMAND_UI(ID_TRANSPORTATION_VEHICLEMODE, &CChildView::OnUpdateTransportationVehiclemode)
+	ON_COMMAND(ID_COALMINE_CREATECOALMINE, &CChildView::OnCoalmineCreatecoalmine)
+	ON_COMMAND(ID_COALMINE_TRUMP, &CChildView::OnCoalmineTrump)
+	ON_UPDATE_COMMAND_UI(ID_COALMINE_TRUMP, &CChildView::OnUpdateCoalmineTrump)
+	ON_COMMAND(ID_COALMINE_HAULCOLE, &CChildView::OnCoalmineHaulcole)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -710,13 +710,7 @@ void CChildView::OnLandscapingRoad()
 }
 
 
-void CChildView::OnBusinessesCoalmine()
-{
-	auto tile = make_shared<CTileCoalmine>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	mCity.Add(tile);
-	Invalidate();
-}
+
 
 
 
@@ -908,34 +902,7 @@ void CChildView::OnBuildingsCount()
 	AfxMessageBox(str.str().c_str());
 }
 
-/** Menu handler that counts the tons of coal hauled */
-void CChildView::OnBusinessesHaulcole()
-{
-	CCoalCounter visitor;
-	mCity.Accept(&visitor);
-	double totalProduction = visitor.GetTotalProduction();
 
-	wstringstream str;
-	str << L"The total production is " << totalProduction << L" tons";
-	AfxMessageBox(str.str().c_str());
-
-	CResetCoal visitor2;
-	mCity.Accept(&visitor2);
-}
-
-/** Menu handler deals with trumping feature */
-void CChildView::OnBusinessesTrump()
-{
-	mTrumpCheck = !mTrumpCheck;
-}
-
-/** Menu handler deals with trumping feature 
-* \param pCmdUI This is pass to be able to change the checkmard on the screen
-*/
-void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(mTrumpCheck);
-}
 
 /** Menu handler deals with building power tile */
 void CChildView::OnPowerBuild()
@@ -1168,4 +1135,42 @@ void CChildView::OnTransportationVehiclemode()
 void CChildView::OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mVehicleMode);
+}
+
+
+void CChildView::OnCoalmineCreatecoalmine()
+{
+	auto tile = make_shared<CTileCoalmine>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	mCity.Add(tile);
+	Invalidate();
+}
+
+/** Menu handler deals with trumping feature */
+void CChildView::OnCoalmineTrump()
+{
+	mTrumpCheck = !mTrumpCheck;
+}
+
+/** Menu handler deals with trumping feature
+* \param pCmdUI This is pass to be able to change the checkmard on the screen
+*/
+void CChildView::OnUpdateCoalmineTrump(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mTrumpCheck);
+}
+
+/** Menu handler that counts the tons of coal hauled */
+void CChildView::OnCoalmineHaulcole()
+{
+	CCoalCounter visitor;
+	mCity.Accept(&visitor);
+	double totalProduction = visitor.GetTotalProduction();
+
+	wstringstream str;
+	str << L"The total production is " << totalProduction << L" tons";
+	AfxMessageBox(str.str().c_str());
+
+	CResetCoal visitor2;
+	mCity.Accept(&visitor2);
 }

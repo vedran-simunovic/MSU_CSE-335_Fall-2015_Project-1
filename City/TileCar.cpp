@@ -1,7 +1,7 @@
 /**
  * \file TileCar.cpp
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"

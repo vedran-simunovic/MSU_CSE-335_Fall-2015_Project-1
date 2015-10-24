@@ -1,7 +1,7 @@
 /**
 * \file TileRoad.h
 *
-* \author Helena Narowski
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * \brief Class that implements a Road tile
 */
