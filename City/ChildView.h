@@ -93,6 +93,9 @@ private:
 	/// Money that 1 ton of coal provides in US dollars $
 	double mOrePrice = 500;
 
+	/// Amount of money needed to win the game
+	double mGameObjectiveMoney = 999999;
+
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
     int mTrashcanRight = 0;         ///< Right side of the trashcan in pixels

@@ -540,7 +540,19 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (point.x < mWallet->GetWidth() + WalletMargin && point.y < mWallet->GetHeight() + WalletMargin)
 	{
 		wstringstream str;
-		str << L"You have $" << mTotalMoney;
+		if (mTotalMoney < mGameObjectiveMoney)
+		{
+			str << L"~~~~~Become a Millionaire~~~~~\n\nYou have $" << mTotalMoney <<
+				endl << endl <<
+				"To win the game, you need to have more than $" <<
+				mGameObjectiveMoney << ".\n\nYou are " << mTotalMoney / (mGameObjectiveMoney+1) * 100 <<
+				"% done with the game!.";
+		}
+		else
+		{
+			str << L"You have won the game!\n\n\nCongratulations!!!!!!!!";
+		}
+
 		AfxMessageBox(str.str().c_str());
 	}
 
