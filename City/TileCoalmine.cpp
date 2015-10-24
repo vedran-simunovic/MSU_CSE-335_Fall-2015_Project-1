@@ -57,7 +57,7 @@ const wstring MediumProductionPromotedImage = L"coalmine-medp.png";
 const wstring FullProductionPromotedImage = L"coalmine-fullp.png";
 
 /// Image when the coalmine promoted is destroyed
-const wstring DestroyedImage = L"burnt_landp.png";
+const wstring DestroyedPromotedImage = L"burnt_landp.png";
 
 /** Constructor
 * \param city The city this is a member of
