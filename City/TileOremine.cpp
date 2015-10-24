@@ -33,6 +33,30 @@ const wstring Oremine7 = L"oremine7.png";
 /// Oremine Step 8
 const wstring Oremine8 = L"oremine8.png";
 
+// This is the promoted oremine
+/// Image when promoted oremine starts. Oremine Step 1
+const wstring OreminePromoted1 = L"oremine1p.png";
+
+/// Oremine promoted Step 2
+const wstring OreminePromoted2 = L"oremine2p.png";
+
+/// Oremine promoted Step 3
+const wstring OreminePromoted3 = L"oremine3p.png";
+
+/// Oremine promoted Step 4
+const wstring OreminePromoted4 = L"oremine4p.png";
+
+/// Oremine promoted Step 5
+const wstring OreminePromoted5 = L"oremine5p.png";
+
+/// Oremine promoted Step 6
+const wstring OreminePromoted6 = L"oremine6p.png";
+
+/// Oremine promoted Step 7
+const wstring OreminePromoted7 = L"oremine7p.png";
+
+/// Oremine promoted Step 8
+const wstring OreminePromoted8 = L"oremine8p.png";
 /// Oremine transition rate
 const double OremineRate = 0.5; // seconds
 
@@ -79,11 +103,14 @@ void CTileOremine::Update(double elapsed)
 	// Start oremine sequence
 	if (mStartConstruction == true && mPowerOverlap == true)
 	{
-		if (mOremineLevel == OREMINE_1 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
 		{
 			mFile = Oremine1;
 
-			SetImage(Oremine1);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine1);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted1);
 
 			SetOremineLevel(OREMINE_2);
 
@@ -92,11 +119,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 		
-		if (mOremineLevel == OREMINE_2 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_2 && mDuration > OremineRate)
 		{
 			mFile = Oremine2;
 
-			SetImage(Oremine2);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine2);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted2);
 
 			if (mRising == true)
 				SetOremineLevel(OREMINE_3);
@@ -106,11 +136,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 
-		if (mOremineLevel == OREMINE_3 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_3 && mDuration > OremineRate)
 		{
 			mFile = Oremine3;
 
-			SetImage(Oremine3);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine3);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted3);
 
 			if (mRising == true)
 				SetOremineLevel(OREMINE_4);
@@ -120,11 +153,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 
-		if (mOremineLevel== OREMINE_4 && mDuration > OremineRate)
+		if (mOremineAnimationLevel== OREMINE_4 && mDuration > OremineRate)
 		{
 			mFile = Oremine4;
 
-			SetImage(Oremine4);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine4);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted4);
 
 			if (mRising == true)
 				SetOremineLevel(OREMINE_5);
@@ -134,11 +170,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 
-		if (mOremineLevel == OREMINE_5 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_5 && mDuration > OremineRate)
 		{
 			mFile = Oremine5;
 
-			SetImage(Oremine5);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine5);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted5);
 
 			if (mRising == true)
 				SetOremineLevel(OREMINE_6);
@@ -148,11 +187,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 
-		if (mOremineLevel == OREMINE_6 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_6 && mDuration > OremineRate)
 		{
 			mFile = Oremine6;
 
-			SetImage(Oremine6);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine6);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted6);
 	
 			if (mRising == true)
 				SetOremineLevel(OREMINE_7);
@@ -162,11 +204,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 
-		if (mOremineLevel == OREMINE_7 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_7 && mDuration > OremineRate)
 		{
 			mFile = Oremine7;
 
-			SetImage(Oremine7);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine7);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted7);
 			
 			if (mRising == true)
 				SetOremineLevel(OREMINE_8);
@@ -176,11 +221,14 @@ void CTileOremine::Update(double elapsed)
 			mDuration = 0;
 		}
 
-		if (mOremineLevel == OREMINE_8 && mDuration > OremineRate)
+		if (mOremineAnimationLevel == OREMINE_8 && mDuration > OremineRate)
 		{
 			mFile = Oremine8;
 
-			SetImage(Oremine8);
+			if (mOreminePromotionLevel == LEVEL_1)
+				SetImage(Oremine8);
+			else if (mOreminePromotionLevel == LEVEL_2)
+				SetImage(OreminePromoted8);
 
 			SetOremineLevel(OREMINE_7);
 			

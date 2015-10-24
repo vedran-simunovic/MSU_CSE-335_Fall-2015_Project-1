@@ -55,11 +55,11 @@ public:
 
 	/** Sets the oremine level
 	* \param oremineLevel The ormine level to be newly set */
-	void SetOremineLevel(OremineAnimation oremineLevel) { mOremineLevel = oremineLevel; }
+	void SetOremineLevel(OremineAnimation oremineLevel) { mOremineAnimationLevel = oremineLevel; }
 
 	/** Gets the oremine level
 	* \return mOremineLevel The oremine level of the oremine */
-	OremineAnimation GetOremineLevel() { return mOremineLevel; }
+	OremineAnimation GetOremineLevel() { return mOremineAnimationLevel; }
 
 	/** Sets the construction flag to
 	* signify the start of construction
@@ -71,7 +71,9 @@ public:
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
 private:
-	OremineAnimation mOremineLevel = OREMINE_1; ///< The current clearing level
+	OremineAnimation mOremineAnimationLevel = OREMINE_1; ///< The current animation level
+
+	OremineLevelUp mOreminePromotionLevel = LEVEL_1; ///< The current prmotion level
 
 	bool mStartClearing = false; ///< This is a flag for the tile so that it knows to start clearing
 

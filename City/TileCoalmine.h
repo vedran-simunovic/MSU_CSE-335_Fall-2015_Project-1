@@ -40,6 +40,12 @@ public:
 
 	};    ///< Trumping tracker
 
+	/// The possible level ups for the oremine
+	enum CoalmineLevelUp {
+		LEVEL_1 = 1,   ///< Level 1, normal
+		LEVEL_2 = 2,   ///< Level 2, promoted level	
+	};    ///< Oremine level up
+
     virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
 
@@ -81,6 +87,12 @@ public:
 	* \return mTrumpScale The current trump scale of the coal mine*/
 	int GetTrumpScale() { return mTrumpScale; }
 
+	/** Gets the level up
+	* \return mCoalminePromotionLevel The promotion level of the coal mine */
+	CoalmineLevelUp GetPromotionLevel() { return  mCoalminePromotionLevel; }
+
+
+
 	
 
 private:
@@ -96,6 +108,13 @@ private:
 	/// The scale factor that changes after trump is clicked. When trump is clicked,
 	/// necessary production time is decreased.
 	int mTrumpScale = NormalProduction;
+
+	CoalmineLevelUp mCoalminePromotionLevel = LEVEL_1; ///< The current prmotion level
+
+	/// This is a flag that makes it so that the construction of 
+	/// an oremine can start only if the plain construction tile
+	/// is overlapping with a power tile.
+	bool mPowerOverlap = false;
 
 };
 

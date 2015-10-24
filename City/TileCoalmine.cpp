@@ -44,6 +44,21 @@ const double FullProduction = 4;
 /// Image when the coalmine is destroyed
 const wstring DestroyedImage = L"burnt_land.png";
 
+/// Image when the coalmine promoted production is empty
+const wstring EmptyPromotedImage = L"coalmine-emptyp.png";
+
+/// Image when the coalmine promoted production is low
+const wstring LowProductionPromotedImage = L"coalmine-lowp.png";
+
+/// Image when the coalmine promoted production is Medium
+const wstring MediumProductionPromotedImage = L"coalmine-medp.png";
+
+/// Image when the coalmine promoted production is Full
+const wstring FullProductionPromotedImage = L"coalmine-fullp.png";
+
+/// Image when the coalmine promoted is destroyed
+const wstring DestroyedImage = L"burnt_landp.png";
+
 /** Constructor
 * \param city The city this is a member of
 */
@@ -110,31 +125,51 @@ void CTileCoalmine::Update(double elapsed)
 	}
 
 
-	if (GetTrump() != SECOND_TRUMP)
+	if (GetTrump() != SECOND_TRUMP && mPowerOverlap == true)
 	{
+		// Step 1 animation
 		if (GetProduction() == 0 && GetDuration() >= LowProductionTime/GetTrumpScale())
 		{
 			// Don't redraw every time this is true
 			if (GetProduction() != LowProduction)
-				SetImage(LowProductionImage);
+			{
+				if (mCoalminePromotionLevel == LEVEL_1)
+					SetImage(LowProductionImage);
+				else if (mCoalminePromotionLevel == LEVEL_2)
+					SetImage(LowProductionPromotedImage);
+			}
 
 			SetProduction(LowProduction);
 			SetDuration(0);
 		}
 
+
+		// Step 2 animation
 		if (GetProduction() == LowProduction && GetDuration() >= MediumProductionTime/GetTrumpScale())
 		{
 			if (GetProduction() != MediumProduction)
-				SetImage(MediumProductionImage);
+			{
+				if (mCoalminePromotionLevel == LEVEL_1)
+					SetImage(MediumProductionImage);
+				else if (mCoalminePromotionLevel == LEVEL_2)
+					SetImage(MediumProductionPromotedImage);
+			}
 
 			SetProduction(MediumProduction);
 			SetDuration(0);
 		}
 
-		if (GetProduction() == MediumProduction && GetDuration() >= FullProductionTime/GetTrumpScale())
+
+		// Step 3 animation
+		if (GetProduction() == MediumProduction && GetDuration() >= FullProductionTime / GetTrumpScale())
 		{
 			if (GetProduction() != FullProduction)
-				SetImage(FullProductionImage);
+			{
+				if (mCoalminePromotionLevel == LEVEL_1)
+					SetImage(FullProductionImage);
+				else if (mCoalminePromotionLevel == LEVEL_2)
+					SetImage(FullProductionPromotedImage);
+			}
 
 			SetProduction(FullProduction);
 			SetDuration(0);
