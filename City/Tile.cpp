@@ -212,3 +212,8 @@ void CTile::PropertiesDlg()
 void CTile::SetClearFlag()
 {
 }
+
+/** Used to call the promote function in the Business tile child class*/
+void CTile::Promote()
+{
+}

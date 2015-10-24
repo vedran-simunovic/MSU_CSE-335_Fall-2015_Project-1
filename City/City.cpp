@@ -256,6 +256,10 @@ void CCity::XmlTile(const std::shared_ptr<CXmlNode> &node)
 	{
 		tile = make_shared<CTilePower>(this, CTilePower::NONE);
 	}
+	else if (type == L"bank")
+	{
+		tile = make_shared<CTileBank>(this);
+	}
 
     if (tile != nullptr)
     {

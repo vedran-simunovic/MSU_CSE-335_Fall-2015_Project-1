@@ -69,7 +69,7 @@ public:
 
 	/** Gets the production
 	* \return mProduction The amount of the coal */
-	double GetProduction() { return mProduction; }
+	double GetProduction() { return mProduction*mCoalminePromotionLevel; }
 
 	/** Sets the trump level
 	* \param trumpLevel The trump level to be newly set */
@@ -91,7 +91,7 @@ public:
 	* \return mCoalminePromotionLevel The promotion level of the coal mine */
 	CoalmineLevelUp GetPromotionLevel() { return  mCoalminePromotionLevel; }
 
-
+	void virtual Promote();
 
 	
 
@@ -114,7 +114,6 @@ private:
 	/// This is a flag that makes it so that the construction of 
 	/// an oremine can start only if the plain construction tile
 	/// is overlapping with a power tile.
-	bool mPowerOverlap = false;
-
+	bool mPowerOverlap = true;
 };
 

@@ -73,7 +73,7 @@ private:
     std::shared_ptr<CTile> mGrabbedItem;
 
 	/// Total wallet money in US dollars $
-	double mTotalMoney = 10000;
+	double mTotalMoney = 1000000;
 
 	/// Price of building of all other tiles
 	double mOtherTilesPrice = 0;
@@ -86,6 +86,9 @@ private:
 
 	/// Price of promotion of business tile
 	double mPromotionPrice = 1000;
+
+	/// Money that 1 ton of coal provides in US dollars$
+	double mCoalPrice = 1000;
 
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
@@ -198,5 +201,6 @@ public:
 	afx_msg void OnBorderBusiness();
 	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
+	afx_msg void OnOremineHaulore();
 };
 

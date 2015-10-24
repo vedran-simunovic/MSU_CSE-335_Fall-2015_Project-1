@@ -151,6 +151,7 @@ BEGIN
         POPUP "Oremine"
         BEGIN
             MENUITEM "Buy Oremine",                 ID_OREMINE_BUYOREMINE
+            MENUITEM "Haul Ore",                    ID_OREMINE_HAULORE
         END
     END
     POPUP "Border-Zoning-Select"

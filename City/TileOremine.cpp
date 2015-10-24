@@ -3,8 +3,11 @@
 *
 * \author Vedran Simunovic, Nan Du, Helena Narowski
 */
+
+
 #include "stdafx.h"
 #include "TileOremine.h"
+
 
 using namespace std;
 using namespace Gdiplus;
@@ -91,8 +94,17 @@ CTileOremine::~CTileOremine()
 */
 void CTileOremine::Update(double elapsed)
 {
-	if(GetClearFlag() == true && mStartConstruction == false)
-		CTileConstruction::Update(elapsed);
+	if (GetZoning() == CTile::BUSINESS)
+	{
+		mStartConstruction = true;
+		SetImage(Oremine1);
+	}
+	else
+	{
+		if (GetClearFlag() == true && mStartConstruction == false)
+			CTileConstruction::Update(elapsed);
+	}
+	
 
 	// Error check
 	if (mDuration < 0)
@@ -281,4 +293,12 @@ void CTileOremine::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 	mRising = node->GetAttributeBoolValue(L"rising", L"");
 	SetOremineLevel((CTileOremine::OremineAnimation)node->GetAttributeIntValue(L"oremine_state", 0));
 	SetImage(node->GetAttributeValue(L"file", L""));
+}
+
+/**
+* Promote the coalmine
+*/
+void CTileOremine::Promote()
+{
+	mOreminePromotionLevel = LEVEL_2;
 }

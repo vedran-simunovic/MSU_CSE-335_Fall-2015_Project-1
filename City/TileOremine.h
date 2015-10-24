@@ -70,6 +70,8 @@ public:
 	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
+	void virtual Promote();
+
 private:
 	OremineAnimation mOremineAnimationLevel = OREMINE_1; ///< The current animation level
 
@@ -90,6 +92,6 @@ private:
 	/// This is a flag that makes it so that the construction of 
 	/// an oremine can start only if the plain construction tile
 	/// is overlapping with a power tile.
-	bool mPowerOverlap = false;
+	bool mPowerOverlap = true;
 };
 

@@ -34,7 +34,7 @@ std::shared_ptr<xmlnode::CXmlNode> CTileBank::XmlSave(const std::shared_ptr<xmln
 {
 	auto itemNode = CTile::XmlSave(node);
 
-	itemNode->SetAttribute(L"type", L"Bank");
+	itemNode->SetAttribute(L"type", L"bank");
 	itemNode->SetAttribute(L"file", GetFile());
 
 	return itemNode;

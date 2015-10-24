@@ -128,6 +128,8 @@ public:
 
 	virtual void SetClearFlag();
 
+	virtual void Promote();
+
 protected:
     CTile(CCity *city);
 

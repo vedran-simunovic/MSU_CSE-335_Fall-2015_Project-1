@@ -83,7 +83,7 @@ std::shared_ptr<xmlnode::CXmlNode> CTileCoalmine::XmlSave(const std::shared_ptr<
     auto itemNode = CTile::XmlSave(node);
 
     itemNode->SetAttribute(L"type", L"coalmine");
-	itemNode->SetAttribute(L"production_level", (double)GetProduction());
+	itemNode->SetAttribute(L"production_level", (double)mProduction);
 	itemNode->SetAttribute(L"trump_level", (int)GetTrump());
 	itemNode->SetAttribute(L"file", GetFile());
 
@@ -128,10 +128,10 @@ void CTileCoalmine::Update(double elapsed)
 	if (GetTrump() != SECOND_TRUMP && mPowerOverlap == true)
 	{
 		// Step 1 animation
-		if (GetProduction() == 0 && GetDuration() >= LowProductionTime/GetTrumpScale())
+		if (mProduction == 0 && GetDuration() >= LowProductionTime/GetTrumpScale())
 		{
 			// Don't redraw every time this is true
-			if (GetProduction() != LowProduction)
+			if (mProduction != LowProduction)
 			{
 				if (mCoalminePromotionLevel == LEVEL_1)
 					SetImage(LowProductionImage);
@@ -145,9 +145,9 @@ void CTileCoalmine::Update(double elapsed)
 
 
 		// Step 2 animation
-		if (GetProduction() == LowProduction && GetDuration() >= MediumProductionTime/GetTrumpScale())
+		if (mProduction == LowProduction && GetDuration() >= MediumProductionTime/GetTrumpScale())
 		{
-			if (GetProduction() != MediumProduction)
+			if (mProduction != MediumProduction)
 			{
 				if (mCoalminePromotionLevel == LEVEL_1)
 					SetImage(MediumProductionImage);
@@ -161,9 +161,9 @@ void CTileCoalmine::Update(double elapsed)
 
 
 		// Step 3 animation
-		if (GetProduction() == MediumProduction && GetDuration() >= FullProductionTime / GetTrumpScale())
+		if (mProduction == MediumProduction && GetDuration() >= FullProductionTime / GetTrumpScale())
 		{
-			if (GetProduction() != FullProduction)
+			if (mProduction != FullProduction)
 			{
 				if (mCoalminePromotionLevel == LEVEL_1)
 					SetImage(FullProductionImage);
@@ -177,12 +177,23 @@ void CTileCoalmine::Update(double elapsed)
 	}
 	else
 	{
-		SetImage(DestroyedImage);
+		if (mCoalminePromotionLevel == LEVEL_1)
+			SetImage(DestroyedImage);
+		else if (mCoalminePromotionLevel == LEVEL_2)
+			SetImage(DestroyedPromotedImage);
+		
 
 		SetProduction(0);
 		SetDuration(0);
 	}
 }
 
+/**
+* Promote the coalmine
+*/
+void CTileCoalmine::Promote()
+{
+	mCoalminePromotionLevel = LEVEL_2;
+}
 
 

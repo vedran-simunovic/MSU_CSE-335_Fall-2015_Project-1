@@ -1,7 +1,7 @@
 /**
  * \file ChildView.cpp
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"
@@ -190,6 +190,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BORDER_BUSINESS, &CChildView::OnBorderBusiness)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_CAR, &CChildView::OnUpdateBorderCar)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESS, &CChildView::OnUpdateBorderBusiness)
+	ON_COMMAND(ID_OREMINE_HAULORE, &CChildView::OnOremineHaulore)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -382,10 +383,31 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			Invalidate();
 		}
 		else if (tile->GetZoning() == CTile::BUSINESS)
-		{
-			// PROMOTE THE TILE
-			tile->SetClearFlag();
-			Invalidate();
+		{// PROMOTE THE TILE
+			
+			wstringstream str;
+
+
+			if (mTotalMoney < mPromotionPrice)
+			{
+				str << L"You do not have enough money to promote this tile.\n\n" <<
+					"Your current total money is: $" << mTotalMoney <<
+					"\nThe cost of the tile promotion is: $" << mPromotionPrice;
+				AfxMessageBox(str.str().c_str());
+			}
+			else
+			{
+				
+
+				mTotalMoney = mTotalMoney - mPromotionPrice;
+
+				tile->Promote();
+				Invalidate();
+
+				str << L"Tile Promoted!\n\nA silver star on the tile will indicate the promotion in the next production step!";
+				AfxMessageBox(str.str().c_str());
+			}
+			
 		}
 		else
 		{
@@ -1249,7 +1271,7 @@ void CChildView::OnCoalmineTrump()
 }
 
 /** Menu handler deals with trumping feature
-* \param pCmdUI This is pass to be able to change the checkmard on the screen
+* \param pCmdUI This is pass to be able to change the checkmark on the screen
 */
 void CChildView::OnUpdateCoalmineTrump(CCmdUI *pCmdUI)
 {
@@ -1264,8 +1286,11 @@ void CChildView::OnCoalmineHaulcole()
 	double totalProduction = visitor.GetTotalProduction();
 
 	wstringstream str;
-	str << L"The total production is " << totalProduction << L" tons";
+	str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+		totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
 	AfxMessageBox(str.str().c_str());
+
+	mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
 
 	CResetCoal visitor2;
 	mCity.Accept(&visitor2);
@@ -1284,25 +1309,72 @@ void CChildView::OnBankCreatebank()
 
 void CChildView::OnOremineBuyoremine()
 {
-	auto tile = make_shared<CTileOremine>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetZoning(CTile::BUSINESS);
-	mCity.Add(tile);
-	mTotalMoney = mTotalMoney - mOreminePrice;
-	Invalidate();
+	if (mTotalMoney < mOreminePrice)
+	{
+		wstringstream str;
+		str << L"You do not have enough money to buy an Oremine.\n\n" <<
+			"Your current total money is: $" << mTotalMoney <<
+			"\nThe cost of an Oremine is: $" << mOreminePrice;
+		AfxMessageBox(str.str().c_str());
+	}
+	else
+	{
+		mTotalMoney = mTotalMoney - mOreminePrice;
+
+		auto tile = make_shared<CTileOremine>(&mCity);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::BUSINESS);
+		mCity.Add(tile);
+		Invalidate();
+	}
+
+	
 }
 
 void CChildView::OnCoalmineCreatecoalmine()
 {
-	auto tile = make_shared<CTileCoalmine>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	tile->SetZoning(CTile::BUSINESS);
-	mCity.Add(tile);
-	mTotalMoney = mTotalMoney - mCoalminePrice;
-	Invalidate();
+	if (mTotalMoney < mCoalminePrice)
+	{
+		wstringstream str;
+		str << L"You do not have enough money to buy a Coalmine.\n\n" <<
+			"Your current total money is: $" << mTotalMoney <<
+			"\nThe cost of an Coalmine is: $" << mCoalminePrice;
+		AfxMessageBox(str.str().c_str());
+	}
+	else
+	{
+		mTotalMoney = mTotalMoney - mCoalminePrice;
+
+		auto tile = make_shared<CTileCoalmine>(&mCity);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::BUSINESS);
+		mCity.Add(tile);
+
+		Invalidate();
+	}
+	
+	
 }
 
 
+void CChildView::OnOremineHaulore()
+{
+	// TODO: Add your command handler code here
+}
 
 
+/*
+CCoalCounter visitor;
+mCity.Accept(&visitor);
+double totalProduction = visitor.GetTotalProduction();
 
+wstringstream str;
+str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+AfxMessageBox(str.str().c_str());
+
+mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+
+CResetCoal visitor2;
+mCity.Accept(&visitor2);
+*/
