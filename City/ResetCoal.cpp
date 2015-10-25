@@ -1,7 +1,7 @@
 /**
  * \file ResetCoal.cpp
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"
@@ -12,6 +12,9 @@ using namespace std;
 
 /// Image when the coalmine is empty
 const wstring EmptyImage = L"coalmine-empty.png";
+
+/// Image when the coalmine promoted production is empty
+const wstring EmptyPromotedImage = L"coalmine-emptyp.png";
 
 
 /**
@@ -39,6 +42,11 @@ void CResetCoal::VisitCoalmine(CTileCoalmine *coalmine)
 	coalmine->SetProduction(0);
 
 	if (coalmine->GetTrump() != CTileCoalmine::SECOND_TRUMP)
-		coalmine->SetImage(EmptyImage);
+	{
+		if (coalmine->GetPromotionLevel() == CTileCoalmine::LEVEL_1)
+			coalmine->SetImage(EmptyImage);
+		else if (coalmine->GetPromotionLevel() == CTileCoalmine::LEVEL_2)
+			coalmine->SetImage(EmptyPromotedImage);	
+	}
 }
 

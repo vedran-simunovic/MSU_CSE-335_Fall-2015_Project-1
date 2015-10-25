@@ -1,7 +1,7 @@
 /**
 * \file TileVisitor.h
 *
-* \author Vedran Simunovic
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * Tile visitor base class.
 */
@@ -19,6 +19,8 @@ class CTileConstruction;
 class CTileTransportation;
 class CTilePower;
 class CTileCar;
+class CTileBank;
+class CTileOremine;
 
 /** Tile visitor base class */
 class CTileVisitor
@@ -34,6 +36,10 @@ public:
 	/** Visit a CTileCoalmine object
 	* \param coalmine Coal mine we are visiting */
 	virtual void VisitCoalmine(CTileCoalmine *coalmine) {}
+
+	/** Visit a CTileOremine object
+	* \param oremine Ore mine we are visiting */
+	virtual void VisitOremine(CTileOremine *oremine) {}
 
 	/** Visit a CTileLandscape object
 	* \param landscape Landscape tile we are visiting */
@@ -58,5 +64,11 @@ public:
 	/** Visit a CTilePower object
 	* \param power we are visiting */
 	virtual void VisitPower(CTilePower* power) {}
+
+	/** Visit a CTileBank object
+	* \param bank we are visiting */
+	virtual void VisitBank(CTileBank *bank) {}
+
+
 
 };

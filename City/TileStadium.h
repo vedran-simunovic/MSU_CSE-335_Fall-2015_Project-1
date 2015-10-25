@@ -1,7 +1,7 @@
 /**
  * \file TileStadium.h
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * Stadium class that implements stadium
  */

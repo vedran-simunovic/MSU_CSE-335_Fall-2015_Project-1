@@ -1,7 +1,7 @@
 /**
  * \file TileCar.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * 
  */
@@ -34,6 +34,7 @@ public:
 	virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
+
 
 };
 

@@ -1,7 +1,7 @@
 /**
  * \file Tile.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * \brief Base class for any tile in our city
  */
@@ -29,7 +29,9 @@ public:
 		TRANSPORTATION=4,	///< Transportational zoning
 		POWER=5,			///< Power zoning
 		CONSTRUCTIONAL=6,	///< Constructional zoning
-	};   
+		CAR=7,				///< Car zoning
+		BUSINESS=8,			///< Business zoning, make money & buy only with these tiles
+	};   /// The possible tile zonings in the program
 	
 
     /** The directory were the images are stored */
@@ -126,6 +128,8 @@ public:
 
 	virtual void SetClearFlag();
 
+	virtual void Promote();
+
 	/**
 	* set connection
 	* \param connect whether connect or not
@@ -158,6 +162,6 @@ private:
     /// Any zoning for this property
     Zonings mZoning = NONE;
 
-
+	
 };
 

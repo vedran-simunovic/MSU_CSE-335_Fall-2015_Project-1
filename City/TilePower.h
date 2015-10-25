@@ -1,7 +1,7 @@
 /**
  * \file TilePower.h
  *
- * \author Nan Du
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * class for power tile
  */

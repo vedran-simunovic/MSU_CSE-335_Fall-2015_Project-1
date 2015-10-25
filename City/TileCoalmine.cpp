@@ -1,7 +1,7 @@
 /**
  * \file TileCoalmine.cpp
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"
@@ -44,6 +44,21 @@ const double FullProduction = 4;
 /// Image when the coalmine is destroyed
 const wstring DestroyedImage = L"burnt_land.png";
 
+/// Image when the coalmine promoted production is empty
+const wstring EmptyPromotedImage = L"coalmine-emptyp.png";
+
+/// Image when the coalmine promoted production is low
+const wstring LowProductionPromotedImage = L"coalmine-lowp.png";
+
+/// Image when the coalmine promoted production is Medium
+const wstring MediumProductionPromotedImage = L"coalmine-medp.png";
+
+/// Image when the coalmine promoted production is Full
+const wstring FullProductionPromotedImage = L"coalmine-fullp.png";
+
+/// Image when the coalmine promoted is destroyed
+const wstring DestroyedPromotedImage = L"burnt_landp.png";
+
 /** Constructor
 * \param city The city this is a member of
 */
@@ -68,7 +83,7 @@ std::shared_ptr<xmlnode::CXmlNode> CTileCoalmine::XmlSave(const std::shared_ptr<
     auto itemNode = CTile::XmlSave(node);
 
     itemNode->SetAttribute(L"type", L"coalmine");
-	itemNode->SetAttribute(L"production_level", (double)GetProduction());
+	itemNode->SetAttribute(L"production_level", (double)mProduction);
 	itemNode->SetAttribute(L"trump_level", (int)GetTrump());
 	itemNode->SetAttribute(L"file", GetFile());
 
@@ -110,31 +125,51 @@ void CTileCoalmine::Update(double elapsed)
 	}
 
 
-	if (GetTrump() != SECOND_TRUMP)
+	if (GetTrump() != SECOND_TRUMP && mPowerOverlap == true)
 	{
-		if (GetProduction() == 0 && GetDuration() >= LowProductionTime/GetTrumpScale())
+		// Step 1 animation
+		if (mProduction == 0 && GetDuration() >= LowProductionTime/GetTrumpScale())
 		{
 			// Don't redraw every time this is true
-			if (GetProduction() != LowProduction)
-				SetImage(LowProductionImage);
+			if (mProduction != LowProduction)
+			{
+				if (mCoalminePromotionLevel == LEVEL_1)
+					SetImage(LowProductionImage);
+				else if (mCoalminePromotionLevel == LEVEL_2)
+					SetImage(LowProductionPromotedImage);
+			}
 
 			SetProduction(LowProduction);
 			SetDuration(0);
 		}
 
-		if (GetProduction() == LowProduction && GetDuration() >= MediumProductionTime/GetTrumpScale())
+
+		// Step 2 animation
+		if (mProduction == LowProduction && GetDuration() >= MediumProductionTime/GetTrumpScale())
 		{
-			if (GetProduction() != MediumProduction)
-				SetImage(MediumProductionImage);
+			if (mProduction != MediumProduction)
+			{
+				if (mCoalminePromotionLevel == LEVEL_1)
+					SetImage(MediumProductionImage);
+				else if (mCoalminePromotionLevel == LEVEL_2)
+					SetImage(MediumProductionPromotedImage);
+			}
 
 			SetProduction(MediumProduction);
 			SetDuration(0);
 		}
 
-		if (GetProduction() == MediumProduction && GetDuration() >= FullProductionTime/GetTrumpScale())
+
+		// Step 3 animation
+		if (mProduction == MediumProduction && GetDuration() >= FullProductionTime / GetTrumpScale())
 		{
-			if (GetProduction() != FullProduction)
-				SetImage(FullProductionImage);
+			if (mProduction != FullProduction)
+			{
+				if (mCoalminePromotionLevel == LEVEL_1)
+					SetImage(FullProductionImage);
+				else if (mCoalminePromotionLevel == LEVEL_2)
+					SetImage(FullProductionPromotedImage);
+			}
 
 			SetProduction(FullProduction);
 			SetDuration(0);
@@ -142,12 +177,23 @@ void CTileCoalmine::Update(double elapsed)
 	}
 	else
 	{
-		SetImage(DestroyedImage);
+		if (mCoalminePromotionLevel == LEVEL_1)
+			SetImage(DestroyedImage);
+		else if (mCoalminePromotionLevel == LEVEL_2)
+			SetImage(DestroyedPromotedImage);
+		
 
 		SetProduction(0);
 		SetDuration(0);
 	}
 }
 
+/**
+* Promote the coalmine
+*/
+void CTileCoalmine::Promote()
+{
+	mCoalminePromotionLevel = LEVEL_2;
+}
 
 

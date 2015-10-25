@@ -1,7 +1,7 @@
 /**
  * \file City.cpp
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"
@@ -20,6 +20,7 @@
 #include "TilePower.h"
 #include "TileOremine.h"
 #include "TileStadium.h"
+#include "TileBank.h"
 #include "CheckPowerPlant.h"
 #include "CheckGridConnection.h"
 #include "ResetPower.h"
@@ -85,6 +86,18 @@ std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offse
     }
 
     return  nullptr;
+}
+
+std::shared_ptr<CTile> CCity::FindCar()
+{
+	for (auto i = mTiles.rbegin(); i != mTiles.rend(); i++)
+	{
+		if ((*i)->GetZoning() == CTile::CAR)
+		{
+			return *i;
+		}
+	}
+	return  nullptr;
 }
 
 
@@ -246,6 +259,10 @@ void CCity::XmlTile(const std::shared_ptr<CXmlNode> &node)
 	else if (type == L"power")
 	{
 		tile = make_shared<CTilePower>(this, CTilePower::NONE);
+	}
+	else if (type == L"bank")
+	{
+		tile = make_shared<CTileBank>(this);
 	}
 
     if (tile != nullptr)

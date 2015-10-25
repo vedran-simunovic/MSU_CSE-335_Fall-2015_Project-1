@@ -1,7 +1,7 @@
 /**
  * \file ChildView.cpp
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"
@@ -19,7 +19,9 @@
 #include "TileConstruction.h"
 #include "BuildingCounter.h"
 #include "CoalCounter.h"
+#include "OreCounter.h"
 #include "ResetCoal.h"
+#include "ResetOre.h"
 #include "Trump.h"
 #include "TransRotate.h"
 #include "TileTransportation.h"
@@ -27,6 +29,7 @@
 #include "TileCar.h"
 #include "TileStadium.h"
 #include "TileOremine.h"
+#include "TileBank.h"
 #include "CheckPowerPlant.h"
 
 #ifdef _DEBUG
@@ -48,6 +51,15 @@ const int InitialY = CCity::GridSpacing * 3;
 
 /// Margin of trashcan from side and bottom in pixels
 const int TrashcanMargin = 5;
+
+/// Margin of wallet from side and bottom in pixels
+const int WalletMargin = 2;
+
+/// Margin of inventory from side and bottom in pixels
+const int InventoryMargin = 2;
+
+/// Margin of inventory space from the wallet
+const int InventoryMarginSpace = 20;
 
 /// Margin of trashcan from side and bottom in pixels
 const int ScrollMarginTop = 0;
@@ -80,14 +92,26 @@ CChildView::CChildView()
 	}
 
 	
-
+	// Load scrolling menu
 	mScroll = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
 	if (mScroll->GetLastStatus() != Ok)
 	{
 		AfxMessageBox(L"Failed to open images/nav1.png");
 	}
-	// Load scrolling menu
 	
+	// Load the wallet image
+	mWallet = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/wallet.png"));
+	if (mWallet->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/wallet.png");
+}
+
+	// Load the inventory image
+	mInventory = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/inventory.png"));
+	if (mInventory->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/inventory.png");
+	}
 }
 
 /**
@@ -123,7 +147,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
     ON_COMMAND(ID_LANDSCAPING_TREES, &CChildView::OnLandscapingTrees)
     ON_COMMAND(ID_LANDSCAPING_BIGTREES, &CChildView::OnLandscapingBigtrees)
     ON_COMMAND(ID_LANDSCAPING_ROAD, &CChildView::OnLandscapingRoad)
-    ON_COMMAND(ID_BUSINESSES_COALMINE, &CChildView::OnBusinessesCoalmine)
     ON_WM_LBUTTONDBLCLK()
 	ON_COMMAND(ID_BORDER_NONE, &CChildView::OnBorderNone)
 	ON_COMMAND(ID_BORDER_RESIDENTIAL, &CChildView::OnBorderResidential)
@@ -134,9 +157,6 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_INDUSTRIAL, &CChildView::OnUpdateBorderIndustrial)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_AGRICULTURAL, &CChildView::OnUpdateBorderAgricultural)
 	ON_COMMAND(ID_BUILDINGS_COUNT, &CChildView::OnBuildingsCount)
-	ON_COMMAND(ID_BUSINESSES_HAULCOLE, &CChildView::OnBusinessesHaulcole)
-	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
-	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
 	ON_COMMAND(ID_POWER_BUILD, &CChildView::OnPowerBuild)
 	ON_UPDATE_COMMAND_UI(ID_POWER_BUILD, &CChildView::OnUpdatePowerBuild)
 	ON_COMMAND(ID_TRANSPORTATION_CURVEDROAD, &CChildView::OnTransportationCurvedroad)
@@ -145,6 +165,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_INCLINEDROAD, &CChildView::OnTransportationInclinedroad)
 	ON_COMMAND(ID_TRANSPORTATION_PLAINROAD, &CChildView::OnTransportationPlainroad)
 	ON_WM_RBUTTONDOWN()
+	ON_WM_KEYDOWN()
+	ON_WM_KEYUP()
 	
 	
 
@@ -159,6 +181,19 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_CAR, &CChildView::OnTransportationCar)
 	ON_COMMAND(ID_TILESINFO_PARTIALLYOVERLAPPING, &CChildView::OnTilesinfoPartiallyoverlapping)
 	ON_COMMAND(ID_TILESINFO_FULLYOVERLAPPING, &CChildView::OnTilesinfoFullyoverlapping)
+	ON_COMMAND(ID_TRANSPORTATION_VEHICLEMODE, &CChildView::OnTransportationVehiclemode)
+	ON_UPDATE_COMMAND_UI(ID_TRANSPORTATION_VEHICLEMODE, &CChildView::OnUpdateTransportationVehiclemode)
+	ON_COMMAND(ID_COALMINE_CREATECOALMINE, &CChildView::OnCoalmineCreatecoalmine)
+	ON_COMMAND(ID_COALMINE_TRUMP, &CChildView::OnCoalmineTrump)
+	ON_UPDATE_COMMAND_UI(ID_COALMINE_TRUMP, &CChildView::OnUpdateCoalmineTrump)
+	ON_COMMAND(ID_COALMINE_HAULCOLE, &CChildView::OnCoalmineHaulcole)
+	ON_COMMAND(ID_BANK_CREATEBANK, &CChildView::OnBankCreatebank)
+	ON_COMMAND(ID_OREMINE_BUYOREMINE, &CChildView::OnOremineBuyoremine)
+	ON_COMMAND(ID_BORDER_CAR, &CChildView::OnBorderCar)
+	ON_COMMAND(ID_BORDER_BUSINESS, &CChildView::OnBorderBusiness)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_CAR, &CChildView::OnUpdateBorderCar)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESS, &CChildView::OnUpdateBorderBusiness)
+	ON_COMMAND(ID_OREMINE_HAULORE, &CChildView::OnOremineHaulore)
 	ON_COMMAND(ID_POWER_CONNECT, &CChildView::OnPowerConnect)
 	ON_COMMAND(ID_POWER_RESET, &CChildView::OnPowerReset)
 END_MESSAGE_MAP()
@@ -267,6 +302,24 @@ void CChildView::OnPaint()
 			mPowerToolbar->GetWidth(), mPowerToolbar->GetHeight());
 	}
 
+	/*
+	* Draw the wallet
+	*/
+	mWalletTop = WalletMargin;
+	mWalletRight = WalletMargin + mWallet->GetWidth();
+
+	graphics.DrawImage(mWallet.get(), WalletMargin, mWalletTop,
+		mWallet->GetWidth(), mWallet->GetHeight());
+
+	/*
+	* Draw the inventory
+	*/
+	mInventoryTop = mWallet->GetHeight() + InventoryMargin + InventoryMarginSpace;
+	mInventoryRight = InventoryMargin + mInventory->GetWidth();
+
+	graphics.DrawImage(mInventory.get(), InventoryMargin, mInventoryTop,
+		mInventory->GetWidth(), mInventory->GetHeight());
+
 	Pen pen(Color::Green, 2);
 
 	// draw box over all of the tiles
@@ -281,6 +334,7 @@ void CChildView::OnPaint()
 	
 
 	// draw box only over the tile elements selected.
+
 
 	for (auto tile : mCity.GetZoning(mZoning))		
 	{
@@ -333,6 +387,33 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			tile->SetClearFlag();
 			Invalidate();
 		}
+		else if (tile->GetZoning() == CTile::BUSINESS)
+		{// PROMOTE THE TILE
+			
+			wstringstream str;
+
+
+			if (mTotalMoney < mPromotionPrice)
+			{
+				str << L"You do not have enough money to promote this tile.\n\n" <<
+					"Your current total money is: $" << mTotalMoney <<
+					"\nThe cost of the tile promotion is: $" << mPromotionPrice;
+				AfxMessageBox(str.str().c_str());
+			}
+		else
+		{
+				
+
+				mTotalMoney = mTotalMoney - mPromotionPrice;
+
+				tile->Promote();
+				Invalidate();
+
+				str << L"Tile Promoted!\n\nA silver star on the tile will indicate the promotion in the next production step!";
+				AfxMessageBox(str.str().c_str());
+			}
+			
+		}
 		else
 		{
         // We double-clicked on a tile
@@ -355,7 +436,7 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// test if the point at the power tool bar when tool bar activate
-	if (mPowerActivate == true && (point.x>mPowerToolbarLeft && point.y > mPowerToolbarTop)){
+	if (mPowerActivate == true && (point.x > mPowerToolbarLeft && point.y > mPowerToolbarTop)){
 		double relPointPosX = point.x - mPowerToolbarLeft;
 		int clickRegion = int(floor(relPointPosX / PowerToolbarRegion));
 		
@@ -418,7 +499,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (point.x < mScrollLeft + 44 && point.x > mScrollLeft && point.y < mScroll->GetHeight() / 2)
 	{
 		if (mScale <= 4)
-			mScale = mScale*2;
+			mScale = mScale * 2;
 	}
 
 	if (point.x < mScrollLeft + 44 && point.x > mScrollLeft && point.y > mScroll->GetHeight() / 2 && point.y < mScroll->GetHeight())
@@ -458,6 +539,41 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
+
+	if (point.x < mWallet->GetWidth() + WalletMargin && point.y < mWallet->GetHeight() + WalletMargin)
+	{
+		wstringstream str;
+		if (mTotalMoney < mGameObjectiveMoney)
+		{
+			str << L"~~~~~Become a Millionaire~~~~~\n\nYou have $" << mTotalMoney <<
+				endl << endl <<
+				"To win the game, you need to have more than $" <<
+				mGameObjectiveMoney << ".\n\nYou are " << mTotalMoney / (mGameObjectiveMoney+1) * 100 <<
+				"% done with the game!.";
+		}
+		else
+		{
+			str << L"You have won the game!\n\n\nCongratulations!!!!!!!!";
+}
+
+		AfxMessageBox(str.str().c_str());
+	}
+
+	if (point.x < mInventory->GetWidth() + InventoryMargin && point.y < mWallet->GetHeight() + WalletMargin + mInventory->GetHeight() + InventoryMarginSpace && point.y > mWallet->GetHeight() + WalletMargin + InventoryMarginSpace)
+	{
+		wstringstream str;
+		str << L"~~~~~ Building Prices ~~~~~\n\n" <<
+			"\nBusiness Tiles:"
+			"\n   Coalmine Price: $" << mCoalminePrice <<
+			"\n   Oremine Price: $" << mOreminePrice <<
+			"\n   Promote the business tile: $" << mPromotionPrice <<
+			endl << endl <<
+			"\nAll Other Tiles: $" << mOtherTilesPrice;
+		AfxMessageBox(str.str().c_str());
+	}
+
+
+		
 }
 
 /** \brief Called when the left mouse button is released
@@ -470,7 +586,61 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 
 }
 
+/** \brief Called when any key is pressed
+* \param nChar is the key that was pressed
+* \param 
+*/
+void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	int cool = 0;
+	/// Check if vehicle mode is on
+	auto tileCar = mCity.FindCar();
+	if (mVehicleMode && tileCar != nullptr)
+	{
+		/// We need to find the car tile
+		/// Iterate through all tiles in the city, return the car tile
+		if (nChar == 37) /// Left
+		{
 
+			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
+			///tileCar->SetLocation(x + 50, y + 50);
+			if (adjacentTile != nullptr)
+			{
+				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			}
+		}
+		else if (nChar == 38) /// Up 
+		{
+			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
+			///tileCar->SetLocation(x + 50, y + 50);
+			if (adjacentTile != nullptr)
+			{
+				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			}
+		}
+		else if (nChar == 39) /// Right
+		{
+			cool = 3;
+		}
+		else if (nChar == 40)
+		{
+			cool = 4;
+		}/// Down
+
+		Invalidate();
+		/// Find car, move it to the CENTER of the adjacent tile.
+	}
+
+}
+
+/** \brief Called when any key is pressed
+* \param nChar is the key that was pressed
+* \param
+*/
+void CChildView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+
+}
 
 /** \brief Called when the mouse is moved
 * \param nFlags Flags associated with the mouse movement
@@ -497,7 +667,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		if (mGrabbedItem != nullptr)
+		if (mGrabbedItem != nullptr && mGrabbedItem->GetZoning() != CTile::CAR)
 		{
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
@@ -605,11 +775,24 @@ void CChildView::AddBuilding(const std::wstring &file)
 */
 void CChildView::AddCar(const std::wstring &file)
 {
+	int carCount = mCity.GetCarCount();
+	if (carCount == 0)
+	{
 	auto tile = make_shared<CTileCar>(&mCity);
+		carCount++;
 	tile->SetImage(file);
 	tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::CAR);
 	mCity.Add(tile);
+		mCity.MoveToFront(tile);
+		mCity.SetCarCount(carCount);
 	Invalidate();
+}
+	else {
+		wstringstream str;
+		str << L"You can only have one car.";
+		AfxMessageBox(str.str().c_str());
+	}
 }
 
 
@@ -642,13 +825,7 @@ void CChildView::OnLandscapingRoad()
 }
 
 
-void CChildView::OnBusinessesCoalmine()
-{
-	auto tile = make_shared<CTileCoalmine>(&mCity);
-	tile->SetLocation(InitialX, InitialY);
-	mCity.Add(tile);
-	Invalidate();
-}
+
 
 
 
@@ -785,6 +962,18 @@ void CChildView::OnBorderPower()
 	mZoning = CTile::POWER;
 }
 
+/** Menu handler that sets the border draw to car */
+void CChildView::OnBorderCar()
+{
+	mZoning = CTile::CAR;
+}
+
+/** Menu handler that sets the border draw to business */
+void CChildView::OnBorderBusiness()
+{
+	mZoning = CTile::BUSINESS;
+}
+
 
 
 /** Menu handler that sets the border draw to none 
@@ -828,6 +1017,36 @@ void CChildView::OnUpdateBorderConstruction(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mZoning == CTile::CONSTRUCTIONAL);
 }
 
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::TRANSPORTATION);
+}
+
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::POWER);
+}
+
+void CChildView::OnUpdateBorderCar(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::CAR);
+}
+
+
+void CChildView::OnUpdateBorderBusiness(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::BUSINESS);
+}
+
+
 /** Menu handler that counts the number of builds */
 void CChildView::OnBuildingsCount()
 {
@@ -840,34 +1059,7 @@ void CChildView::OnBuildingsCount()
 	AfxMessageBox(str.str().c_str());
 }
 
-/** Menu handler that counts the tons of coal hauled */
-void CChildView::OnBusinessesHaulcole()
-{
-	CCoalCounter visitor;
-	mCity.Accept(&visitor);
-	double totalProduction = visitor.GetTotalProduction();
 
-	wstringstream str;
-	str << L"The total production is " << totalProduction << L" tons";
-	AfxMessageBox(str.str().c_str());
-
-	CResetCoal visitor2;
-	mCity.Accept(&visitor2);
-}
-
-/** Menu handler deals with trumping feature */
-void CChildView::OnBusinessesTrump()
-{
-	mTrumpCheck = !mTrumpCheck;
-}
-
-/** Menu handler deals with trumping feature 
-* \param pCmdUI This is pass to be able to change the checkmard on the screen
-*/
-void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(mTrumpCheck);
-}
 
 /** Menu handler deals with building power tile */
 void CChildView::OnPowerBuild()
@@ -1014,23 +1206,7 @@ void CChildView::OnConstructionGrasssite()
 }
 
 
-/**
- * check mark on menu
- * \param pCmdUI 
- */
-void CChildView::OnUpdateBorderTransportation(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(mZoning == CTile::TRANSPORTATION);
-}
 
-/**
-* check mark on menu
-* \param pCmdUI
-*/
-void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(mZoning == CTile::POWER);
-}
 
 
 /**
@@ -1089,6 +1265,164 @@ void CChildView::OnTilesinfoFullyoverlapping()
 	str << L"There are " << i << L" fully overlapping tiles.";
 	AfxMessageBox(str.str().c_str());
 }
+
+
+void CChildView::OnTransportationVehiclemode()
+{
+	mVehicleMode = !mVehicleMode;
+}
+
+
+void CChildView::OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mVehicleMode);
+}
+
+
+
+
+/** Menu handler deals with trumping feature */
+void CChildView::OnCoalmineTrump()
+{
+	mTrumpCheck = !mTrumpCheck;
+}
+
+/** Menu handler deals with trumping feature
+* \param pCmdUI This is pass to be able to change the checkmark on the screen
+*/
+void CChildView::OnUpdateCoalmineTrump(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mTrumpCheck);
+}
+
+/** Menu handler that counts the tons of coal hauled */
+void CChildView::OnCoalmineHaulcole()
+{
+	CCoalCounter visitor;
+	mCity.Accept(&visitor);
+	double totalProduction = visitor.GetTotalProduction();
+
+	wstringstream str;
+	str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+		totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+	AfxMessageBox(str.str().c_str());
+
+	mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+
+	CResetCoal visitor2;
+	mCity.Accept(&visitor2);
+}
+
+
+void CChildView::OnBankCreatebank()
+{
+	auto tile = make_shared<CTileBank>(&mCity);
+	tile->SetLocation(InitialX, InitialY);
+	tile->SetZoning(CTile::BUSINESS);
+	mCity.Add(tile);
+	Invalidate();
+}
+
+
+void CChildView::OnOremineBuyoremine()
+{
+	if (mTotalMoney < mOreminePrice)
+	{
+		wstringstream str;
+		str << L"You do not have enough money to buy an Oremine.\n\n" <<
+			"Your current total money is: $" << mTotalMoney <<
+			"\nThe cost of an Oremine is: $" << mOreminePrice;
+		AfxMessageBox(str.str().c_str());
+	}
+	else
+	{
+		mTotalMoney = mTotalMoney - mOreminePrice;
+
+		auto tile = make_shared<CTileOremine>(&mCity);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::BUSINESS);
+		mCity.Add(tile);
+		Invalidate();
+	}
+
+	
+}
+
+void CChildView::OnCoalmineCreatecoalmine()
+{
+	if (mTotalMoney < mCoalminePrice)
+	{
+		wstringstream str;
+		str << L"You do not have enough money to buy a Coalmine.\n\n" <<
+			"Your current total money is: $" << mTotalMoney <<
+			"\nThe cost of an Coalmine is: $" << mCoalminePrice;
+		AfxMessageBox(str.str().c_str());
+	}
+	else
+	{
+		mTotalMoney = mTotalMoney - mCoalminePrice;
+
+		auto tile = make_shared<CTileCoalmine>(&mCity);
+		tile->SetLocation(InitialX, InitialY);
+		tile->SetZoning(CTile::BUSINESS);
+		mCity.Add(tile);
+
+		Invalidate();
+	}
+	
+	
+}
+
+
+void CChildView::OnOremineHaulore()
+{
+	COreCounter visitor;
+	mCity.Accept(&visitor);
+	double totalProduction = visitor.GetTotalProduction();
+
+	wstringstream str;
+	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
+		totalProduction*mOrePrice << " because the price of 1 ton of coal is worth $" << mOrePrice;
+	AfxMessageBox(str.str().c_str());
+
+	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
+
+	CResetOre visitor2;
+	mCity.Accept(&visitor2);
+}
+
+
+/*
+CCoalCounter visitor;
+mCity.Accept(&visitor);
+double totalProduction = visitor.GetTotalProduction();
+
+wstringstream str;
+str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+AfxMessageBox(str.str().c_str());
+
+mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+
+CResetCoal visitor2;
+mCity.Accept(&visitor2);
+*/
+
+/*
+
+CCoalCounter visitor;
+mCity.Accept(&visitor);
+double totalProduction = visitor.GetTotalProduction();
+
+wstringstream str;
+str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+AfxMessageBox(str.str().c_str());
+
+mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+
+CResetCoal visitor2;
+mCity.Accept(&visitor2);*/
 
 
  void CChildView::OnPowerConnect()

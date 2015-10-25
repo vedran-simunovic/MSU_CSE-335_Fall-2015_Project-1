@@ -1,7 +1,7 @@
 /**
 * \file TileCoalmine.h
 *
-* \author Helena Narowski
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * \brief Class that implements a Landscape tile
 */
@@ -40,6 +40,12 @@ public:
 
 	};    ///< Trumping tracker
 
+	/// The possible level ups for the oremine
+	enum CoalmineLevelUp {
+		LEVEL_1 = 1,   ///< Level 1, normal
+		LEVEL_2 = 2,   ///< Level 2, promoted level	
+	};    ///< Oremine level up
+
     virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
 
@@ -62,8 +68,8 @@ public:
 	void SetProduction(double production) { mProduction = production; }
 
 	/** Gets the production
-	* \return mProduction The amount of the coal */
-	double GetProduction() { return mProduction; }
+	* \return mProduction*mCoalminePromotionLevel The amount of the coal */
+	double GetProduction() { return mProduction*mCoalminePromotionLevel; }
 
 	/** Sets the trump level
 	* \param trumpLevel The trump level to be newly set */
@@ -81,6 +87,12 @@ public:
 	* \return mTrumpScale The current trump scale of the coal mine*/
 	int GetTrumpScale() { return mTrumpScale; }
 
+	/** Gets the level up
+	* \return mCoalminePromotionLevel The promotion level of the coal mine */
+	CoalmineLevelUp GetPromotionLevel() { return  mCoalminePromotionLevel; }
+
+	void virtual Promote();
+
 	
 
 private:
@@ -97,5 +109,11 @@ private:
 	/// necessary production time is decreased.
 	int mTrumpScale = NormalProduction;
 
+	CoalmineLevelUp mCoalminePromotionLevel = LEVEL_1; ///< The current prmotion level
+
+	/// This is a flag that makes it so that the construction of 
+	/// an oremine can start only if the plain construction tile
+	/// is overlapping with a power tile.
+	bool mPowerOverlap = true;
 };
 

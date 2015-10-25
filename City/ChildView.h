@@ -1,7 +1,7 @@
 /**
 * \file ChildView.h
 *
-* \author Helena Narowski
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * \brief Class that implements the child window our program draws in.
 *
@@ -57,6 +57,9 @@ private:
 	/// The zoning
 	CTile::Zonings mZoning = CTile::NONE;
 
+	/// Check for vehicle mode ( can move the car with arroe keys )
+	bool mVehicleMode = false;
+
 	/// Checkmark for the trump option
 	bool mTrumpCheck = false;
 
@@ -69,9 +72,41 @@ private:
     /// Any item we are currently dragging
     std::shared_ptr<CTile> mGrabbedItem;
 
+	/// Total wallet money in US dollars $
+	double mTotalMoney = 1000000;
+
+	/// Price of building of all other tiles
+	double mOtherTilesPrice = 0;
+
+	/// Price of building a coalmine
+	double mCoalminePrice = 5000;
+
+	/// Price of building a oremine
+	double mOreminePrice = 50000;
+
+	/// Price of promotion of business tile
+	double mPromotionPrice = 1000;
+
+	/// Money that 1 ton of coal provides in US dollars $
+	double mCoalPrice = 1000;
+
+	/// Money that 1 ton of coal provides in US dollars $
+	double mOrePrice = 500;
+
+	/// Amount of money needed to win the game
+	double mGameObjectiveMoney = 999999;
+
     std::unique_ptr<Gdiplus::Bitmap> mTrashcan; ///< Trashcan image to use
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
     int mTrashcanRight = 0;         ///< Right side of the trashcan in pixels
+
+	std::unique_ptr<Gdiplus::Bitmap> mWallet; ///< Wallet image to use
+	int mWalletTop = 0;           ///< Top line of the wallet in pixels
+	int mWalletRight = 0;         ///< Right side of the wallet in pixels
+
+	std::unique_ptr<Gdiplus::Bitmap> mInventory; ///< Wallet image to use
+	int mInventoryTop = 0;           ///< Top line of the wallet in pixels
+	int mInventoryRight = 0;         ///< Right side of the wallet in pixels
 
 	std::unique_ptr<Gdiplus::Bitmap> mPowerToolbar;	///< toolbar image for power
 	bool mPowerActivate = false;			///< if power toolbar checked
@@ -103,6 +138,8 @@ public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnFileOpen();
     afx_msg void OnFileSaveas();
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 
     /** \cond */
     afx_msg void OnBuildingsFarmhouse();
@@ -120,7 +157,6 @@ public:
     afx_msg void OnLandscapingTrees();
     afx_msg void OnLandscapingBigtrees();
     afx_msg void OnLandscapingRoad();
-    afx_msg void OnBusinessesCoalmine();
 	
 	
 	afx_msg void OnTransportationDeclinedroad();
@@ -135,9 +171,6 @@ public:
 	afx_msg void OnUpdateBorderIndustrial(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderAgricultural(CCmdUI *pCmdUI);
 	afx_msg void OnBuildingsCount();
-	afx_msg void OnBusinessesHaulcole();
-	afx_msg void OnBusinessesTrump();
-	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	
 	
 	afx_msg void OnPowerBuild();
@@ -162,6 +195,19 @@ public:
 	afx_msg void OnTilesinfoPartiallyoverlapping();
 	afx_msg void OnTilesinfoFullyoverlapping();
 	
+	afx_msg void OnTransportationVehiclemode();
+	afx_msg void OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI);
+	afx_msg void OnCoalmineCreatecoalmine();
+	afx_msg void OnCoalmineTrump();
+	afx_msg void OnUpdateCoalmineTrump(CCmdUI *pCmdUI);
+	afx_msg void OnCoalmineHaulcole();
+	afx_msg void OnBankCreatebank();
+	afx_msg void OnOremineBuyoremine();
+	afx_msg void OnBorderCar();
+	afx_msg void OnBorderBusiness();
+	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
+	afx_msg void OnOremineHaulore();
 	afx_msg void OnPowerConnect();
 	afx_msg void OnPowerReset();
 };

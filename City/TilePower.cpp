@@ -1,7 +1,7 @@
 /**
  * \file TilePower.cpp
  *
- * \author Nan Du
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"

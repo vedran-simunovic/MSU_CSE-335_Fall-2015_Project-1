@@ -138,9 +138,21 @@ BEGIN
     END
     POPUP "B&usinesses"
     BEGIN
-        MENUITEM "&Coal mine",                  ID_BUSINESSES_COALMINE
-        MENUITEM "Haul Cole",                   ID_BUSINESSES_HAULCOLE
-        MENUITEM "Trump",                       ID_BUSINESSES_TRUMP
+        POPUP "Bank"
+        BEGIN
+            MENUITEM "Create Bank",                 ID_BANK_CREATEBANK
+        END
+        POPUP "&Coal mine"
+        BEGIN
+            MENUITEM "Buy Coal Mine",               ID_COALMINE_CREATECOALMINE
+            MENUITEM "Haul Cole",                   ID_COALMINE_HAULCOLE
+            MENUITEM "Trump",                       ID_COALMINE_TRUMP
+        END
+        POPUP "Oremine"
+        BEGIN
+            MENUITEM "Buy Oremine",                 ID_OREMINE_BUYOREMINE
+            MENUITEM "Haul Ore",                    ID_OREMINE_HAULORE
+        END
     END
     POPUP "Border-Zoning-Select"
     BEGIN
@@ -151,6 +163,8 @@ BEGIN
         MENUITEM "Transportation",              ID_BORDER_TRANSPORTATION
         MENUITEM "Power",                       ID_BORDER_POWER
         MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
+        MENUITEM "Car",                         ID_BORDER_CAR
+        MENUITEM "Business",                    ID_BORDER_BUSINESS
     END
     POPUP "Construction"
     BEGIN
@@ -170,6 +184,8 @@ BEGIN
         MENUITEM "Elevated Road",               ID_TRANSPORTATION_ELEVATEDROAD
         MENUITEM "Inclined Road",               ID_TRANSPORTATION_INCLINEDROAD
         MENUITEM "Plain Road",                  ID_TRANSPORTATION_PLAINROAD
+        MENUITEM SEPARATOR
+        MENUITEM "Vehicle Mode",                ID_TRANSPORTATION_VEHICLEMODE
     END
     POPUP "Tiles Info"
     BEGIN

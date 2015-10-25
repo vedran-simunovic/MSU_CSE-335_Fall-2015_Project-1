@@ -1,7 +1,7 @@
 /**
 * \file TileConstruction.h
 *
-* \author Vedran Simunovic
+* \author Vedran Simunovic, Nan Du, Helena Narowski
 *
 * \brief Base Class that implements a Construction tile
 */

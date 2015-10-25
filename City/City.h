@@ -1,7 +1,7 @@
 /**
  * \file City.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * \brief Class that implements a simple city with tiles we can manipulate
  */
@@ -32,6 +32,8 @@ public:
 	std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offsetY);
     void MoveToFront(std::shared_ptr<CTile> item);
     void DeleteItem(std::shared_ptr<CTile> item);
+
+	std::shared_ptr<CTile> FindCar();
 
     void OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
@@ -172,6 +174,12 @@ public:
 	*/
 	ZoningIterSupport GetZoning(CTile::Zonings zoning) { return ZoningIterSupport(this, zoning); }
 
+	/// Get the number of cars in the city
+	int GetCarCount() { return mCarCount; }
+
+	/// Set the number of cars in the city
+	void SetCarCount(int count){ mCarCount = count; }
+
 private:
     void XmlTile(const std::shared_ptr<xmlnode::CXmlNode> &node);
     void BuildAdjacencies();
@@ -187,5 +195,8 @@ private:
 
 	/// the power need of all city
 	int mTotalPowerNeed = 0;
+
+	/// number of cars in city
+	int mCarCount = 0;
 };
 

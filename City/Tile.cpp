@@ -1,7 +1,7 @@
 /**
  * \file Tile.cpp
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"
@@ -213,3 +213,7 @@ void CTile::SetClearFlag()
 {
 }
 
+/** Used to call the promote function in the Business tile child class*/
+void CTile::Promote()
+{
+}

@@ -1,7 +1,7 @@
 /**
  * \file TileBuilding.cpp
  *
- * \author Vedran Simunovic
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
 #include "stdafx.h"

@@ -1,7 +1,7 @@
 /**
  * \file TransRotate.h
  *
- * \author Helena Narowski
+ * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
  * 
  */
