@@ -73,7 +73,7 @@ public:
 	* check whether connect to plant
 	*\return whether connect or not
 	*/
-	bool GetConnected() { return mConnected; }
+	bool CheckConnected() { return mConnected; }
 
 	/**
 	* get the direction of tiles
@@ -85,7 +85,7 @@ public:
 	* set connection
 	* \param connect whether connect or not
 	*/
-	void SetConnection(bool connect) { mConnected = connect; }
+	void SetConnection(bool connect) override;
 
 	/**
 	* set the direction of tiles
@@ -94,6 +94,14 @@ public:
 	void SetPowerDirection(CTilePower::PowerDirection direction) { mPowerDirection = direction; }
 
 	void RotateImage();
+
+	int GetPowerPruducton() { return mPowerProduction; }
+
+	bool IsVisited() { return DFSvisited; }
+
+	void SetVisited(bool visitStatus) { DFSvisited = visitStatus; }
+
+	void Reset();
 
 private:
 
@@ -104,5 +112,6 @@ private:
 	PowerDirection mPowerDirection = EAST;	///< dirction of tile
 
 	int mPowerProduction = 0;		///< power production of tile
+
 };
 

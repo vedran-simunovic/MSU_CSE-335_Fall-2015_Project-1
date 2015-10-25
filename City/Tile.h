@@ -107,7 +107,7 @@ public:
     * \param dy Up/Down determination, -1=up, 1=down
     * \returns Adjacent tile or nullptr if none.
     */
-    std::shared_ptr<CTile> GetAdjacent(int dx, int dy);
+    virtual std::shared_ptr<CTile> GetAdjacent(int dx, int dy);
 
 
     /** \brief The tile zoning
@@ -126,8 +126,20 @@ public:
 
 	virtual void SetClearFlag();
 
+	/**
+	* set connection
+	* \param connect whether connect or not
+	*/
+	virtual void SetConnection(bool connect) { mConnected = connect; };
+
+	virtual bool IsVisited() { return DFSvisited; }
+
 protected:
     CTile(CCity *city);
+
+	bool mConnected = false;
+
+	bool DFSvisited = false;		///< flag for DFS visit
 
 private:
     /// The city this item is contained in
@@ -146,6 +158,6 @@ private:
     /// Any zoning for this property
     Zonings mZoning = NONE;
 
-	
+
 };
 

@@ -52,6 +52,10 @@ public:
 	int CountPartialOverlapping();
 	int CountFullyOverlapping();
 
+	void ConnectGrid();
+
+	void ResetGrid();
+
 
 	/** Iterator that iterates over the city tiles */
 	class Iter

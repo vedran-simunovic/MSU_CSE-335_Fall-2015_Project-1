@@ -22,6 +22,9 @@ const wstring TGridImage1 = L"power_abc.png";
 /// Image for X-shape grid
 const wstring XGridImage = L"power_abcd.png";
 
+/// Image for X-shape grid
+const wstring SparkXGridImage = L"powerspark_abcd.png";
+
 /// Image for substation
 const wstring SubstationImage = L"substation.png";
 
@@ -53,6 +56,30 @@ static wstring tgridimages[] = {
 	L"power_bcd.png",      // 1
 	L"power_acd.png",      // 2
 	L"power_abd.png"      // 3
+};
+
+/// Image for grid in differnt direction
+static wstring sparkgridimages[] = {
+	L"powerspark_ac.png",     // 0
+	L"powerspark_bd.png",      // 1
+	L"powerspark_ac.png",      // 2
+	L"powerspark_bd.png"      // 3
+};
+
+/// Image for lgrid in differnt direction
+static wstring sparklgridimages[] = {
+	L"powerspark_ab.png",     // 0
+	L"powerspark_bc.png",      // 1
+	L"powerspark_cd.png",      // 2
+	L"powerspark_ad.png"      // 3
+};
+
+/// Image for tgrid in differnt direction
+static wstring sparktgridimages[] = {
+	L"powerspark_abc.png",     // 0
+	L"powerspark_bcd.png",      // 1
+	L"powerspark_acd.png",      // 2
+	L"powerspark_abd.png"      // 3
 };
 
 
@@ -95,6 +122,7 @@ CTilePower::CTilePower(CCity *city, PowerType type) : CTile(city)
 	case(POWERPLANT) : {
 		SetImage(PowerPlantEmptyImage);
 		mFile = PowerPlantEmptyImage;
+
 		mPowerProduction = 20;
 		mConnected = true;
 		break;
@@ -127,7 +155,7 @@ std::shared_ptr<xmlnode::CXmlNode> CTilePower::XmlSave(const std::shared_ptr<xml
 
 	itemNode->SetAttribute(L"type", L"power");
 	itemNode->SetAttribute(L"power_tile_type", (int)GetPowerType());
-	itemNode->SetAttribute(L"connected", (int)GetConnected());
+	itemNode->SetAttribute(L"connected", (int)CheckConnected());
 	itemNode->SetAttribute(L"power_direction", (int)GetPowerDirection());
 	itemNode->SetAttribute(L"file", GetFile());
 
@@ -158,44 +186,124 @@ void CTilePower::RotateImage()
 	PowerType type = GetPowerType();
 	switch (type)
 	{
-	case(GRID) : {
-		if (mPowerDirection != NORTH){
-			mPowerDirection = PowerDirection(mPowerDirection + 1);
+		case(GRID) : 
+		{
+			if (mPowerDirection != NORTH){
+				mPowerDirection = PowerDirection(mPowerDirection + 1);
+				SetImage(gridimages[mPowerDirection]);
+			}
+			else{
+				mPowerDirection = EAST;
+				SetImage(GridImage1);
+			}
+
+
+			break;
+		}
+		case(LGRID) : 
+		{
+			if (mPowerDirection != NORTH){
+				mPowerDirection = PowerDirection(mPowerDirection + 1);
+				SetImage(lgridimages[mPowerDirection]);
+			}
+			else{
+				mPowerDirection = EAST;
+				SetImage(LGridImage1);
+			}
+
+
+			break;
+		}
+		case(TGRID) : 
+		{
+			if (mPowerDirection != NORTH){
+				mPowerDirection = PowerDirection(mPowerDirection + 1);
+				SetImage(tgridimages[mPowerDirection]);
+			}
+			else{
+				mPowerDirection = EAST;
+				SetImage(TGridImage1);
+			}
+
+
+			break;
+		}
+	}
+}
+
+void CTilePower::SetConnection(bool connect) 
+{ 
+	mConnected = connect; 
+
+	PowerType type = GetPowerType();
+
+	if (mConnected)
+	{
+		switch (type)
+		{
+			case(GRID) :
+			{
+
+				SetImage(sparkgridimages[mPowerDirection]);
+				break;
+			}
+			case(LGRID) :
+			{
+				SetImage(sparklgridimages[mPowerDirection]);
+				break;
+			}
+			case(TGRID) :
+			{
+				SetImage(sparktgridimages[mPowerDirection]);
+				break;
+			}
+			case(XGRID) :
+			{
+				SetImage(SparkXGridImage);
+				break;
+			}
+		}
+	}
+}
+
+void CTilePower::Reset()
+{
+	mConnected = false;
+	SetVisited(false);
+	PowerType type = GetPowerType();
+
+	switch (type)
+	{
+		case(GRID) :
+		{
+
 			SetImage(gridimages[mPowerDirection]);
+			break;
 		}
-		else{
-			mPowerDirection = EAST;
-			SetImage(GridImage1);
-		}
-
-
-		break;
-	}
-	case(LGRID) : {
-		if (mPowerDirection != NORTH){
-			mPowerDirection = PowerDirection(mPowerDirection + 1);
+		case(LGRID) :
+		{
 			SetImage(lgridimages[mPowerDirection]);
+			break;
 		}
-		else{
-			mPowerDirection = EAST;
-			SetImage(LGridImage1);
-		}
-
-
-		break;
-	}
-	case(TGRID) : {
-		if (mPowerDirection != NORTH){
-			mPowerDirection = PowerDirection(mPowerDirection + 1);
+		case(TGRID) :
+		{
 			SetImage(tgridimages[mPowerDirection]);
+			break;
 		}
-		else{
-			mPowerDirection = EAST;
-			SetImage(TGridImage1);
+		case(XGRID) :
+		{
+			SetImage(XGridImage);
+			break;
 		}
-
-
-		break;
-	}
+		case(POWERPLANT) :
+		{
+			mConnected = true;
+			break;
+		}
+		case(SOLARSTATION) :
+		{
+			mConnected = true;
+			break;
+		}
 	}
 }

@@ -27,6 +27,7 @@
 #include "TileCar.h"
 #include "TileStadium.h"
 #include "TileOremine.h"
+#include "CheckPowerPlant.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -158,6 +159,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_TRANSPORTATION_CAR, &CChildView::OnTransportationCar)
 	ON_COMMAND(ID_TILESINFO_PARTIALLYOVERLAPPING, &CChildView::OnTilesinfoPartiallyoverlapping)
 	ON_COMMAND(ID_TILESINFO_FULLYOVERLAPPING, &CChildView::OnTilesinfoFullyoverlapping)
+	ON_COMMAND(ID_POWER_CONNECT, &CChildView::OnPowerConnect)
+	ON_COMMAND(ID_POWER_RESET, &CChildView::OnPowerReset)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -1086,3 +1089,20 @@ void CChildView::OnTilesinfoFullyoverlapping()
 	str << L"There are " << i << L" fully overlapping tiles.";
 	AfxMessageBox(str.str().c_str());
 }
+
+
+ void CChildView::OnPowerConnect()
+ {
+	 // TODO: Add your command handler code here
+	 mCity.ConnectGrid();
+
+	 Invalidate();
+ }
+
+
+ void CChildView::OnPowerReset()
+ {
+	 // TODO: Add your command handler code here
+	 mCity.ResetGrid();
+	 Invalidate();
+ }

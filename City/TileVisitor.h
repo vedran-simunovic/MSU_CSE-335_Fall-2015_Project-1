@@ -8,6 +8,7 @@
 
 
 #pragma once
+#include <memory>
 
 // Forward references to all tile types
 class CTileBuilding;
@@ -56,6 +57,6 @@ public:
 
 	/** Visit a CTilePower object
 	* \param power we are visiting */
-	virtual void VisitPower(CTilePower *power) {}
+	virtual void VisitPower(CTilePower* power) {}
 
 };

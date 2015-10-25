@@ -212,3 +212,4 @@ void CTile::PropertiesDlg()
 void CTile::SetClearFlag()
 {
 }
+

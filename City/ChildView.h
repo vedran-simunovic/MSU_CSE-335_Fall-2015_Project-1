@@ -162,5 +162,7 @@ public:
 	afx_msg void OnTilesinfoPartiallyoverlapping();
 	afx_msg void OnTilesinfoFullyoverlapping();
 	
+	afx_msg void OnPowerConnect();
+	afx_msg void OnPowerReset();
 };
 

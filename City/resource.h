@@ -59,13 +59,15 @@
 #define ID_TILESINFO_TILESINCITY        32813
 #define ID_TILESINFO_PARTIALLYOVERLAPPING 32814
 #define ID_TILESINFO_FULLYOVERLAPPING   32815
+#define ID_POWER_CONNECT                32816
+#define ID_POWER_RESET                  32817
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        317
-#define _APS_NEXT_COMMAND_VALUE         32816
+#define _APS_NEXT_COMMAND_VALUE         32818
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

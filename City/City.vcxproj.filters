@@ -99,6 +99,15 @@
     <ClInclude Include="TileOremine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CheckPowerPlant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckGridConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResetPower.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -174,6 +183,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileOremine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckPowerPlant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckGridConnection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResetPower.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
