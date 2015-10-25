@@ -1384,7 +1384,7 @@ void CChildView::OnOremineHaulore()
 
 	wstringstream str;
 	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
-		totalProduction*mOrePrice << " because the price of 1 ton of coal is worth $" << mOrePrice;
+		totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
 	AfxMessageBox(str.str().c_str());
 
 	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
