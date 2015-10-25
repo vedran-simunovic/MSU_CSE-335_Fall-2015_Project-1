@@ -162,6 +162,7 @@ private:
     /// Any zoning for this property
     Zonings mZoning = NONE;
 
-	
+	/// power need for this tile
+	int mPowerNeed = 0;
 };
 
