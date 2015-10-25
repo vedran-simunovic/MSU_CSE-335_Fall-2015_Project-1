@@ -70,15 +70,15 @@
 #define ID_BORDER_CAR                   32824
 #define ID_BORDER_BUSINESS              32825
 #define ID_OREMINE_HAULORE              32826
-#define ID_POWER_CONNECT                32816
-#define ID_POWER_RESET                  32817
+#define ID_POWER_CONNECT                32827
+#define ID_POWER_RESET                  32828
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        317
-#define _APS_NEXT_COMMAND_VALUE         32827
+#define _APS_NEXT_COMMAND_VALUE         32829
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

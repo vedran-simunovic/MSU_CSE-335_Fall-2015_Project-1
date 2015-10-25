@@ -208,6 +208,7 @@ public:
 	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
 	afx_msg void OnOremineHaulore();
+
 	afx_msg void OnPowerConnect();
 	afx_msg void OnPowerReset();
 };

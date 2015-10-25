@@ -194,6 +194,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_CAR, &CChildView::OnUpdateBorderCar)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESS, &CChildView::OnUpdateBorderBusiness)
 	ON_COMMAND(ID_OREMINE_HAULORE, &CChildView::OnOremineHaulore)
+
+
 	ON_COMMAND(ID_POWER_CONNECT, &CChildView::OnPowerConnect)
 	ON_COMMAND(ID_POWER_RESET, &CChildView::OnPowerReset)
 END_MESSAGE_MAP()
@@ -1425,18 +1427,20 @@ CResetCoal visitor2;
 mCity.Accept(&visitor2);*/
 
 
- void CChildView::OnPowerConnect()
- {
-	 // TODO: Add your command handler code here
-	 mCity.ConnectGrid();
-
-	 Invalidate();
- }
 
 
- void CChildView::OnPowerReset()
- {
-	 // TODO: Add your command handler code here
-	 mCity.ResetGrid();
-	 Invalidate();
- }
+void CChildView::OnPowerConnect()
+{
+	// TODO: Add your command handler code here
+	mCity.ConnectGrid();
+
+	Invalidate();
+}
+
+
+void CChildView::OnPowerReset()
+{
+	// TODO: Add your command handler code here
+	mCity.ResetGrid();
+	Invalidate();
+}
