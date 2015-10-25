@@ -7,7 +7,7 @@
 #include "stdafx.h"
 #include <sstream>
 #include <math.h>
-
+#include "resource.h"
 #include "DoubleBufferDC.h"
 #include "CityApp.h"
 #include "ChildView.h"
