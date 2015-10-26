@@ -102,6 +102,9 @@ void CTileOremine::Update(double elapsed)
 {
 	if (GetZoning() == CTile::BUSINESS)
 	{
+		mFile = Oremine1;
+		SetImage(Oremine1);
+
 		mStartConstruction = true;
 
 		// Error check
@@ -284,7 +287,7 @@ void CTileOremine::Update(double elapsed)
 		mDuration = mDuration + elapsed;
 
 		// Start oremine sequence
-		if (mStartConstruction == true && mPowerOverlap == true)
+		if (mStartConstruction == true)
 		{
 			if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
 			{
