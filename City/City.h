@@ -34,6 +34,7 @@ public:
     void DeleteItem(std::shared_ptr<CTile> item);
 
 	std::shared_ptr<CTile> FindCar();
+	std::shared_ptr<CTile> FindTransTileUnderCar();
 
     void OnDraw(Gdiplus::Graphics *graphics, double offsetX, double offsetY);
 
@@ -45,7 +46,10 @@ public:
     void SortTiles();
 
     std::shared_ptr<CTile> GetAdjacent(std::shared_ptr<CTile> tile, int dx, int dy);
-    std::shared_ptr<CTile> GetAdjacent(CTile *tile, int dx, int dy);
+	std::shared_ptr<CTile> GetAdjacent(CTile *tile, int dx, int dy);
+
+	//std::shared_ptr<CTileTransportation> GetAdjacentTrans(std::shared_ptr<CTile> tile, int dx, int dy);
+	//std::shared_ptr<CTileTransportation> GetAdjacentTrans(CTile *tile, int dx, int dy);
 
 	void Accept(CTileVisitor *visitor);
 
@@ -183,12 +187,16 @@ public:
 private:
     void XmlTile(const std::shared_ptr<xmlnode::CXmlNode> &node);
     void BuildAdjacencies();
+	//void BuildAdjacenciesTrans();
 
     /// All of the tiles that make up our city
     std::vector<std::shared_ptr<CTile> > mTiles;
 
     /// Adjacency lookup support
     std::map<std::pair<int, int>, std::shared_ptr<CTile> > mAdjacency;
+
+	/// Adjacency lookup support for trans
+	//std::map<std::pair<int, int>, std::shared_ptr<CTileTransportation> > mAdjacencyTrans;
 
 	/// the power product of all city
 	int mTotalPowerProduct = 0;

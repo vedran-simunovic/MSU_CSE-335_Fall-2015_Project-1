@@ -31,6 +31,8 @@
 #include "TileOremine.h"
 #include "TileBank.h"
 #include "CheckPowerPlant.h"
+#include "MoveCar.h"
+#include "TransConnect.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -77,7 +79,7 @@ CChildView::CChildView()
 {
     srand((unsigned int)time(nullptr));
 
-    // Load the trash can image
+	// Load the trash can image
     mTrashcan = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/trashcan.png"));
     if (mTrashcan->GetLastStatus() != Ok)
     {
@@ -98,14 +100,14 @@ CChildView::CChildView()
 	{
 		AfxMessageBox(L"Failed to open images/nav1.png");
 	}
-	
+
 	// Load the wallet image
 	mWallet = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/wallet.png"));
 	if (mWallet->GetLastStatus() != Ok)
 	{
 		AfxMessageBox(L"Failed to open images/wallet.png");
-}
-
+	}
+	
 	// Load the inventory image
 	mInventory = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/inventory.png"));
 	if (mInventory->GetLastStatus() != Ok)
@@ -402,8 +404,8 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 					"\nThe cost of the tile promotion is: $" << mPromotionPrice;
 				AfxMessageBox(str.str().c_str());
 			}
-		else
-		{
+			else
+			{
 				
 
 				mTotalMoney = mTotalMoney - mPromotionPrice;
@@ -441,43 +443,43 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	if (mPowerActivate == true && (point.x > mPowerToolbarLeft && point.y > mPowerToolbarTop)){
 		double relPointPosX = point.x - mPowerToolbarLeft;
 		int clickRegion = int(floor(relPointPosX / PowerToolbarRegion));
-		
+
 		switch (clickRegion)
 		{
-			case 1:{
-				AddPower(CTilePower::LGRID);
-				break;
-			}
-				// 
-			case 2:{
-				AddPower(CTilePower::GRID);
-				break;
-			}
+		case 1:{
+			AddPower(CTilePower::LGRID);
+			break;
+		}
+			   // 
+		case 2:{
+			AddPower(CTilePower::GRID);
+			break;
+		}
 
-			case 3:{
-				AddPower(CTilePower::TGRID);
-				break;
-			}
+		case 3:{
+			AddPower(CTilePower::TGRID);
+			break;
+		}
 
-			case 4:{
-				AddPower(CTilePower::XGRID);
-				break;
-			}
+		case 4:{
+			AddPower(CTilePower::XGRID);
+			break;
+		}
 
-			case 5:{
-				AddPower(CTilePower::SUBSTATION);
-				break;
-			}
+		case 5:{
+			AddPower(CTilePower::SUBSTATION);
+			break;
+		}
 
-			case 6:{
-				AddPower(CTilePower::POWERPLANT);
-				break;
-			}
+		case 6:{
+			AddPower(CTilePower::POWERPLANT);
+			break;
+		}
 
-			case 7:{
-				AddPower(CTilePower::SOLARSTATION);
-				break;
-			}
+		case 7:{
+			AddPower(CTilePower::SOLARSTATION);
+			break;
+		}
 
 		}
 	}
@@ -556,7 +558,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		else
 		{
 			str << L"You have won the game!\n\n\nCongratulations!!!!!!!!";
-}
+		}
 
 		AfxMessageBox(str.str().c_str());
 	}
@@ -594,45 +596,65 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 */
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	int cool = 0;
 	/// Check if vehicle mode is on
+	/// We need to find the car tile
+	/// Iterate through all tiles in the city, return the car tile
 	auto tileCar = mCity.FindCar();
 	if (mVehicleMode && tileCar != nullptr)
 	{
-		/// We need to find the car tile
-		/// Iterate through all tiles in the city, return the car tile
 		if (nChar == 37) /// Left
 		{
-
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
-			///tileCar->SetLocation(x + 50, y + 50);
-			if (adjacentTile != nullptr)
-			{
-				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-			}
+
+			MoveCar(adjacentTile, tileCar);
+
 		}
 		else if (nChar == 38) /// Up 
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
-			///tileCar->SetLocation(x + 50, y + 50);
-			if (adjacentTile != nullptr)
-			{
-				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-			}
+
+			MoveCar(adjacentTile, tileCar);
+
 		}
 		else if (nChar == 39) /// Right
 		{
-			cool = 3;
+			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
+			MoveCar(adjacentTile, tileCar);
+
 		}
 		else if (nChar == 40)
 		{
-			cool = 4;
-		}/// Down
+			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
+			MoveCar(adjacentTile, tileCar);
 
+		}/// Down
+		mCity.MoveToFront(tileCar); 
+		mCity.SortTiles();
 		Invalidate();
 		/// Find car, move it to the CENTER of the adjacent tile.
 	}
 
+}
+
+void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
+{
+	CTransConnect visitor;
+	auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under car
+
+	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS))
+	{
+		if (adjacentTile->GetZoning() == CTile::TRANSPORTATION)
+		{
+			adjacentTile->Accept(&visitor); /// visitor gets that juicy info
+		}
+		else
+		{
+			wstringstream str;
+			str << L"You are on a business tile.";
+			AfxMessageBox(str.str().c_str());
+		}
+		tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+	}
 }
 
 /** \brief Called when any key is pressed
@@ -669,7 +691,8 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		if (mGrabbedItem != nullptr && mGrabbedItem->GetZoning() != CTile::CAR)
+		///if (mGrabbedItem != nullptr && mGrabbedItem->GetZoning() != CTile::CAR)
+		if (mGrabbedItem != nullptr)
 		{
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
@@ -777,24 +800,24 @@ void CChildView::AddBuilding(const std::wstring &file)
 */
 void CChildView::AddCar(const std::wstring &file)
 {
-	int carCount = mCity.GetCarCount();
-	if (carCount == 0)
-	{
-	auto tile = make_shared<CTileCar>(&mCity);
-		carCount++;
-	tile->SetImage(file);
-	tile->SetLocation(InitialX, InitialY);
+	//int carCount = mCity.GetCarCount();
+	//if (carCount == 0)
+	//{
+		auto tile = make_shared<CTileCar>(&mCity);
+		//carCount++;
+		tile->SetImage(file);
+		tile->SetLocation(InitialX, InitialY);
 		tile->SetZoning(CTile::CAR);
-	mCity.Add(tile);
+		mCity.Add(tile);
 		mCity.MoveToFront(tile);
-		mCity.SetCarCount(carCount);
-	Invalidate();
-}
-	else {
-		wstringstream str;
-		str << L"You can only have one car.";
-		AfxMessageBox(str.str().c_str());
-	}
+//		mCity.SetCarCount(carCount);
+		Invalidate();
+	//}
+	//else {
+	//	wstringstream str;
+	//	str << L"You can only have one car.";
+	//	AfxMessageBox(str.str().c_str());
+	//}
 }
 
 
@@ -1384,7 +1407,7 @@ void CChildView::OnOremineHaulore()
 
 	wstringstream str;
 	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
-		totalProduction*mOrePrice << " because the price of 1 ton of coal is worth $" << mOrePrice;
+		totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
 	AfxMessageBox(str.str().c_str());
 
 	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;

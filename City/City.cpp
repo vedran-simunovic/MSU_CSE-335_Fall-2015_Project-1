@@ -17,6 +17,7 @@
 #include "TileCoalmine.h"
 #include "TileConstruction.h"
 #include "TileTransportation.h"
+#include "TileCar.h"
 #include "TilePower.h"
 #include "TileOremine.h"
 #include "TileStadium.h"
@@ -98,6 +99,38 @@ std::shared_ptr<CTile> CCity::FindCar()
 		}
 	}
 	return  nullptr;
+}
+
+std::shared_ptr<CTile> CCity::FindTransTileUnderCar()
+{
+	double centerXj;
+	double centerYj;
+
+	int i = 0;	///counter for iterating over mTiles
+	int j = 0;	///counter for iterating over mTiles
+
+	auto tileCar = this->FindCar();
+
+	int carX = tileCar->GetX();
+	int carY = tileCar->GetY();
+
+	for (auto tile : mTiles)
+	{
+		j++;
+
+		if (tile != tileCar)
+		{
+
+			centerXj = tile->GetX();
+			centerYj = tile->GetY();
+
+			if (carX == centerXj && carY == centerYj)
+			{
+				return tile;
+			}
+		}
+	}
+	return nullptr;
 }
 
 
@@ -332,6 +365,9 @@ void CCity::BuildAdjacencies()
 
 
 
+
+
+
 /**
  * \brief Get any adjacent tile.
  * 
@@ -395,6 +431,25 @@ std::shared_ptr<CTile> CCity::GetAdjacent(CTile *tile, int dx, int dy)
     return nullptr;
 }
 
+//std::shared_ptr<CTileTransportation> CCity::GetAdjacentTrans(std::shared_ptr<CTile> tile, int dx, int dy)
+//{
+//	return GetAdjacentTrans(tile.get(), dx, dy);
+//}
+
+//std::shared_ptr<CTileTransportation> CCity::GetAdjacentTrans(CTile *tile, int dx, int dy)
+//{
+//	int atX = tile->GetX() / GridSpacing + dx * 2;
+//	int atY = tile->GetY() / GridSpacing + dy;
+//
+//	auto adj = mAdjacencyTrans.find(pair<int, int>(atX, atY));
+//	if (adj != mAdjacencyTrans.end())
+//	{
+//		// We found it
+//		return adj->second;
+//	}
+//
+//	return nullptr;
+//}
 
 //pass in the zoning
 // make for loop to go through the entire thing. 
@@ -475,6 +530,8 @@ void CCity::Accept(CTileVisitor *visitor)
 		tile->Accept(visitor);
 	}
 }
+
+
 
 /** Count the number of tiles
 * \return Number of tiles
@@ -594,12 +651,14 @@ int CCity::CountFullyOverlapping()
 		{
 			j++;
 
-			if (i != j){
+			if (i != j)
+			{
 
 				centerXj = tile->GetX();
 				centerYj = tile->GetY();
 
-				if (centerXi == centerXj && centerYi == centerYj){
+				if (centerXi == centerXj && centerYi == centerYj)
+				{
 					totalOverlaps++;
 					break;
 				}

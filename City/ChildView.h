@@ -72,6 +72,8 @@ private:
     /// Any item we are currently dragging
     std::shared_ptr<CTile> mGrabbedItem;
 
+	void MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar);
+
 	/// Total wallet money in US dollars $
 	double mTotalMoney = 1000000;
 
