@@ -138,6 +138,8 @@ public:
 
 	virtual bool IsVisited() { return DFSvisited; }
 
+	bool CheckAdjacentConnection();
+
 protected:
     CTile(CCity *city);
 

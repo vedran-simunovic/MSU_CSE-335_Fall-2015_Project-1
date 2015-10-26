@@ -8,6 +8,7 @@
 #include "Tile.h"
 #include "City.h"
 #include "TilePropertiesDlg.h"
+#include "FindGird.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -216,4 +217,32 @@ void CTile::SetClearFlag()
 /** Used to call the promote function in the Business tile child class*/
 void CTile::Promote()
 {
+}
+
+bool CTile::CheckAdjacentConnection()
+{
+	CFindGird visitor;
+	std::shared_ptr<CTile> upleft = nullptr;
+	std::shared_ptr<CTile> upright = nullptr;
+	std::shared_ptr<CTile> lowleft = nullptr;
+	std::shared_ptr<CTile> lowright = nullptr;
+
+	if (GetAdjacent(-1, -1) != nullptr){
+		upleft = GetAdjacent(-1, -1);
+		upleft->Accept(&visitor);
+	}
+	if (GetAdjacent(1, -1) != nullptr){
+		upright = GetAdjacent(-1, -1);
+		upright->Accept(&visitor);
+	}
+	if (GetAdjacent(-1, 1) != nullptr){
+		lowleft = GetAdjacent(-1, -1);
+		lowleft->Accept(&visitor);
+	}
+	if (GetAdjacent(1, 1) != nullptr){
+		lowright = GetAdjacent(-1, -1);
+		lowright->Accept(&visitor);
+	}
+
+	return visitor.IsConnected();
 }

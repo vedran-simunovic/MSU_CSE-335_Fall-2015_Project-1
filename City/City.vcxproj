@@ -99,6 +99,7 @@
     <ClInclude Include="BuildingCounter.h" />
     <ClInclude Include="CheckGridConnection.h" />
     <ClInclude Include="CheckPowerPlant.h" />
+    <ClInclude Include="FindGird.h" />
     <ClInclude Include="ResetPower.h" />
     <ClInclude Include="OreCounter.h" />
     <ClInclude Include="ResetOre.h" />
@@ -133,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildingCounter.cpp" />
+    <ClCompile Include="FindGird.cpp" />
     <ClCompile Include="OreCounter.cpp" />
     <ClCompile Include="ResetOre.cpp" />
     <ClCompile Include="TileBank.cpp" />
