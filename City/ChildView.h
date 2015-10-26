@@ -39,6 +39,9 @@ public:
 public:
 	virtual ~CChildView();
 
+	/// Getter for the connection; used in the CTile
+	bool GetConnection() { return mConnected; }
+
 	// Generated message map functions
 protected:
 	afx_msg void OnPaint();
@@ -73,6 +76,9 @@ private:
     std::shared_ptr<CTile> mGrabbedItem;
 
 	void MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar);
+
+	/// Is the grid connection pressed?
+	bool mConnected = false;
 
 	/// Total wallet money in US dollars $
 	double mTotalMoney = 1000000;

@@ -1417,46 +1417,11 @@ void CChildView::OnOremineHaulore()
 }
 
 
-/*
-CCoalCounter visitor;
-mCity.Accept(&visitor);
-double totalProduction = visitor.GetTotalProduction();
-
-wstringstream str;
-str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
-totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
-AfxMessageBox(str.str().c_str());
-
-mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
-
-CResetCoal visitor2;
-mCity.Accept(&visitor2);
-*/
-
-/*
-
-CCoalCounter visitor;
-mCity.Accept(&visitor);
-double totalProduction = visitor.GetTotalProduction();
-
-wstringstream str;
-str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
-totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
-AfxMessageBox(str.str().c_str());
-
-mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
-
-CResetCoal visitor2;
-mCity.Accept(&visitor2);*/
-
-
-
-
 void CChildView::OnPowerConnect()
 {
 	// TODO: Add your command handler code here
 	mCity.ConnectGrid();
-
+	bool mConnected = true;
 	Invalidate();
 }
 
@@ -1465,5 +1430,6 @@ void CChildView::OnPowerReset()
 {
 	// TODO: Add your command handler code here
 	mCity.ResetGrid();
+	bool mConnected = false;
 	Invalidate();
 }

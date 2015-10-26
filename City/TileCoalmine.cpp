@@ -125,54 +125,57 @@ void CTileCoalmine::Update(double elapsed)
 	}
 
 
-	if (GetTrump() != SECOND_TRUMP && mPowerOverlap == true)
+	if (GetTrump() != SECOND_TRUMP)
 	{
-		// Step 1 animation
-		if (mProduction == 0 && GetDuration() >= LowProductionTime/GetTrumpScale())
+		if (CheckAdjacentConnection())
 		{
-			// Don't redraw every time this is true
-			if (mProduction != LowProduction)
+			// Step 1 animation
+			if (mProduction == 0 && GetDuration() >= LowProductionTime / GetTrumpScale())
 			{
-				if (mCoalminePromotionLevel == LEVEL_1)
-					SetImage(LowProductionImage);
-				else if (mCoalminePromotionLevel == LEVEL_2)
-					SetImage(LowProductionPromotedImage);
+				// Don't redraw every time this is true
+				if (mProduction != LowProduction)
+				{
+					if (mCoalminePromotionLevel == LEVEL_1)
+						SetImage(LowProductionImage);
+					else if (mCoalminePromotionLevel == LEVEL_2)
+						SetImage(LowProductionPromotedImage);
+				}
+
+				SetProduction(LowProduction);
+				SetDuration(0);
 			}
 
-			SetProduction(LowProduction);
-			SetDuration(0);
-		}
 
-
-		// Step 2 animation
-		if (mProduction == LowProduction && GetDuration() >= MediumProductionTime/GetTrumpScale())
-		{
-			if (mProduction != MediumProduction)
+			// Step 2 animation
+			if (mProduction == LowProduction && GetDuration() >= MediumProductionTime / GetTrumpScale())
 			{
-				if (mCoalminePromotionLevel == LEVEL_1)
-					SetImage(MediumProductionImage);
-				else if (mCoalminePromotionLevel == LEVEL_2)
-					SetImage(MediumProductionPromotedImage);
+				if (mProduction != MediumProduction)
+				{
+					if (mCoalminePromotionLevel == LEVEL_1)
+						SetImage(MediumProductionImage);
+					else if (mCoalminePromotionLevel == LEVEL_2)
+						SetImage(MediumProductionPromotedImage);
+				}
+
+				SetProduction(MediumProduction);
+				SetDuration(0);
 			}
 
-			SetProduction(MediumProduction);
-			SetDuration(0);
-		}
 
-
-		// Step 3 animation
-		if (mProduction == MediumProduction && GetDuration() >= FullProductionTime / GetTrumpScale())
-		{
-			if (mProduction != FullProduction)
+			// Step 3 animation
+			if (mProduction == MediumProduction && GetDuration() >= FullProductionTime / GetTrumpScale())
 			{
-				if (mCoalminePromotionLevel == LEVEL_1)
-					SetImage(FullProductionImage);
-				else if (mCoalminePromotionLevel == LEVEL_2)
-					SetImage(FullProductionPromotedImage);
-			}
+				if (mProduction != FullProduction)
+				{
+					if (mCoalminePromotionLevel == LEVEL_1)
+						SetImage(FullProductionImage);
+					else if (mCoalminePromotionLevel == LEVEL_2)
+						SetImage(FullProductionPromotedImage);
+				}
 
-			SetProduction(FullProduction);
-			SetDuration(0);
+				SetProduction(FullProduction);
+				SetDuration(0);
+			}
 		}
 	}
 	else

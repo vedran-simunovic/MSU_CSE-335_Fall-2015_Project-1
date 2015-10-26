@@ -232,15 +232,15 @@ bool CTile::CheckAdjacentConnection()
 		upleft->Accept(&visitor);
 	}
 	if (GetAdjacent(1, -1) != nullptr){
-		upright = GetAdjacent(-1, -1);
+		upright = GetAdjacent(1, -1);
 		upright->Accept(&visitor);
 	}
 	if (GetAdjacent(-1, 1) != nullptr){
-		lowleft = GetAdjacent(-1, -1);
+		lowleft = GetAdjacent(-1, 1);
 		lowleft->Accept(&visitor);
 	}
 	if (GetAdjacent(1, 1) != nullptr){
-		lowright = GetAdjacent(-1, -1);
+		lowright = GetAdjacent(1, 1);
 		lowright->Accept(&visitor);
 	}
 

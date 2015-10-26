@@ -111,7 +111,7 @@ void CTileOremine::Update(double elapsed)
 		mDuration = mDuration + elapsed;
 
 		// Start oremine sequence
-		if (mStartConstruction == true && mPowerOverlap == true)
+		if (mStartConstruction == true && CheckAdjacentConnection())
 		{
 			if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
 			{
