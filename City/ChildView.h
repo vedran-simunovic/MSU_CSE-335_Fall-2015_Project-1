@@ -81,7 +81,12 @@ private:
 	bool mConnected = false;
 
 	/// Total wallet money in US dollars $
-	double mTotalMoney = 1000000;
+	double mTotalMoney = 10000;
+
+	/// Total money in the car, which is being transported.
+	double mCarMoney = 0;
+
+
 
 	/// Price of building of all other tiles
 	double mOtherTilesPrice = 0;

@@ -605,29 +605,33 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (nChar == 37) /// Left
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
-
+			tileCar->SetImage(L"car2.png");
 			MoveCar(adjacentTile, tileCar);
 
 		}
 		else if (nChar == 38) /// Up 
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
-
+			tileCar->SetImage(L"car2down.png");
 			MoveCar(adjacentTile, tileCar);
 
 		}
 		else if (nChar == 39) /// Right
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
+			tileCar->SetImage(L"car2.png");
 			MoveCar(adjacentTile, tileCar);
 
 		}
 		else if (nChar == 40)
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
+			tileCar->SetImage(L"car2down.png");
 			MoveCar(adjacentTile, tileCar);
 
 		}/// Down
+
+		
 		mCity.MoveToFront(tileCar); 
 		mCity.SortTiles();
 		Invalidate();
