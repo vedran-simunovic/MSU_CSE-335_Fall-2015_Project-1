@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include <algorithm>
 #include <cmath>
+#include <stack>
 
 #include "City.h"
 #include "Tile.h"
@@ -21,6 +22,9 @@
 #include "TileOremine.h"
 #include "TileStadium.h"
 #include "TileBank.h"
+#include "CheckPowerPlant.h"
+#include "CheckGridConnection.h"
+#include "ResetPower.h"
 
 using namespace std;
 using namespace xmlnode;
@@ -663,4 +667,89 @@ int CCity::CountFullyOverlapping()
 	}
 	return totalOverlaps;
 	//return totalOverlaps;
+}
+
+void CCity::ConnectGrid()
+{
+	ResetGrid();
+
+	CCheckPowerPlant visitor;
+	CCheckGridConnection gridvisitor;
+	for (auto tile : mTiles)
+	{
+	
+		tile->Accept(&visitor);
+
+		if (visitor.CheckPowerPlant())
+		{
+			std::stack<std::shared_ptr<CTile>> unvisited;
+			std::shared_ptr<CTile> current;
+			std::shared_ptr<CTile> upleft;
+			std::shared_ptr<CTile> upright;
+			std::shared_ptr<CTile> lowleft;
+			std::shared_ptr<CTile> lowright;
+
+			unvisited.push(tile);
+
+
+			///tile->Accept(&gridvisitor);
+
+			while (!unvisited.empty())
+			{
+				upleft = nullptr;
+				upright = nullptr;
+				lowleft = nullptr;
+				lowright = nullptr;
+				current = nullptr;
+
+				current = (unvisited.top()); //当前应该访问的
+				unvisited.pop();
+
+				bool skipForCurrent = current->IsVisited();
+				current->Accept(&gridvisitor);
+				
+				if (!skipForCurrent)
+				{
+
+					if (current->GetAdjacent(-1, -1) != nullptr){
+						upleft = current->GetAdjacent(-1, -1);
+						if (!upleft->IsVisited())
+							unvisited.push(upleft);
+					}
+					if (current->GetAdjacent(1, -1) != nullptr){
+						upright = current->GetAdjacent(1, -1);
+						if (!upright->IsVisited())
+							unvisited.push(upright);
+					}
+					if (current->GetAdjacent(-1, 1) != nullptr){
+						lowleft = current->GetAdjacent(-1, 1);
+						if (!lowleft->IsVisited())
+							unvisited.push(lowleft);
+					}
+					if (current->GetAdjacent(1, 1) != nullptr){
+						lowright = current->GetAdjacent(1, 1);
+						if (!lowright->IsVisited())
+							unvisited.push(lowright);
+					}
+				}
+
+				///current->Accept(&gridvisitor);
+
+
+			}
+		}
+	}
+
+	mTotalPowerProduct = visitor.GetProduction();
+
+}
+
+
+void CCity::ResetGrid()
+{
+	CResetPower resetvisitor;
+	for (auto tile : mTiles)
+	{
+		tile->Accept(&resetvisitor);
+	}
 }

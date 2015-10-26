@@ -7,7 +7,7 @@
 #include "stdafx.h"
 #include <sstream>
 #include <math.h>
-
+#include "resource.h"
 #include "DoubleBufferDC.h"
 #include "CityApp.h"
 #include "ChildView.h"
@@ -30,6 +30,7 @@
 #include "TileStadium.h"
 #include "TileOremine.h"
 #include "TileBank.h"
+#include "CheckPowerPlant.h"
 #include "MoveCar.h"
 #include "TransConnect.h"
 
@@ -195,6 +196,10 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_CAR, &CChildView::OnUpdateBorderCar)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESS, &CChildView::OnUpdateBorderBusiness)
 	ON_COMMAND(ID_OREMINE_HAULORE, &CChildView::OnOremineHaulore)
+
+
+	ON_COMMAND(ID_POWER_CONNECT, &CChildView::OnPowerConnect)
+	ON_COMMAND(ID_POWER_RESET, &CChildView::OnPowerReset)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -605,7 +610,7 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
 			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
-			{	
+			{
 				adjacentTile->Accept(&visitor); /// visitor gets that juicy info
 
 
@@ -1398,7 +1403,7 @@ void CChildView::OnOremineHaulore()
 
 	wstringstream str;
 	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
-		totalProduction*mOrePrice << " because the price of 1 ton of coal is worth $" << mOrePrice;
+		totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
 	AfxMessageBox(str.str().c_str());
 
 	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
@@ -1439,3 +1444,22 @@ mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
 
 CResetCoal visitor2;
 mCity.Accept(&visitor2);*/
+
+
+
+
+void CChildView::OnPowerConnect()
+{
+	// TODO: Add your command handler code here
+	mCity.ConnectGrid();
+
+	Invalidate();
+}
+
+
+void CChildView::OnPowerReset()
+{
+	// TODO: Add your command handler code here
+	mCity.ResetGrid();
+	Invalidate();
+}

@@ -98,6 +98,9 @@
   <ItemGroup>
     <ClInclude Include="BuildingCounter.h" />
     <ClInclude Include="MoveCar.h" />
+    <ClInclude Include="CheckGridConnection.h" />
+    <ClInclude Include="CheckPowerPlant.h" />
+    <ClInclude Include="ResetPower.h" />
     <ClInclude Include="OreCounter.h" />
     <ClInclude Include="ResetOre.h" />
     <ClInclude Include="TileBank.h" />
@@ -136,6 +139,9 @@
     <ClCompile Include="OreCounter.cpp" />
     <ClCompile Include="ResetOre.cpp" />
     <ClCompile Include="TileBank.cpp" />
+    <ClCompile Include="CheckGridConnection.cpp" />
+    <ClCompile Include="CheckPowerPlant.cpp" />
+    <ClCompile Include="ResetPower.cpp" />
     <ClCompile Include="TileCar.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="City.cpp" />

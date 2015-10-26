@@ -173,6 +173,8 @@ BEGIN
     POPUP "Power"
     BEGIN
         MENUITEM "Build",                       ID_POWER_BUILD
+        MENUITEM "Connect",                     ID_POWER_CONNECT
+        MENUITEM "Reset",                       ID_POWER_RESET
     END
     POPUP "Transportation"
     BEGIN

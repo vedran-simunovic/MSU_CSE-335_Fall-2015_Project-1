@@ -156,7 +156,7 @@ public:
     afx_msg void OnLandscapingTree();
     afx_msg void OnLandscapingTrees();
     afx_msg void OnLandscapingBigtrees();
-	afx_msg void OnLandscapingRoad();
+    afx_msg void OnLandscapingRoad();
 	
 	
 	afx_msg void OnTransportationDeclinedroad();
@@ -208,5 +208,8 @@ public:
 	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
 	afx_msg void OnOremineHaulore();
+
+	afx_msg void OnPowerConnect();
+	afx_msg void OnPowerReset();
 };
 
