@@ -602,48 +602,31 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	auto tileCar = mCity.FindCar();
 	if (mVehicleMode && tileCar != nullptr)
 	{
-		int key = (int)nChar;
-		CTransConnect visitor;
-		auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under
-
 		if (nChar == 37) /// Left
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
-			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
-			{
-				adjacentTile->Accept(&visitor); /// visitor gets that juicy info
 
+			MoveCar(adjacentTile, tileCar);
 
-				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-
-
-			}
 		}
 		else if (nChar == 38) /// Up 
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
-			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
-			{
-				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-			}
+
+			MoveCar(adjacentTile, tileCar);
+
 		}
 		else if (nChar == 39) /// Right
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
-			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
-			{
-				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-			}
+			MoveCar(adjacentTile, tileCar);
+
 		}
 		else if (nChar == 40)
 		{
-			auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under
-
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
-			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
-			{
-				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-			}
+			MoveCar(adjacentTile, tileCar);
+
 		}/// Down
 		mCity.MoveToFront(tileCar); 
 		mCity.SortTiles();
@@ -651,6 +634,27 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		/// Find car, move it to the CENTER of the adjacent tile.
 	}
 
+}
+
+void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
+{
+	CTransConnect visitor;
+	auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under car
+
+	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS))
+	{
+		if (adjacentTile->GetZoning() == CTile::TRANSPORTATION)
+		{
+			adjacentTile->Accept(&visitor); /// visitor gets that juicy info
+		}
+		else
+		{
+			wstringstream str;
+			str << L"You are on a business tile.";
+			AfxMessageBox(str.str().c_str());
+		}
+		tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+	}
 }
 
 /** \brief Called when any key is pressed
