@@ -108,6 +108,12 @@
     <ClInclude Include="ResetOre.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MoveCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransConnect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -192,6 +198,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ResetOre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransConnect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

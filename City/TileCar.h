@@ -35,6 +35,15 @@ public:
 
 	virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);
 
+	//void SetTileUnderRotation(int rot) { mTransTileUnderRotation = rot; }
+	//int GetTileUnderRotation() { return mTransTileUnderRotation; }
+
+//	void SetTransTileUnder(string tile) { mTransTileUnder = tile; }
+//	string GetTransTileUnder(){ return mTransTileUnder; }
+//
+//private:
+//	string mTransTileUnder = "flat"; // Initialized to flat
+//	int mTransTileUnderRotation = 0; // Initialized to zero.
 
 };
 

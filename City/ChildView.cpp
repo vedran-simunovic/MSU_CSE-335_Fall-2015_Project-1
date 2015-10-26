@@ -30,6 +30,8 @@
 #include "TileStadium.h"
 #include "TileOremine.h"
 #include "TileBank.h"
+#include "MoveCar.h"
+#include "TransConnect.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -589,41 +591,57 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 */
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	int cool = 0;
 	/// Check if vehicle mode is on
+	/// We need to find the car tile
+	/// Iterate through all tiles in the city, return the car tile
 	auto tileCar = mCity.FindCar();
 	if (mVehicleMode && tileCar != nullptr)
 	{
-		/// We need to find the car tile
-		/// Iterate through all tiles in the city, return the car tile
+		int key = (int)nChar;
+		CTransConnect visitor;
+		auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under
+
 		if (nChar == 37) /// Left
 		{
-
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
-			///tileCar->SetLocation(x + 50, y + 50);
-			if (adjacentTile != nullptr)
-			{
+			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
+			{	
+				adjacentTile->Accept(&visitor); /// visitor gets that juicy info
+
+
 				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+
+
 			}
 		}
 		else if (nChar == 38) /// Up 
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
-			///tileCar->SetLocation(x + 50, y + 50);
-			if (adjacentTile != nullptr)
+			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
 			{
 				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
 			}
 		}
 		else if (nChar == 39) /// Right
 		{
-			cool = 3;
+			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
+			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
+			{
+				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			}
 		}
 		else if (nChar == 40)
 		{
-			cool = 4;
-		}/// Down
+			auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under
 
+			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
+			if (adjacentTile != nullptr && adjacentTile->GetZoning() == CTile::TRANSPORTATION)
+			{
+				tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			}
+		}/// Down
+		mCity.MoveToFront(tileCar); 
+		mCity.SortTiles();
 		Invalidate();
 		/// Find car, move it to the CENTER of the adjacent tile.
 	}
@@ -664,7 +682,8 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		if (mGrabbedItem != nullptr && mGrabbedItem->GetZoning() != CTile::CAR)
+		///if (mGrabbedItem != nullptr && mGrabbedItem->GetZoning() != CTile::CAR)
+		if (mGrabbedItem != nullptr)
 		{
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
@@ -772,24 +791,24 @@ void CChildView::AddBuilding(const std::wstring &file)
 */
 void CChildView::AddCar(const std::wstring &file)
 {
-	int carCount = mCity.GetCarCount();
-	if (carCount == 0)
-	{
+	//int carCount = mCity.GetCarCount();
+	//if (carCount == 0)
+	//{
 		auto tile = make_shared<CTileCar>(&mCity);
-		carCount++;
+		//carCount++;
 		tile->SetImage(file);
 		tile->SetLocation(InitialX, InitialY);
 		tile->SetZoning(CTile::CAR);
 		mCity.Add(tile);
 		mCity.MoveToFront(tile);
-		mCity.SetCarCount(carCount);
+//		mCity.SetCarCount(carCount);
 		Invalidate();
-	}
-	else {
-		wstringstream str;
-		str << L"You can only have one car.";
-		AfxMessageBox(str.str().c_str());
-	}
+	//}
+	//else {
+	//	wstringstream str;
+	//	str << L"You can only have one car.";
+	//	AfxMessageBox(str.str().c_str());
+	//}
 }
 
 

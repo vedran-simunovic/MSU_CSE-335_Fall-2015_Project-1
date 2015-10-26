@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BuildingCounter.h" />
+    <ClInclude Include="MoveCar.h" />
     <ClInclude Include="OreCounter.h" />
     <ClInclude Include="ResetOre.h" />
     <ClInclude Include="TileBank.h" />
@@ -124,12 +125,14 @@
     <ClInclude Include="TileStadium.h" />
     <ClInclude Include="TileVisitor.h" />
     <ClInclude Include="TileTransportation.h" />
+    <ClInclude Include="TransConnect.h" />
     <ClInclude Include="TransRotate.h" />
     <ClInclude Include="Trump.h" />
     <ClInclude Include="XmlNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildingCounter.cpp" />
+    <ClCompile Include="MoveCar.cpp" />
     <ClCompile Include="OreCounter.cpp" />
     <ClCompile Include="ResetOre.cpp" />
     <ClCompile Include="TileBank.cpp" />
@@ -157,6 +160,7 @@
     <ClCompile Include="TileStadium.cpp" />
     <ClCompile Include="TileVisitor.cpp" />
     <ClCompile Include="TileTransportation.cpp" />
+    <ClCompile Include="TransConnect.cpp" />
     <ClCompile Include="TransRotate.cpp" />
     <ClCompile Include="Trump.cpp" />
     <ClCompile Include="XmlNode.cpp" />
