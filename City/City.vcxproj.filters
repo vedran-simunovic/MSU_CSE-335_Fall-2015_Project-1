@@ -117,13 +117,13 @@
     <ClInclude Include="TileBank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FindGird.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MoveCar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TransConnect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FindGrid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -221,13 +221,13 @@
     <ClCompile Include="TileBank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FindGird.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MoveCar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TransConnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FindGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

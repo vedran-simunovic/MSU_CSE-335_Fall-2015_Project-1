@@ -8,7 +8,7 @@
 #include "Tile.h"
 #include "City.h"
 #include "TilePropertiesDlg.h"
-#include "FindGird.h"
+#include "FindGrid.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -221,7 +221,7 @@ void CTile::Promote()
 
 bool CTile::CheckAdjacentConnection()
 {
-	CFindGird visitor;
+	CFindGrid visitor;
 	std::shared_ptr<CTile> upleft = nullptr;
 	std::shared_ptr<CTile> upright = nullptr;
 	std::shared_ptr<CTile> lowleft = nullptr;

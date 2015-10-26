@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "FindGird.h"
+#include "FindGrid.h"
 #include "TilePower.h"
 
 
-CFindGird::CFindGird()
+CFindGrid::CFindGrid()
 {
 }
 
 
-CFindGird::~CFindGird()
+CFindGrid::~CFindGrid()
 {
 }
 
-void CFindGird::VisitPower(CTilePower* power)
+void CFindGrid::VisitPower(CTilePower* power)
 {
 	if (power->CheckConnected())
 	{

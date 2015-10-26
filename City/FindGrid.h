@@ -1,11 +1,11 @@
 #pragma once
 #include "TileVisitor.h"
-class CFindGird :
+class CFindGrid :
 	public CTileVisitor
 {
 public:
-	CFindGird();
-	virtual ~CFindGird();
+	CFindGrid();
+	virtual ~CFindGrid();
 
 	void VisitPower(CTilePower* power) override;
 
