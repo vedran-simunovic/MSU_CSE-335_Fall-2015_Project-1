@@ -616,7 +616,7 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			MoveCar(adjacentTile, tileCar);
 
 		}
-		else if (nChar == 39) /// Right
+		else if (nChar == 39) /// Right//
 		{
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
 			tileCar->SetImage(L"car2.png");
