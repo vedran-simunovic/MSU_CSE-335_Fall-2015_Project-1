@@ -27,7 +27,7 @@ CMoveCar::~CMoveCar()
 
 /** moves the car
 * The visit car function is used by the visitor
-* \param car The Car that is visited by the visitor
+* \param trans The Car that is visited by the visitor
 */
 void CMoveCar::VisitTrans(CTileTransportation *trans)
 {
