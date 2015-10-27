@@ -701,7 +701,7 @@ void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CT
 		}
 		else if (adjacentTile->GetZoning() == CTile::BANK)
 		{
-			// Fills up your wallet, and empties the car's money hoard.
+			// Fills up your wallet, and empties the car's money hoard./
 			mTotalMoney = mTotalMoney + mCarMoney;
 
 			if (mTotalMoney <= mGameObjectiveMoney)
