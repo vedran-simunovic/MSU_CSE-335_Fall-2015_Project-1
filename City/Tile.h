@@ -31,6 +31,7 @@ public:
 		CONSTRUCTIONAL=6,	///< Constructional zoning
 		CAR=7,				///< Car zoning
 		BUSINESS=8,			///< Business zoning, make money & buy only with these tiles
+		BANK=9,				///< Bank zoning, used to know when to deposit money into the wallet
 	};   /// The possible tile zonings in the program
 	
 
@@ -164,7 +165,7 @@ private:
     /// Any zoning for this property
     Zonings mZoning = NONE;
 
-	/// power need for this tile
+	/// need for this tile
 	int mPowerNeed = 0;
 };
 

@@ -165,6 +165,7 @@ BEGIN
         MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
         MENUITEM "Car",                         ID_BORDER_CAR
         MENUITEM "Business",                    ID_BORDER_BUSINESS
+        MENUITEM "Bank",                        ID_BORDER_BANK
     END
     POPUP "Construction"
     BEGIN

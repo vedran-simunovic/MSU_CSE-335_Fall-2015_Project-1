@@ -224,5 +224,7 @@ public:
 
 	afx_msg void OnPowerConnect();
 	afx_msg void OnPowerReset();
+	afx_msg void OnBorderBank();
+	afx_msg void OnUpdateBorderBank(CCmdUI *pCmdUI);
 };
 

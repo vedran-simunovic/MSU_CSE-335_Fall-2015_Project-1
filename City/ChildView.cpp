@@ -200,6 +200,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 
 	ON_COMMAND(ID_POWER_CONNECT, &CChildView::OnPowerConnect)
 	ON_COMMAND(ID_POWER_RESET, &CChildView::OnPowerReset)
+	ON_COMMAND(ID_BORDER_BANK, &CChildView::OnBorderBank)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_BANK, &CChildView::OnUpdateBorderBank)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -642,20 +644,47 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
 {
-	CTransConnect visitor;
+	
+	
 	auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under car
 
-	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS))
+	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS || adjacentTile->GetZoning() == CTile::BANK))
 	{
 		if (adjacentTile->GetZoning() == CTile::TRANSPORTATION)
 		{
+			CTransConnect visitor;
 			adjacentTile->Accept(&visitor); /// visitor gets that juicy info
 		}
-		else
+		else if (adjacentTile->GetZoning() == CTile::BUSINESS)
 		{
+			CCoalCounter visitor;
+			adjacentTile->Accept(&visitor);
+			double totalProduction = visitor.GetTotalProduction();
+
 			wstringstream str;
-			str << L"You are on a business tile.";
+			str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
+				totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
 			AfxMessageBox(str.str().c_str());
+
+			CResetCoal visitor2;
+			adjacentTile->Accept(&visitor2);
+
+			//Update money into car
+			mCarMoney = mCarMoney + totalProduction*mCoalPrice;
+
+			
+
+
+			//wstringstream str;
+			//str << L"You are on a business tile.";
+			//AfxMessageBox(str.str().c_str());
+		}
+		else if (adjacentTile->GetZoning() == CTile::BANK)
+		{
+			// Fills up your wallet, and empties the car's money hoard.
+			mTotalMoney = mTotalMoney + mCarMoney;
+			mCarMoney = 0;
+
 		}
 		tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
 	}
@@ -1003,6 +1032,11 @@ void CChildView::OnBorderBusiness()
 	mZoning = CTile::BUSINESS;
 }
 
+/** Menu handler that sets the border draw to bank */
+void CChildView::OnBorderBank()
+{
+	mZoning = CTile::BANK;
+}
 
 
 /** Menu handler that sets the border draw to none 
@@ -1075,6 +1109,13 @@ void CChildView::OnUpdateBorderBusiness(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mZoning == CTile::BUSINESS);
 }
 
+
+
+
+void CChildView::OnUpdateBorderBank(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::BANK);
+}
 
 /** Menu handler that counts the number of builds */
 void CChildView::OnBuildingsCount()
@@ -1347,7 +1388,7 @@ void CChildView::OnBankCreatebank()
 {
 	auto tile = make_shared<CTileBank>(&mCity);
 	tile->SetLocation(InitialX, InitialY);
-	tile->SetZoning(CTile::BUSINESS);
+	tile->SetZoning(CTile::BANK);
 	mCity.Add(tile);
 	Invalidate();
 }
@@ -1437,3 +1478,6 @@ void CChildView::OnPowerReset()
 	bool mConnected = false;
 	Invalidate();
 }
+
+
+
