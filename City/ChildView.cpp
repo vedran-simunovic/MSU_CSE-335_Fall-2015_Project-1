@@ -1452,7 +1452,7 @@ void CChildView::OnCoalmineHaulcole()
 	else
 	{
 		wstringstream str;
-		str << L"You can only use this feature when you are a millionaire." << mOrePrice;
+		str << L"You can only use this feature when you are a millionaire.";
 		AfxMessageBox(str.str().c_str());
 		
 	}
@@ -1540,7 +1540,7 @@ void CChildView::OnOremineHaulore()
 	else
 	{
 		wstringstream str;
-		str << L"You can only use this feature when you are a millionaire." << mOrePrice;
+		str << L"You can only use this feature when you are a millionaire.";
 		AfxMessageBox(str.str().c_str());
 	}
 }
