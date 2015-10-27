@@ -9,11 +9,17 @@
 #include "TilePower.h"
 
 
+/**
+ * 		  Constructor
+ */
 CCheckGridConnection::CCheckGridConnection()
 {
 }
 
 
+/**
+ * 		  Destructor
+ */
 CCheckGridConnection::~CCheckGridConnection()
 {
 }

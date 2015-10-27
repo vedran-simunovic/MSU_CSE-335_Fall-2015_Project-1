@@ -8,12 +8,16 @@
 #include "TransRotate.h"
 #include "TileTransportation.h"
 
-
+/** Constructor
+*
+*/
 CTransRotate::CTransRotate()
 {
 }
 
-
+/** Destructor
+*
+*/
 CTransRotate::~CTransRotate()
 {
 }

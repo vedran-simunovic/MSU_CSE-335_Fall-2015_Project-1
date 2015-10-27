@@ -9,11 +9,16 @@
 #include "TilePower.h"
 
 
+/** Constructor
+ * 
+ */
 CFindGrid::CFindGrid()
 {
 }
 
-
+/** Destructor
+*
+*/
 CFindGrid::~CFindGrid()
 {
 }

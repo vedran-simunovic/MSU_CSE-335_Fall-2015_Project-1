@@ -8,12 +8,16 @@
 #include "PowerRotate.h"
 #include "TilePower.h"
 
-
+/**Constructor
+*
+*/
 CPowerRotate::CPowerRotate()
 {
 }
 
-
+/**Destructor
+*
+*/
 CPowerRotate::~CPowerRotate()
 {
 }

@@ -9,16 +9,16 @@
 #include "TileTransportation.h"
 
 
-/**
- * Constructor
+/** Constructor
+ * 
  */
 CMoveCar::CMoveCar()
 {
 }
 
 
-/**
- * Destructor
+/** Destructor
+ * 
  */
 CMoveCar::~CMoveCar()
 {
@@ -27,7 +27,7 @@ CMoveCar::~CMoveCar()
 
 /** moves the car
 * The visit car function is used by the visitor
-* \param trans The Car that is visited by the visitor
+* \param car The Car that is visited by the visitor
 */
 void CMoveCar::VisitTrans(CTileTransportation *trans)
 {
@@ -37,10 +37,10 @@ void CMoveCar::VisitTrans(CTileTransportation *trans)
 }
 
 
-/** Checks if the road is valid
+/** Checks if the trans tile is a valid road connection to the other tile
 *
 * \param trans
-* \returns True if the car is valid
+* \returns
 */
 bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 {
@@ -50,10 +50,10 @@ bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 	{
 		return CheckValidFlat(trans);
 	}
-	else if (transTileType == CTileTransportation::CURVED)
-	{
-		return CheckValidCurved(trans);
-	}
+	//else if (transTileType == CTileTransportation::CURVED)
+	//{
+	//	return CheckValidCurved(trans);
+	//}
 	//else if (transTileType == CTileTransportation::INCLINED)
 	//{
 	//	return CheckValidInclined(trans);
@@ -70,10 +70,11 @@ bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 	//return true;
 }
 
-/**
- * This class also hasn't been implemented, this was part of the valid direction feature
- * \param trans The transportation tile that the car is under
- * \returns false 
+
+/** Checks if the flat road is valid road
+ * 
+ * \param trans tile to check validity
+ * \returns  true if valid false if not
  */
 bool CMoveCar::CheckValidFlat(CTileTransportation *trans)
 {
@@ -125,13 +126,3 @@ bool CMoveCar::CheckValidFlat(CTileTransportation *trans)
 	return false;
 }
 
-
-/** This class has not yet been implemented, but it's meant to check the curve feature.
- * 
- * \param trans Transportation tile pointer
- * \returns false
- */
-bool CMoveCar::CheckValidCurved(CTileTransportation *trans)
-{
-	return false;
-}

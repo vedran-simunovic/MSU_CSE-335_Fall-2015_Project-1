@@ -28,7 +28,7 @@ public:
 
 	bool CheckIfValidRoad(CTileTransportation *trans);
 	bool CheckValidFlat(CTileTransportation *trans);
-	bool CheckValidCurved(CTileTransportation *trans);
+	//bool CheckValidCurved(CTileTransportation *trans);
 
 	//std::pair<int,int> GetCoordinates() { return mCoordinates; }
 

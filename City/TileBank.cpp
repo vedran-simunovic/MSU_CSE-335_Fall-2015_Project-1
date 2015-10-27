@@ -1,3 +1,9 @@
+/**
+ * \file TileBank.cpp
+ *
+ * \author Helena Narowski
+ */
+
 #include "stdafx.h"
 #include "TileBank.h"
 
