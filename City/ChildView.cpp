@@ -1493,6 +1493,7 @@ void CChildView::OnOremineBuyoremine()
 	
 }
 
+/** Menu handler that creates a coalmine tile, different from the regular one */
 void CChildView::OnCoalmineCreatecoalmine()
 {
 	if (mTotalMoney < mCoalminePrice)
