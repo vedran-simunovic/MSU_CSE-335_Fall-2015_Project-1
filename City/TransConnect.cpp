@@ -10,7 +10,7 @@
 
 
 /**
- * 
+ * Constructor
  */
 CTransConnect::CTransConnect()
 {
@@ -18,7 +18,7 @@ CTransConnect::CTransConnect()
 
 
 /**
- * 
+ * Destructor
  */
 CTransConnect::~CTransConnect()
 {

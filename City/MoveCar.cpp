@@ -10,7 +10,7 @@
 
 
 /**
- * 
+ * Constructor
  */
 CMoveCar::CMoveCar()
 {
@@ -18,7 +18,7 @@ CMoveCar::CMoveCar()
 
 
 /**
- * 
+ * Destructor
  */
 CMoveCar::~CMoveCar()
 {
@@ -27,7 +27,7 @@ CMoveCar::~CMoveCar()
 
 /** moves the car
 * The visit car function is used by the visitor
-* \param car The Car that is visited by the visitor
+* \param trans The Car that is visited by the visitor
 */
 void CMoveCar::VisitTrans(CTileTransportation *trans)
 {
@@ -37,10 +37,10 @@ void CMoveCar::VisitTrans(CTileTransportation *trans)
 }
 
 
-/**
+/** Checks if the road is valid
 *
 * \param trans
-* \returns
+* \returns True if the car is valid
 */
 bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 {
@@ -70,6 +70,11 @@ bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 	//return true;
 }
 
+/**
+ * This class also hasn't been implemented, this was part of the valid direction feature
+ * \param trans The transportation tile that the car is under
+ * \returns false 
+ */
 bool CMoveCar::CheckValidFlat(CTileTransportation *trans)
 {
 	/// this has the trans tile information of the one we're ON, and the one we're passing in is the one we want to move to.
@@ -120,6 +125,12 @@ bool CMoveCar::CheckValidFlat(CTileTransportation *trans)
 	return false;
 }
 
+
+/** This class has not yet been implemented, but it's meant to check the curve feature.
+ * 
+ * \param trans Transportation tile pointer
+ * \returns false
+ */
 bool CMoveCar::CheckValidCurved(CTileTransportation *trans)
 {
 	return false;

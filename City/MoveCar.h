@@ -3,7 +3,7 @@
  *
  * \author Helena Narowski
  *
- * 
+ * This class moves the car functionality
  */
 
 #pragma once
@@ -12,7 +12,7 @@
 
 #include "TileVisitor.h"
 /**
- * 
+ * Move car class
  */
 class CMoveCar :
 	public CTileVisitor
@@ -37,7 +37,7 @@ public:
 private:
 	//int mKey = 0;
 	//std::pair<int, int> mCoordinates;
-	bool mValid = false;
+	bool mValid = false; ///< Member variable which is a valid flag for where the car is
 
 };
 

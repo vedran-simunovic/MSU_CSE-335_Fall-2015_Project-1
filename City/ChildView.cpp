@@ -650,6 +650,12 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 }
 
+
+/**
+ * This deals with the car moving
+ * \param adjacentTile The adjacent tile we are moving to
+ * \param tileCar The car tile
+ */
 void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
 {
 	CTransConnect visitor;
@@ -1410,13 +1416,15 @@ void CChildView::OnTilesinfoFullyoverlapping()
 	AfxMessageBox(str.str().c_str());
 }
 
-
+/** Menu handler deals with vehicle mode feature*/
 void CChildView::OnTransportationVehiclemode()
 {
 	mVehicleMode = !mVehicleMode;
 }
 
-
+/** Menu handler deals with vehicle mode feature
+* \param pCmdUI This is pass to be able to change the checkmark on the screen
+*/
 void CChildView::OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mVehicleMode);

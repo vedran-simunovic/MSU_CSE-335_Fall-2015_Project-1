@@ -89,6 +89,11 @@ std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offse
     return  nullptr;
 }
 
+
+/**
+ * Finds the car
+ * \returns this If the car is found
+ */
 std::shared_ptr<CTile> CCity::FindCar()
 {
 	for (auto i = mTiles.rbegin(); i != mTiles.rend(); i++)
@@ -101,6 +106,11 @@ std::shared_ptr<CTile> CCity::FindCar()
 	return  nullptr;
 }
 
+
+/**
+ * Returns the tile that is under the car
+ * \returns this The tile which is under the car
+ */
 std::shared_ptr<CTile> CCity::FindTransTileUnderCar()
 {
 	double centerXj;
