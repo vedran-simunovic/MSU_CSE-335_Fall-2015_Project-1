@@ -604,28 +604,32 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (nChar == 37) /// Left
 		{
+			int direction = 0;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
 
-			MoveCar(adjacentTile, tileCar);
+			MoveCar(adjacentTile, tileCar, direction);
 
 		}
 		else if (nChar == 38) /// Up 
 		{
+			int direction = 2;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
 
-			MoveCar(adjacentTile, tileCar);
+			MoveCar(adjacentTile, tileCar, direction);
 
 		}
 		else if (nChar == 39) /// Right
 		{
+			int direction = 1;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
-			MoveCar(adjacentTile, tileCar);
+			MoveCar(adjacentTile, tileCar, direction);
 
 		}
 		else if (nChar == 40)
-		{
+		{ //0 = left, 1 = right, 2 = up, 3 = down (arrow keys)
+			int direction = 3;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
-			MoveCar(adjacentTile, tileCar);
+			MoveCar(adjacentTile, tileCar, direction);
 
 		}/// Down
 		mCity.MoveToFront(tileCar); 
@@ -636,24 +640,32 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 }
 
-void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
+void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar, int direction)
 {
 	CTransConnect visitor;
+	CMoveCar visitor2;
 	auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under car
 
 	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS))
 	{
 		if (adjacentTile->GetZoning() == CTile::TRANSPORTATION)
 		{
-			adjacentTile->Accept(&visitor); /// visitor gets that juicy info
+
+			//tile->Accept(&visitor); /// visitor gets that juicy info of tile we are ON
+			///visitor.SetDirection(direction); /// may not be necessary now.
+
+		//	adjacentTile->Accept(&visitor2);
+
+			tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+
 		}
 		else
 		{
+			tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
 			wstringstream str;
 			str << L"You are on a business tile.";
 			AfxMessageBox(str.str().c_str());
 		}
-		tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
 	}
 }
 

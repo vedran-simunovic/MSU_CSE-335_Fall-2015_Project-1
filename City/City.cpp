@@ -113,7 +113,7 @@ std::shared_ptr<CTile> CCity::FindTransTileUnderCar()
 
 	int carX = tileCar->GetX();
 	int carY = tileCar->GetY();
-
+	
 	for (auto tile : mTiles)
 	{
 		j++;
