@@ -328,7 +328,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "CSE 335 City Application"
+    IDR_MAINFRAME           "Become a Millionaire"//"CSE 335 City Application"
 END
 
 STRINGTABLE
