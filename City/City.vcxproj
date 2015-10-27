@@ -100,6 +100,7 @@
     <ClInclude Include="MoveCar.h" />
     <ClInclude Include="CheckGridConnection.h" />
     <ClInclude Include="CheckPowerPlant.h" />
+    <ClInclude Include="FindGrid.h" />
     <ClInclude Include="ResetPower.h" />
     <ClInclude Include="OreCounter.h" />
     <ClInclude Include="ResetOre.h" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildingCounter.cpp" />
+    <ClCompile Include="FindGrid.cpp" />
     <ClCompile Include="MoveCar.cpp" />
     <ClCompile Include="OreCounter.cpp" />
     <ClCompile Include="ResetOre.cpp" />

@@ -192,14 +192,18 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BANK_CREATEBANK, &CChildView::OnBankCreatebank)
 	ON_COMMAND(ID_OREMINE_BUYOREMINE, &CChildView::OnOremineBuyoremine)
 	ON_COMMAND(ID_BORDER_CAR, &CChildView::OnBorderCar)
-	ON_COMMAND(ID_BORDER_BUSINESS, &CChildView::OnBorderBusiness)
 	ON_UPDATE_COMMAND_UI(ID_BORDER_CAR, &CChildView::OnUpdateBorderCar)
-	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESS, &CChildView::OnUpdateBorderBusiness)
 	ON_COMMAND(ID_OREMINE_HAULORE, &CChildView::OnOremineHaulore)
 
 
 	ON_COMMAND(ID_POWER_CONNECT, &CChildView::OnPowerConnect)
 	ON_COMMAND(ID_POWER_RESET, &CChildView::OnPowerReset)
+	ON_COMMAND(ID_BORDER_BANK, &CChildView::OnBorderBank)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_BANK, &CChildView::OnUpdateBorderBank)
+	ON_COMMAND(ID_BORDER_BUSINESSCOALMINE, &CChildView::OnBorderBusinesscoalmine)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESSCOALMINE, &CChildView::OnUpdateBorderBusinesscoalmine)
+	ON_COMMAND(ID_BORDER_BUSINESSOREMINE, &CChildView::OnBorderBusinessoremine)
+	ON_UPDATE_COMMAND_UI(ID_BORDER_BUSINESSOREMINE, &CChildView::OnUpdateBorderBusinessoremine)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -391,7 +395,7 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			tile->SetClearFlag();
 			Invalidate();
 		}
-		else if (tile->GetZoning() == CTile::BUSINESS)
+		else if (tile->GetZoning() == CTile::BUSINESS_OREMINE || tile->GetZoning() == CTile::BUSINESS_COALMINE)
 		{// PROMOTE THE TILE
 			
 			wstringstream str;
@@ -606,32 +610,36 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		{
 			int direction = 0;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
-
-			MoveCar(adjacentTile, tileCar, direction);
+			tileCar->SetImage(L"car2.png");
+			MoveCar(adjacentTile, tileCar);
 
 		}
 		else if (nChar == 38) /// Up 
 		{
 			int direction = 2;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
-
-			MoveCar(adjacentTile, tileCar, direction);
+			tileCar->SetImage(L"car2down.png");
+			MoveCar(adjacentTile, tileCar);
 
 		}
-		else if (nChar == 39) /// Right
+		else if (nChar == 39) /// Right//
 		{
 			int direction = 1;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
-			MoveCar(adjacentTile, tileCar, direction);
+			tileCar->SetImage(L"car2.png");
+			MoveCar(adjacentTile, tileCar);
 
 		}
 		else if (nChar == 40)
 		{ //0 = left, 1 = right, 2 = up, 3 = down (arrow keys)
 			int direction = 3;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
-			MoveCar(adjacentTile, tileCar, direction);
+			tileCar->SetImage(L"car2down.png");
+			MoveCar(adjacentTile, tileCar);
 
 		}/// Down
+
+		
 		mCity.MoveToFront(tileCar); 
 		mCity.SortTiles();
 		Invalidate();
@@ -646,26 +654,85 @@ void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CT
 	CMoveCar visitor2;
 	auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under car
 
-	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS))
+	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS_OREMINE || adjacentTile->GetZoning() == CTile::BANK || adjacentTile->GetZoning() == CTile::BUSINESS_COALMINE))
 	{
 		if (adjacentTile->GetZoning() == CTile::TRANSPORTATION)
 		{
-
-			//tile->Accept(&visitor); /// visitor gets that juicy info of tile we are ON
-			///visitor.SetDirection(direction); /// may not be necessary now.
-
-		//	adjacentTile->Accept(&visitor2);
-
-			tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
-
+			CTransConnect visitor;
+			adjacentTile->Accept(&visitor); /// visitor gets that juicy info
 		}
+		else if (adjacentTile->GetZoning() == CTile::BUSINESS_COALMINE)
+		{
+			CCoalCounter visitor;
+			adjacentTile->Accept(&visitor);
+			double totalProduction = visitor.GetTotalProduction();
+
+			wstringstream str;
+			str << L"The total production is " << totalProduction << L" tons.\nYou just put $" <<
+				totalProduction*mCoalPrice << " into your car because the price of 1 ton of coal is worth $" << mCoalPrice
+				<< "\n\nDrive your paycheck to the bank to deposit\nthe money into your wallet!";
+			AfxMessageBox(str.str().c_str());
+
+			CResetCoal visitor2;
+			adjacentTile->Accept(&visitor2);
+
+			
+
+			//Update money into car
+			mCarMoney = mCarMoney + totalProduction*mCoalPrice;
+		}
+		else if (adjacentTile->GetZoning() == CTile::BUSINESS_OREMINE)
+		{
+			// OREMINE
+			
+			COreCounter visitor;
+			adjacentTile->Accept(&visitor);
+			double totalProduction = visitor.GetTotalProduction();
+
+			wstringstream str;
+			str << L"The total production is " << totalProduction << L" tons.\nYou just put $" <<
+			totalProduction*mOrePrice << " into your car because the price of 1 ton of ore is worth $" << mOrePrice
+			<< "\n\nDrive your paycheck to the bank to deposit\nthe money into your wallet!";
+			AfxMessageBox(str.str().c_str());
+
+			
+			CResetOre visitor2;
+			adjacentTile->Accept(&visitor2);
+			
+
+			//Update money into car
+			mCarMoney = mCarMoney + totalProduction*mOrePrice;
+		}
+		else if (adjacentTile->GetZoning() == CTile::BANK)
+		{
+			// Fills up your wallet, and empties the car's money hoard./
+			mTotalMoney = mTotalMoney + mCarMoney;
+
+			if (mTotalMoney <= mGameObjectiveMoney)
+			{
+			
+				wstringstream str;
+				str << L"You just deposited $" << mCarMoney << " to your wallet!" <<
+					"\n\nYour wallet has $" << mTotalMoney << " now!";
+
+				AfxMessageBox(str.str().c_str());
+			}
 		else
 		{
 			tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
 			wstringstream str;
-			str << L"You are on a business tile.";
+				str << L"You just deposited $" << mCarMoney << " to your wallet!" <<
+					"\n\nYour wallet has $" << mTotalMoney << " now!" <<
+					"\n\n\nYOU WON THE GAME!!\n\n\nYOU ARE A MILLIONAIRE!!!!";
+
+
 			AfxMessageBox(str.str().c_str());
 		}
+			
+			mCarMoney = 0;
+
+		}
+		tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
 	}
 }
 
@@ -1005,12 +1072,23 @@ void CChildView::OnBorderCar()
 	mZoning = CTile::CAR;
 }
 
-/** Menu handler that sets the border draw to business */
-void CChildView::OnBorderBusiness()
+/** Menu handler that sets the border draw to business coalmine */
+void CChildView::OnBorderBusinesscoalmine()
 {
-	mZoning = CTile::BUSINESS;
+	mZoning = CTile::BUSINESS_COALMINE;
 }
 
+/** Menu handler that sets the border draw to business oremine */
+void CChildView::OnBorderBusinessoremine()
+{
+	mZoning = CTile::BUSINESS_OREMINE;
+}
+
+/** Menu handler that sets the border draw to bank */
+void CChildView::OnBorderBank()
+{
+	mZoning = CTile::BANK;
+}
 
 
 /** Menu handler that sets the border draw to none 
@@ -1072,17 +1150,42 @@ void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mZoning == CTile::POWER);
 }
 
+/**
+* check mark on menu
+* \param pCmdUI
+*/
 void CChildView::OnUpdateBorderCar(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::CAR);
 }
 
 
-void CChildView::OnUpdateBorderBusiness(CCmdUI *pCmdUI)
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderBusinesscoalmine(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(mZoning == CTile::BUSINESS);
+	pCmdUI->SetCheck(mZoning == CTile::BUSINESS_COALMINE);
 }
 
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderBusinessoremine(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::BUSINESS_OREMINE);
+}
+
+/**
+* check mark on menu
+* \param pCmdUI
+*/
+void CChildView::OnUpdateBorderBank(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::BANK);
+}
 
 /** Menu handler that counts the number of builds */
 void CChildView::OnBuildingsCount()
@@ -1335,12 +1438,14 @@ void CChildView::OnUpdateCoalmineTrump(CCmdUI *pCmdUI)
 /** Menu handler that counts the tons of coal hauled */
 void CChildView::OnCoalmineHaulcole()
 {
+	if (mTotalMoney > mGameObjectiveMoney)
+	{
 	CCoalCounter visitor;
 	mCity.Accept(&visitor);
 	double totalProduction = visitor.GetTotalProduction();
 
 	wstringstream str;
-	str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
+		str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
 		totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
 	AfxMessageBox(str.str().c_str());
 
@@ -1349,18 +1454,26 @@ void CChildView::OnCoalmineHaulcole()
 	CResetCoal visitor2;
 	mCity.Accept(&visitor2);
 }
+	else
+	{
+		wstringstream str;
+		str << L"You can only use this feature when you are a millionaire.";
+		AfxMessageBox(str.str().c_str());
 
+	}
+}
 
+/** Menu handler that creates a bank tile */
 void CChildView::OnBankCreatebank()
 {
 	auto tile = make_shared<CTileBank>(&mCity);
 	tile->SetLocation(InitialX, InitialY);
-	tile->SetZoning(CTile::BUSINESS);
+	tile->SetZoning(CTile::BANK);
 	mCity.Add(tile);
 	Invalidate();
 }
 
-
+/** Menu handler that creates an oremine tile, different from the regular one */
 void CChildView::OnOremineBuyoremine()
 {
 	if (mTotalMoney < mOreminePrice)
@@ -1377,7 +1490,7 @@ void CChildView::OnOremineBuyoremine()
 
 		auto tile = make_shared<CTileOremine>(&mCity);
 		tile->SetLocation(InitialX, InitialY);
-		tile->SetZoning(CTile::BUSINESS);
+		tile->SetZoning(CTile::BUSINESS_OREMINE);
 		mCity.Add(tile);
 		Invalidate();
 	}
@@ -1385,6 +1498,7 @@ void CChildView::OnOremineBuyoremine()
 	
 }
 
+/** Menu handler that creates a coalmine tile, different from the regular one */
 void CChildView::OnCoalmineCreatecoalmine()
 {
 	if (mTotalMoney < mCoalminePrice)
@@ -1401,7 +1515,7 @@ void CChildView::OnCoalmineCreatecoalmine()
 
 		auto tile = make_shared<CTileCoalmine>(&mCity);
 		tile->SetLocation(InitialX, InitialY);
-		tile->SetZoning(CTile::BUSINESS);
+		tile->SetZoning(CTile::BUSINESS_COALMINE);
 		mCity.Add(tile);
 
 		Invalidate();
@@ -1410,9 +1524,11 @@ void CChildView::OnCoalmineCreatecoalmine()
 	
 }
 
-
+/** Menu handler that hauls all ore */
 void CChildView::OnOremineHaulore()
 {
+	if (mTotalMoney > mGameObjectiveMoney)
+	{
 	COreCounter visitor;
 	mCity.Accept(&visitor);
 	double totalProduction = visitor.GetTotalProduction();
@@ -1427,48 +1543,20 @@ void CChildView::OnOremineHaulore()
 	CResetOre visitor2;
 	mCity.Accept(&visitor2);
 }
-
-
-/*
-CCoalCounter visitor;
-mCity.Accept(&visitor);
-double totalProduction = visitor.GetTotalProduction();
-
+	else
+	{
 wstringstream str;
-str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
-totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+		str << L"You can only use this feature when you are a millionaire.";
 AfxMessageBox(str.str().c_str());
-
-mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
-
-CResetCoal visitor2;
-mCity.Accept(&visitor2);
-*/
-
-/*
-
-CCoalCounter visitor;
-mCity.Accept(&visitor);
-double totalProduction = visitor.GetTotalProduction();
-
-wstringstream str;
-str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
-totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
-AfxMessageBox(str.str().c_str());
-
-mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
-
-CResetCoal visitor2;
-mCity.Accept(&visitor2);*/
-
-
+	}
+}
 
 
 void CChildView::OnPowerConnect()
 {
 	// TODO: Add your command handler code here
 	mCity.ConnectGrid();
-
+	bool mConnected = true;
 	Invalidate();
 }
 
@@ -1477,5 +1565,11 @@ void CChildView::OnPowerReset()
 {
 	// TODO: Add your command handler code here
 	mCity.ResetGrid();
+	bool mConnected = false;
 	Invalidate();
 }
+
+
+
+
+

@@ -100,8 +100,15 @@ CTileOremine::~CTileOremine()
 */
 void CTileOremine::Update(double elapsed)
 {
-	if (GetZoning() == CTile::BUSINESS)
+	if (GetZoning() == CTile::BUSINESS_OREMINE)
 	{
+		if (mDoOnceFlag == true)
+		{
+			mFile = Oremine1;
+			SetImage(Oremine1);
+			mDoOnceFlag = false;
+		}
+
 		mStartConstruction = true;
 
 		// Error check
@@ -111,7 +118,7 @@ void CTileOremine::Update(double elapsed)
 		mDuration = mDuration + elapsed;
 
 		// Start oremine sequence
-		if (mStartConstruction == true && mPowerOverlap == true)
+		if (mStartConstruction == true && CheckAdjacentConnection())
 		{
 			if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
 			{
@@ -284,7 +291,7 @@ void CTileOremine::Update(double elapsed)
 		mDuration = mDuration + elapsed;
 
 		// Start oremine sequence
-		if (mStartConstruction == true && mPowerOverlap == true)
+		if (mStartConstruction == true)
 		{
 			if (mOremineAnimationLevel == OREMINE_1 && mDuration > OremineRate)
 			{

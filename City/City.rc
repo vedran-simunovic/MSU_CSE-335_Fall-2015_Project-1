@@ -164,7 +164,9 @@ BEGIN
         MENUITEM "Power",                       ID_BORDER_POWER
         MENUITEM "Construction",                ID_BORDER_CONSTRUCTION
         MENUITEM "Car",                         ID_BORDER_CAR
-        MENUITEM "Business",                    ID_BORDER_BUSINESS
+        MENUITEM "Bank",                        ID_BORDER_BANK
+        MENUITEM "Business Coalmine",           ID_BORDER_BUSINESSCOALMINE
+        MENUITEM "Business Oremine",            ID_BORDER_BUSINESSOREMINE
     END
     POPUP "Construction"
     BEGIN
@@ -326,7 +328,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "CSE 335 City Application"
+    IDR_MAINFRAME           "Become a Millionaire"//"CSE 335 City Application"
 END
 
 STRINGTABLE

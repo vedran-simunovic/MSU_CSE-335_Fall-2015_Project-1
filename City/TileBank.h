@@ -3,11 +3,14 @@
  *
  * \author Vedran Simunovic, Nan Du, Helena Narowski
  *
- * 
+ * Instantiaties a bank tile
  */
 
 #pragma once
 #include "Tile.h"
+/**
+ * This class makes a bank
+ */
 class CTileBank :
 	public CTile
 {

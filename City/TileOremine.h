@@ -105,12 +105,10 @@ private:
 	/// to transition from 1 to 2, 2 -> 3 etc......or 3->2 , 2->1 etc.
 	bool mRising = true;
 
-	/// This is a flag that makes it so that the construction of 
-	/// an oremine can start only if the plain construction tile
-	/// is overlapping with a power tile.
-	bool mPowerOverlap = true;
-
 	/// The amount of ore produced by the ore mine
 	double mProduction = 0;
+	
+	/// This is to do an action only one single time
+	bool mDoOnceFlag = true;
 };
 

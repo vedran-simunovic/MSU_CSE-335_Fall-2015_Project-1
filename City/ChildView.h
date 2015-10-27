@@ -39,6 +39,9 @@ public:
 public:
 	virtual ~CChildView();
 
+	/// Getter for the connection; used in the CTile
+	bool GetConnection() { return mConnected; }
+
 	// Generated message map functions
 protected:
 	afx_msg void OnPaint();
@@ -74,8 +77,16 @@ private:
 
 	void MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar, int keyStroke);
 
+	/// Is the grid connection pressed?
+	bool mConnected = false;
+
 	/// Total wallet money in US dollars $
-	double mTotalMoney = 1000000;
+	double mTotalMoney = 10000;
+
+	/// Total money in the car, which is being transported.
+	double mCarMoney = 0;
+
+
 
 	/// Price of building of all other tiles
 	double mOtherTilesPrice = 0;
@@ -206,12 +217,16 @@ public:
 	afx_msg void OnBankCreatebank();
 	afx_msg void OnOremineBuyoremine();
 	afx_msg void OnBorderCar();
-	afx_msg void OnBorderBusiness();
 	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
 	afx_msg void OnOremineHaulore();
 
 	afx_msg void OnPowerConnect();
 	afx_msg void OnPowerReset();
+	afx_msg void OnBorderBank();
+	afx_msg void OnUpdateBorderBank(CCmdUI *pCmdUI);
+	afx_msg void OnBorderBusinesscoalmine();
+	afx_msg void OnUpdateBorderBusinesscoalmine(CCmdUI *pCmdUI);
+	afx_msg void OnBorderBusinessoremine();
+	afx_msg void OnUpdateBorderBusinessoremine(CCmdUI *pCmdUI);
 };
 

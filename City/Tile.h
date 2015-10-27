@@ -30,7 +30,9 @@ public:
 		POWER=5,			///< Power zoning
 		CONSTRUCTIONAL=6,	///< Constructional zoning
 		CAR=7,				///< Car zoning
-		BUSINESS=8,			///< Business zoning, make money & buy only with these tiles
+		BUSINESS_OREMINE=8,	///< Business zoning, make money & buy only with these tiles
+		BUSINESS_COALMINE = 9, ///< Business zoning coalmine, make money & buy only with these tiles
+		BANK=10,			///< Bank zoning, used to know when to deposit money into the wallet
 	};   /// The possible tile zonings in the program
 	
 
@@ -138,6 +140,8 @@ public:
 
 	virtual bool IsVisited() { return DFSvisited; }
 
+	bool CheckAdjacentConnection();
+
 protected:
     CTile(CCity *city);
 
@@ -162,7 +166,7 @@ private:
     /// Any zoning for this property
     Zonings mZoning = NONE;
 
-	/// power need for this tile
+	/// need for this tile
 	int mPowerNeed = 0;
 };
 
