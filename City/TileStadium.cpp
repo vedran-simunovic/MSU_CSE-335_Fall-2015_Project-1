@@ -128,6 +128,12 @@ void CTileStadium::DrawBorder(Gdiplus::Graphics *graphics, Gdiplus::Pen *pen, in
 
 }
 
+
+/** Sets the location of the construction
+ * 
+ * \param x coordinate
+ * \param y coordinate
+ */
 void CTileStadium::SetLocation(int x, int y)
 {
 	CTileConstruction::SetLocation(x, y);

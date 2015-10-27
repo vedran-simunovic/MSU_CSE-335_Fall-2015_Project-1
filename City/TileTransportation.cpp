@@ -155,6 +155,10 @@ void CTileTransportation::SetAdjacencies(bool ul, bool ur, bool ll, bool lr)
 	SetImage(files[code]);
 }
 
+
+/** Increments the rotation number for the particular tile
+ *  Depends on its type, some only have 2 rotations, some have 4, etc.
+ */
 void CTileTransportation::IncrementRotationPos()
 {
 	if (GetTransType() == CURVED || GetTransType() == INCLINED || GetTransType() == PLAIN)

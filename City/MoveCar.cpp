@@ -9,7 +9,7 @@
 #include "TileTransportation.h"
 
 
-/**
+/** Constructor
  * 
  */
 CMoveCar::CMoveCar()
@@ -17,7 +17,7 @@ CMoveCar::CMoveCar()
 }
 
 
-/**
+/** Destructor
  * 
  */
 CMoveCar::~CMoveCar()
@@ -37,7 +37,7 @@ void CMoveCar::VisitTrans(CTileTransportation *trans)
 }
 
 
-/**
+/** Checks if the trans tile is a valid road connection to the other tile
 *
 * \param trans
 * \returns
@@ -50,10 +50,10 @@ bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 	{
 		return CheckValidFlat(trans);
 	}
-	else if (transTileType == CTileTransportation::CURVED)
-	{
-		return CheckValidCurved(trans);
-	}
+	//else if (transTileType == CTileTransportation::CURVED)
+	//{
+	//	return CheckValidCurved(trans);
+	//}
 	//else if (transTileType == CTileTransportation::INCLINED)
 	//{
 	//	return CheckValidInclined(trans);
@@ -70,6 +70,12 @@ bool CMoveCar::CheckIfValidRoad(CTileTransportation *trans)
 	//return true;
 }
 
+
+/** Checks if the flat road is valid road
+ * 
+ * \param trans tile to check validity
+ * \returns  true if valid false if not
+ */
 bool CMoveCar::CheckValidFlat(CTileTransportation *trans)
 {
 	/// this has the trans tile information of the one we're ON, and the one we're passing in is the one we want to move to.
@@ -120,7 +126,3 @@ bool CMoveCar::CheckValidFlat(CTileTransportation *trans)
 	return false;
 }
 
-bool CMoveCar::CheckValidCurved(CTileTransportation *trans)
-{
-	return false;
-}

@@ -89,6 +89,10 @@ std::shared_ptr<CTile> CCity::HitTest(int x, int y, double offsetX, double offse
     return  nullptr;
 }
 
+/** Iterates through the city tiles, finds the first car tile.
+* 
+* \returns Returns the car tile, or nullptr if there is no car
+*/
 std::shared_ptr<CTile> CCity::FindCar()
 {
 	for (auto i = mTiles.rbegin(); i != mTiles.rend(); i++)
@@ -101,6 +105,11 @@ std::shared_ptr<CTile> CCity::FindCar()
 	return  nullptr;
 }
 
+
+/** Finds the tile under the car in the city
+ * 
+ * \returns the tile or nullptr if there is no car
+ */
 std::shared_ptr<CTile> CCity::FindTransTileUnderCar()
 {
 	double centerXj;
@@ -431,26 +440,6 @@ std::shared_ptr<CTile> CCity::GetAdjacent(CTile *tile, int dx, int dy)
     return nullptr;
 }
 
-//std::shared_ptr<CTileTransportation> CCity::GetAdjacentTrans(std::shared_ptr<CTile> tile, int dx, int dy)
-//{
-//	return GetAdjacentTrans(tile.get(), dx, dy);
-//}
-
-//std::shared_ptr<CTileTransportation> CCity::GetAdjacentTrans(CTile *tile, int dx, int dy)
-//{
-//	int atX = tile->GetX() / GridSpacing + dx * 2;
-//	int atY = tile->GetY() / GridSpacing + dy;
-//
-//	auto adj = mAdjacencyTrans.find(pair<int, int>(atX, atY));
-//	if (adj != mAdjacencyTrans.end())
-//	{
-//		// We found it
-//		return adj->second;
-//	}
-//
-//	return nullptr;
-//}
-
 //pass in the zoning
 // make for loop to go through the entire thing. 
 // go through for loop until you find the first zoning
@@ -668,6 +657,7 @@ int CCity::CountFullyOverlapping()
 	return totalOverlaps;
 	//return totalOverlaps;
 }
+
 
 void CCity::ConnectGrid()
 {

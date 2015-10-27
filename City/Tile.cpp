@@ -219,6 +219,7 @@ void CTile::Promote()
 {
 }
 
+
 bool CTile::CheckAdjacentConnection()
 {
 	CFindGrid visitor;

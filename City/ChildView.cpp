@@ -1,6 +1,12 @@
 /**
  * \file ChildView.cpp
  *
+ * \author Helena Narowski
+ */
+
+/**
+ * \file ChildView.cpp
+ *
  * \author Vedran Simunovic, Nan Du, Helena Narowski
  */
 
@@ -433,10 +439,6 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 }
 
-
-
-
-
 /** \brief Called when there is a left mouse button press
 * \param nFlags Flags associated with the mouse button press
 * \param point Where the button was pressed
@@ -648,6 +650,11 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 }
 
+/** Moves the car tile parameter to the adjacent tile parameter. If it is business tile, handles getting its goods.
+ * 
+ * \param adjacentTile 
+ * \param tileCar 
+ */
 void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
 {
 	CTransConnect visitor;
@@ -919,7 +926,6 @@ void CChildView::AddLandscape(const std::wstring &file)
  * I'm not going to document these menu handlers, since what they 
  * so is obvious. I'm using a Doxygen feature to ignore the functions
  */
-
 void CChildView::OnLandscapingRoad()
 {
 	auto tile = make_shared<CTileRoad>(&mCity);
@@ -1407,18 +1413,21 @@ void CChildView::OnTilesinfoFullyoverlapping()
 }
 
 
+/** Activates or deactivates vehicle mode (allow car to move)
+ * 
+ */
 void CChildView::OnTransportationVehiclemode()
 {
 	mVehicleMode = !mVehicleMode;
 }
 
-
+/** Sets the check in the menu for vehicle mode
+*
+*/
 void CChildView::OnUpdateTransportationVehiclemode(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mVehicleMode);
 }
-
-
 
 
 /** Menu handler deals with trumping feature */
@@ -1551,19 +1560,21 @@ AfxMessageBox(str.str().c_str());
 	}
 }
 
-
+/** Connects grid in city, sets connected boolean to true
+*
+*/
 void CChildView::OnPowerConnect()
 {
-	// TODO: Add your command handler code here
 	mCity.ConnectGrid();
 	bool mConnected = true;
 	Invalidate();
 }
 
-
+/** Resets grid in city, sets connected boolean to false
+*
+*/
 void CChildView::OnPowerReset()
 {
-	// TODO: Add your command handler code here
 	mCity.ResetGrid();
 	bool mConnected = false;
 	Invalidate();

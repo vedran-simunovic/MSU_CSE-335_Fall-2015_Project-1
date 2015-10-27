@@ -8,11 +8,18 @@
 #include "OreCounter.h"
 #include "TileOremine.h"
 
+
+/**Constructor
+ * 
+ */
 COreCounter::COreCounter()
 {
 }
 
 
+/**
+ * 		  Destructor
+ */
 COreCounter::~COreCounter()
 {
 }
