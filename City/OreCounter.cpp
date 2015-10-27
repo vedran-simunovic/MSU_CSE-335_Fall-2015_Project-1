@@ -18,8 +18,8 @@ COreCounter::~COreCounter()
 }
 
 /**
-* The visit coal mine function is used by the visitor
-* \param coalmine The coalmine that is visited by the visitor
+* The visit ore mine function is used by the visitor
+* \param oremine The oremine that is visited by the visitor
 */
 void COreCounter::VisitOremine(CTileOremine *oremine)
 {

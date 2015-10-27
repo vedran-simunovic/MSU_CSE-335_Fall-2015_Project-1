@@ -33,7 +33,7 @@ CResetOre::~CResetOre()
 
 /**
 * The visit Ore mine function is used by the visitor
-* \param Oremine The Oremine that is visited by the visitor
+* \param oremine The Oremine that is visited by the visitor
 */
 void CResetOre::VisitOremine(CTileOremine *oremine)
 {

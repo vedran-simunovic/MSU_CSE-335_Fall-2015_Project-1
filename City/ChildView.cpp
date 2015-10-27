@@ -1145,21 +1145,38 @@ void CChildView::OnUpdateBorderPower(CCmdUI *pCmdUI)
 	pCmdUI->SetCheck(mZoning == CTile::POWER);
 }
 
+/**
+* check mark on menu
+* \param pCmdUI
+*/
 void CChildView::OnUpdateBorderCar(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::CAR);
 }
 
+
+/**
+* check mark on menu
+* \param pCmdUI
+*/
 void CChildView::OnUpdateBorderBusinesscoalmine(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::BUSINESS_COALMINE);
 }
 
+/**
+* check mark on menu
+* \param pCmdUI
+*/
 void CChildView::OnUpdateBorderBusinessoremine(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::BUSINESS_OREMINE);
 }
 
+/**
+* check mark on menu
+* \param pCmdUI
+*/
 void CChildView::OnUpdateBorderBank(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::BANK);
@@ -1416,22 +1433,32 @@ void CChildView::OnUpdateCoalmineTrump(CCmdUI *pCmdUI)
 /** Menu handler that counts the tons of coal hauled */
 void CChildView::OnCoalmineHaulcole()
 {
-	CCoalCounter visitor;
-	mCity.Accept(&visitor);
-	double totalProduction = visitor.GetTotalProduction();
+	if (mTotalMoney > mGameObjectiveMoney)
+	{
+		CCoalCounter visitor;
+		mCity.Accept(&visitor);
+		double totalProduction = visitor.GetTotalProduction();
 
-	wstringstream str;
-	str << L"The total production is " << totalProduction << L" tons.\n You just earned $"<<
-		totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
-	AfxMessageBox(str.str().c_str());
+		wstringstream str;
+		str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
+			totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+		AfxMessageBox(str.str().c_str());
 
-	mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+		mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
 
-	CResetCoal visitor2;
-	mCity.Accept(&visitor2);
+		CResetCoal visitor2;
+		mCity.Accept(&visitor2);
+	}
+	else
+	{
+		wstringstream str;
+		str << L"You can only use this feature when you are a millionaire." << mOrePrice;
+		AfxMessageBox(str.str().c_str());
+		
+	}
 }
 
-
+/** Menu handler that creates a bank tile */
 void CChildView::OnBankCreatebank()
 {
 	auto tile = make_shared<CTileBank>(&mCity);
@@ -1441,7 +1468,7 @@ void CChildView::OnBankCreatebank()
 	Invalidate();
 }
 
-
+/** Menu handler that creates an oremine tile, different from the regular one */
 void CChildView::OnOremineBuyoremine()
 {
 	if (mTotalMoney < mOreminePrice)
@@ -1491,22 +1518,31 @@ void CChildView::OnCoalmineCreatecoalmine()
 	
 }
 
-
+/** Menu handler that hauls all ore */
 void CChildView::OnOremineHaulore()
 {
-	COreCounter visitor;
-	mCity.Accept(&visitor);
-	double totalProduction = visitor.GetTotalProduction();
+	if (mTotalMoney > mGameObjectiveMoney)
+	{
+		COreCounter visitor;
+		mCity.Accept(&visitor);
+		double totalProduction = visitor.GetTotalProduction();
 
-	wstringstream str;
-	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
-		totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
-	AfxMessageBox(str.str().c_str());
+		wstringstream str;
+		str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
+			totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
+		AfxMessageBox(str.str().c_str());
 
-	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
+		mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
 
-	CResetOre visitor2;
-	mCity.Accept(&visitor2);
+		CResetOre visitor2;
+		mCity.Accept(&visitor2);
+	}
+	else
+	{
+		wstringstream str;
+		str << L"You can only use this feature when you are a millionaire." << mOrePrice;
+		AfxMessageBox(str.str().c_str());
+	}
 }
 
 
