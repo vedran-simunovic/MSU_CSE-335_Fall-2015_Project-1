@@ -100,10 +100,14 @@ CTileOremine::~CTileOremine()
 */
 void CTileOremine::Update(double elapsed)
 {
-	if (GetZoning() == CTile::BUSINESS)
+	if (GetZoning() == CTile::BUSINESS_OREMINE)
 	{
-		mFile = Oremine1;
-		SetImage(Oremine1);
+		if (mDoOnceFlag == true)
+		{
+			mFile = Oremine1;
+			SetImage(Oremine1);
+			mDoOnceFlag = false;
+		}
 
 		mStartConstruction = true;
 

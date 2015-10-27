@@ -107,5 +107,8 @@ private:
 
 	/// The amount of ore produced by the ore mine
 	double mProduction = 0;
+	
+	/// This is to do an action only one single time
+	bool mDoOnceFlag = true;
 };
 

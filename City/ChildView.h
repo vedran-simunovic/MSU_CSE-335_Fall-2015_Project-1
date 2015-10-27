@@ -217,14 +217,16 @@ public:
 	afx_msg void OnBankCreatebank();
 	afx_msg void OnOremineBuyoremine();
 	afx_msg void OnBorderCar();
-	afx_msg void OnBorderBusiness();
 	afx_msg void OnUpdateBorderCar(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateBorderBusiness(CCmdUI *pCmdUI);
 	afx_msg void OnOremineHaulore();
 
 	afx_msg void OnPowerConnect();
 	afx_msg void OnPowerReset();
 	afx_msg void OnBorderBank();
 	afx_msg void OnUpdateBorderBank(CCmdUI *pCmdUI);
+	afx_msg void OnBorderBusinesscoalmine();
+	afx_msg void OnUpdateBorderBusinesscoalmine(CCmdUI *pCmdUI);
+	afx_msg void OnBorderBusinessoremine();
+	afx_msg void OnUpdateBorderBusinessoremine(CCmdUI *pCmdUI);
 };
 
