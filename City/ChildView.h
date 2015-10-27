@@ -75,7 +75,7 @@ private:
     /// Any item we are currently dragging
     std::shared_ptr<CTile> mGrabbedItem;
 
-	void MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar, int keyStroke);
+	void MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar);
 
 	/// Is the grid connection pressed?
 	bool mConnected = false;

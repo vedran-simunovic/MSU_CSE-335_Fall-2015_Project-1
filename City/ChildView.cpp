@@ -648,7 +648,7 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 }
 
-void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar, int direction)
+void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
 {
 	CTransConnect visitor;
 	CMoveCar visitor2;
