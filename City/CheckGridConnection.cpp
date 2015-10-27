@@ -1,7 +1,7 @@
 /**
  * \file CheckGridConnection.cpp
  *
- * \author Helena Narowski
+ * \author Nan Du
  */
 
 #include "stdafx.h"
@@ -25,9 +25,9 @@ CCheckGridConnection::~CCheckGridConnection()
 }
 
 
-/** Visits a power tile, sets its visited boolean and connection boolean
- * 
- * \param power 
+/**
+ * visitor for set connection of power tile
+ * \param power power tile we visited
  */
 void CCheckGridConnection::VisitPower(CTilePower* power) 
 {

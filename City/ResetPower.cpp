@@ -1,7 +1,7 @@
 /**
  * \file ResetPower.cpp
  *
- * \author Helena Narowski
+ * \author Nan Du
  */
 
 #include "stdafx.h"

@@ -596,9 +596,11 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 
 }
 
-/** \brief Called when any key is pressed
-* \param nChar is the key that was pressed
-* \param 
+/**
+ * \brief Called when any key is pressed
+ * \param nChar 
+ * \param nRepCnt 
+ * \param nFlags 
 */
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
@@ -743,9 +745,11 @@ void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CT
 	}
 }
 
-/** \brief Called when any key is pressed
-* \param nChar is the key that was pressed
-* \param
+/**
+ * \brief Called when any key is pressed
+ * \param nChar 
+ * \param nRepCnt 
+ * \param nFlags 
 */
 void CChildView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
@@ -1560,9 +1564,10 @@ AfxMessageBox(str.str().c_str());
 	}
 }
 
-/** Connects grid in city, sets connected boolean to true
-*
-*/
+
+/**
+ * test all power tiles and set the right connection status
+ */
 void CChildView::OnPowerConnect()
 {
 	mCity.ConnectGrid();

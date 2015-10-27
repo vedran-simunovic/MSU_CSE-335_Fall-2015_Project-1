@@ -12,6 +12,10 @@
 #include "TileVisitor.h"
 #include "TilePower.h"
 
+
+/**
+ * power plant visitor
+ */
 class CCheckPowerPlant :
 	public CTileVisitor
 {
@@ -21,15 +25,19 @@ public:
 
 	void VisitPower(CTilePower* power) override;
 
+	/** Test the tile if the tile is power plant
+	* \return whether this is power plant tile */
 	bool CheckPowerPlant() { return mIsPowerPlant; }
 
+	/** get the power production of whole city
+	* \return mTotalPowerProduction total production or power plant */
 	int GetProduction() { return mTotalPowerProduction; }
 
 private:
-	int mTotalPowerProduction = 0;
+	int mTotalPowerProduction = 0;	///< total power production
 
-	CTilePower::PowerType mType;
+	CTilePower::PowerType mType;	///< power tile type
 
-	bool mIsPowerPlant = false;
+	bool mIsPowerPlant = false;		///< if the tile is power plant
 };
 

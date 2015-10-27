@@ -1,7 +1,7 @@
 /**
  * \file FindGrid.cpp
  *
- * \author Helena Narowski
+ * \author Nan Du
  */
 
 #include "stdafx.h"
@@ -23,9 +23,11 @@ CFindGrid::~CFindGrid()
 {
 }
 
-/** Checks if connected, sets member variable mAdjacentConnected if so
-* Sets member variable to true if power tile is connected
-*/
+
+/**
+ * find the adjacent grid tile
+ * \param power the power tile we are visiting
+ */
 void CFindGrid::VisitPower(CTilePower* power)
 {
 	if (power->CheckConnected())

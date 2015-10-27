@@ -4,6 +4,7 @@
  * \author Nan Du
  */
 
+
 #include "stdafx.h"
 #include <stack>
 #include "CheckPowerPlant.h"
