@@ -610,6 +610,7 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (nChar == 37) /// Left
 		{
+			int direction = 0;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, 1); /// Checking lower left
 			tileCar->SetImage(L"car2.png");
 			MoveCar(adjacentTile, tileCar);
@@ -617,6 +618,7 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 		else if (nChar == 38) /// Up 
 		{
+			int direction = 2;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, -1, -1); /// Checking upper left
 			tileCar->SetImage(L"car2down.png");
 			MoveCar(adjacentTile, tileCar);
@@ -624,13 +626,15 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		}
 		else if (nChar == 39) /// Right//
 		{
+			int direction = 1;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, -1); /// Checking upper right 
 			tileCar->SetImage(L"car2.png");
 			MoveCar(adjacentTile, tileCar);
 
 		}
 		else if (nChar == 40)
-		{
+		{ //0 = left, 1 = right, 2 = up, 3 = down (arrow keys)
+			int direction = 3;
 			auto adjacentTile = mCity.GetAdjacent(tileCar, 1, 1); /// Checking lower right
 			tileCar->SetImage(L"car2down.png");
 			MoveCar(adjacentTile, tileCar);
@@ -648,8 +652,8 @@ void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CTile> tileCar)
 {
-	
-	
+	CTransConnect visitor;
+	CMoveCar visitor2;
 	auto tile = mCity.FindTransTileUnderCar(); /// Need the tile under car
 
 	if (adjacentTile != nullptr && (adjacentTile->GetZoning() == CTile::TRANSPORTATION || adjacentTile->GetZoning() == CTile::BUSINESS_OREMINE || adjacentTile->GetZoning() == CTile::BANK || adjacentTile->GetZoning() == CTile::BUSINESS_COALMINE))
@@ -715,16 +719,17 @@ void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CT
 
 				AfxMessageBox(str.str().c_str());
 			}
-			else
-			{
-				wstringstream str;
+		else
+		{
+			tileCar->SetLocation(adjacentTile->GetX(), adjacentTile->GetY());
+			wstringstream str;
 				str << L"You just deposited $" << mCarMoney << " to your wallet!" <<
 					"\n\nYour wallet has $" << mTotalMoney << " now!" <<
 					"\n\n\nYOU WON THE GAME!!\n\n\nYOU ARE A MILLIONAIRE!!!!";
 
 
-				AfxMessageBox(str.str().c_str());
-			}
+			AfxMessageBox(str.str().c_str());
+		}
 			
 			mCarMoney = 0;
 
@@ -1439,26 +1444,26 @@ void CChildView::OnCoalmineHaulcole()
 {
 	if (mTotalMoney > mGameObjectiveMoney)
 	{
-		CCoalCounter visitor;
-		mCity.Accept(&visitor);
-		double totalProduction = visitor.GetTotalProduction();
+	CCoalCounter visitor;
+	mCity.Accept(&visitor);
+	double totalProduction = visitor.GetTotalProduction();
 
-		wstringstream str;
+	wstringstream str;
 		str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
-			totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
-		AfxMessageBox(str.str().c_str());
+		totalProduction*mCoalPrice << " because the price of 1 ton of coal is worth $" << mCoalPrice;
+	AfxMessageBox(str.str().c_str());
 
-		mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
+	mTotalMoney = mTotalMoney + totalProduction*mCoalPrice;
 
-		CResetCoal visitor2;
-		mCity.Accept(&visitor2);
-	}
+	CResetCoal visitor2;
+	mCity.Accept(&visitor2);
+}
 	else
 	{
 		wstringstream str;
 		str << L"You can only use this feature when you are a millionaire.";
 		AfxMessageBox(str.str().c_str());
-		
+
 	}
 }
 
@@ -1528,25 +1533,25 @@ void CChildView::OnOremineHaulore()
 {
 	if (mTotalMoney > mGameObjectiveMoney)
 	{
-		COreCounter visitor;
-		mCity.Accept(&visitor);
-		double totalProduction = visitor.GetTotalProduction();
+	COreCounter visitor;
+	mCity.Accept(&visitor);
+	double totalProduction = visitor.GetTotalProduction();
 
-		wstringstream str;
-		str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
-			totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
-		AfxMessageBox(str.str().c_str());
+	wstringstream str;
+	str << L"The total production is " << totalProduction << L" tons.\n You just earned $" <<
+		totalProduction*mOrePrice << " because the price of 1 ton of ore is worth $" << mOrePrice;
+	AfxMessageBox(str.str().c_str());
 
-		mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
+	mTotalMoney = mTotalMoney + totalProduction*mOrePrice;
 
-		CResetOre visitor2;
-		mCity.Accept(&visitor2);
-	}
+	CResetOre visitor2;
+	mCity.Accept(&visitor2);
+}
 	else
 	{
-		wstringstream str;
+wstringstream str;
 		str << L"You can only use this feature when you are a millionaire.";
-		AfxMessageBox(str.str().c_str());
+AfxMessageBox(str.str().c_str());
 	}
 }
 
