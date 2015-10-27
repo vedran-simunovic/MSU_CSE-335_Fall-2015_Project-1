@@ -231,6 +231,11 @@ void CTilePower::RotateImage()
 	}
 }
 
+
+/**
+ * 	when connect, change grid picture to spark one
+ * \param connect always true
+ */
 void CTilePower::SetConnection(bool connect) 
 { 
 	mConnected = connect; 
@@ -266,6 +271,10 @@ void CTilePower::SetConnection(bool connect)
 	}
 }
 
+
+/**
+ * reset tile to original picture
+ */
 void CTilePower::Reset()
 {
 	mConnected = false;

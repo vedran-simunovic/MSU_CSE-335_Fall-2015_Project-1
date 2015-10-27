@@ -138,6 +138,10 @@ public:
 	*/
 	virtual void SetConnection(bool connect) { mConnected = connect; };
 
+	/**
+	* get flag for DFS
+	* \returns if the tile already been visited in DFS
+	*/
 	virtual bool IsVisited() { return DFSvisited; }
 
 	bool CheckAdjacentConnection();
@@ -145,7 +149,7 @@ public:
 protected:
     CTile(CCity *city);
 
-	bool mConnected = false;
+	bool mConnected = false;		///< flag for connect to plant
 
 	bool DFSvisited = false;		///< flag for DFS visit
 

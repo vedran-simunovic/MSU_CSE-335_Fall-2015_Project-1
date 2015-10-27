@@ -4,6 +4,7 @@
  * \author Nan Du
  */
 
+
 #include "stdafx.h"
 #include <stack>
 #include "CheckPowerPlant.h"
@@ -19,6 +20,11 @@ CCheckPowerPlant::~CCheckPowerPlant()
 {
 }
 
+
+/**
+ * visitor to power plant
+ * \param power power tile we visit
+ */
 void CCheckPowerPlant::VisitPower(CTilePower* power)
 {
 	mTotalPowerProduction += power->GetPowerPruducton();

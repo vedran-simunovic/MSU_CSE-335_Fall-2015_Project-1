@@ -669,6 +669,10 @@ int CCity::CountFullyOverlapping()
 	//return totalOverlaps;
 }
 
+
+/**
+ * connect grid in city
+ */
 void CCity::ConnectGrid()
 {
 	ResetGrid();
@@ -745,6 +749,9 @@ void CCity::ConnectGrid()
 }
 
 
+/**
+ * 	reset all grid to not connect status
+ */
 void CCity::ResetGrid()
 {
 	CResetPower resetvisitor;

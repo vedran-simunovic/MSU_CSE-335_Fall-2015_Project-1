@@ -594,10 +594,12 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 
 }
 
-/** \brief Called when any key is pressed
-* \param nChar is the key that was pressed
-* \param 
-*/
+/**
+ * \brief Called when any key is pressed
+ * \param nChar 
+ * \param nRepCnt 
+ * \param nFlags 
+ */
 void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	/// Check if vehicle mode is on
@@ -731,10 +733,12 @@ void CChildView::MoveCar(std::shared_ptr<CTile> adjacentTile, std::shared_ptr<CT
 	}
 }
 
-/** \brief Called when any key is pressed
-* \param nChar is the key that was pressed
-* \param
-*/
+/**
+ * \brief Called when any key is pressed
+ * \param nChar 
+ * \param nRepCnt 
+ * \param nFlags 
+ */
 void CChildView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 
@@ -1547,6 +1551,9 @@ void CChildView::OnOremineHaulore()
 }
 
 
+/**
+ * test all power tiles and set the right connection status
+ */
 void CChildView::OnPowerConnect()
 {
 	// TODO: Add your command handler code here
@@ -1556,6 +1563,9 @@ void CChildView::OnPowerConnect()
 }
 
 
+/**
+ * reset power tile coonection status
+ */
 void CChildView::OnPowerReset()
 {
 	// TODO: Add your command handler code here

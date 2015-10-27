@@ -219,6 +219,11 @@ void CTile::Promote()
 {
 }
 
+
+/**
+ * To test if the tile connect to power plant through adjacent tiles
+ * \returns whether the tile connect to power plant
+ */
 bool CTile::CheckAdjacentConnection()
 {
 	CFindGrid visitor;

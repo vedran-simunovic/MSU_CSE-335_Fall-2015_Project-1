@@ -95,10 +95,22 @@ public:
 
 	void RotateImage();
 
+	/**
+	* get power production
+	*\returns tiles production of power
+	*/
 	int GetPowerPruducton() { return mPowerProduction; }
 
+	/**
+	* test if visited in DF
+	*\returns return true if visited
+	*/
 	bool IsVisited() { return DFSvisited; }
 
+	/**
+	* test if visited in DF
+	*\param visitStatus set visit status of DFS
+	*/
 	void SetVisited(bool visitStatus) { DFSvisited = visitStatus; }
 
 	void Reset();

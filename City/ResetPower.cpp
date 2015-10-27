@@ -1,3 +1,9 @@
+/**
+ * \file ResetPower.cpp
+ *
+ * \author Nan Du
+ */
+
 #include "stdafx.h"
 #include "ResetPower.h"
 #include "TilePower.h"
